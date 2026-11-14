@@ -1,0 +1,267 @@
+name: agent_autonomous_sync
+'on':
+  - push
+jobs:
+  run_agent_lifecycle_0:
+    name: Execute Autonomous Swarm Cycle 0
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Agent Cycle
+        uses: actionsflow/axios@v1
+        with:
+          url: 'http://127.0.0.1:8088/api/trigger-cycle'
+          method: GET
+    env:
+      ACTIONSFLOW_TRIGGER_RESULT_FOR_poll: |-
+        {
+          "outcome": "success",
+          "conclusion": "success",
+          "outputs": {
+            "organization": "Gomyweblab",
+            "tagline": "AI-Powered Full-Stack Agency & Autonomous Digital Operations",
+            "total_tasks": 3,
+            "completed_tasks": 3,
+            "active_swarms": 5,
+            "online_agents": 20,
+            "trading": {
+              "platform": "Delta Exchange India",
+              "trading_mode": "REAL",
+              "btc_price": 73955.44493844,
+              "starting_capital": 1000,
+              "status": "ONLINE"
+            },
+            "revenue": {
+              "total_earned_usd": 408.75,
+              "in_escrow_usd": 64.4,
+              "pipeline_pending_usd": 0,
+              "currency": "USD",
+              "recent_transactions": [
+                {
+                  "id": 4,
+                  "ref": "TX-8924-ESCROW",
+                  "client": "Steelgaard Oy",
+                  "title": "Public-Sector Software Projects",
+                  "platform": "Freelancer.com (Live API)",
+                  "amount": 41.4,
+                  "status": "ESCROW_LOCKED",
+                  "date": "2026-11-11 14:34:50"
+                },
+                {
+                  "id": 3,
+                  "ref": "TX-8923-RELEASE",
+                  "client": "Maharashtra EdTech",
+                  "title": "Modern SEO-Friendly Updates Website",
+                  "platform": "Freelancer.com (Live API)",
+                  "amount": 150,
+                  "status": "RELEASED_EARNED",
+                  "date": "2026-11-11 14:34:50"
+                },
+                {
+                  "id": 2,
+                  "ref": "TX-8922-RELEASE",
+                  "client": "Nordic Group Oy",
+                  "title": "Truck Income Risk ML Mentor",
+                  "platform": "Freelancer.com (Live API)",
+                  "amount": 258.75,
+                  "status": "RELEASED_EARNED",
+                  "date": "2026-11-11 14:34:50"
+                },
+                {
+                  "id": 1,
+                  "ref": "TX-8921-ESCROW",
+                  "client": "Global Client",
+                  "title": "Faith-Based Blessings Blog Writing",
+                  "platform": "Freelancer.com (Live API)",
+                  "amount": 23,
+                  "status": "ESCROW_LOCKED",
+                  "date": "2026-11-11 14:34:50"
+                }
+              ]
+            },
+            "policy": {
+              "organization_name": "Gomyweblab",
+              "tagline": "AI-Powered Full-Stack Agency & Autonomous Digital Operations",
+              "mode": "local_autonomous",
+              "core_services": [
+                "Social Media Management & Growth",
+                "Content Writing & SEO Syndication",
+                "IT Projects & Full-Stack Development",
+                "Freelance Client Work & Proposal Handling",
+                "Custom AI & Workflow Automation",
+                "Existing Client Website Maintenance & Uptime Monitoring"
+              ],
+              "decision_engine": {
+                "auto_execute_confidence_threshold": 0.85,
+                "dual_agent_consensus_threshold": 0.7,
+                "escalate_threshold": 0.5
+              },
+              "budget_limits": {
+                "currency": "USD",
+                "auto_spend_limit_single": 100,
+                "daily_spend_limit": 500,
+                "require_risk_officer_above": 50
+              },
+              "technical_guardrails": {
+                "auto_merge_pr": true,
+                "min_review_score": 0.9,
+                "require_tests_pass": true,
+                "allow_auto_deploy": true,
+                "auto_reply_client_inquiries": true,
+                "client_website_auto_patch": true,
+                "max_retries_per_task": 3
+              },
+              "swarms": {
+                "executive": {
+                  "title": "Agency Leadership & Client Acquisition",
+                  "job": "Lead triage, freelance client proposals, sprint estimation, customer success",
+                  "agents": [
+                    {
+                      "id": "bizdev_lead",
+                      "name": "Client Outreach Lead",
+                      "role": "Upwork/Fiverr/Inbound Proposal Closer",
+                      "tag": "bid.submit"
+                    },
+                    {
+                      "id": "pm_director",
+                      "name": "Project Manager",
+                      "role": "Sprint Planner & Freelance Milestone Tracking",
+                      "tag": "milestone.plan"
+                    },
+                    {
+                      "id": "support_lead",
+                      "name": "Client Success Bot",
+                      "role": "24/7 Client Triage & Ticket Response",
+                      "tag": "support.reply"
+                    },
+                    {
+                      "id": "finance_lead",
+                      "name": "Invoicing & Revenue",
+                      "role": "Milestone Escrow & Automated Invoicing",
+                      "tag": "invoice.gen"
+                    }
+                  ]
+                },
+                "coding": {
+                  "title": "IT Projects & Custom Dev Factory",
+                  "job": "Deliver client apps, software engineering, bug repro, adversarial code review",
+                  "agents": [
+                    {
+                      "id": "spec_writer",
+                      "name": "IT Spec Architect",
+                      "role": "Client Requirements to Technical Blueprint",
+                      "tag": "spec.write"
+                    },
+                    {
+                      "id": "fullstack_dev",
+                      "name": "Full-Stack Builder",
+                      "role": "Frontend, Backend & API Implementation",
+                      "tag": "code.ship"
+                    },
+                    {
+                      "id": "bug_hunter",
+                      "name": "QA & Bug Reproducer",
+                      "role": "Automated Testing & Edge-Case Reproducer",
+                      "tag": "qa.test"
+                    },
+                    {
+                      "id": "pr_verifier",
+                      "name": "Adversarial Code Verifier",
+                      "role": "Security Audit, Code Quality & Auto-Merge",
+                      "tag": "pr.verify"
+                    }
+                  ]
+                },
+                "content": {
+                  "title": "Content Writing & Social Media Machine",
+                  "job": "Ghostwriting, SEO articles, multi-platform social media posts, programmatic syndication",
+                  "agents": [
+                    {
+                      "id": "topic_researcher",
+                      "name": "Viral Trend Scout",
+                      "role": "Trending Topic Mining on X, LinkedIn & Web",
+                      "tag": "trend.mine"
+                    },
+                    {
+                      "id": "copy_artisan",
+                      "name": "Content Copywriter",
+                      "role": "High-Converting Blogs, Newsletters & Posts",
+                      "tag": "copy.write"
+                    },
+                    {
+                      "id": "social_publisher",
+                      "name": "Omnichannel Publisher",
+                      "role": "Auto-Post to X, LinkedIn, Instagram, Facebook",
+                      "tag": "post.schedule"
+                    },
+                    {
+                      "id": "seo_strategist",
+                      "name": "Programmatic SEO Lead",
+                      "role": "Keyword Clusters, Backlink Analysis & Ranking",
+                      "tag": "seo.rank"
+                    }
+                  ]
+                },
+                "automation": {
+                  "title": "Automation & Integration Swarm",
+                  "job": "Make/Zapier workflows, custom Python scrapers, agentic pipelines, API webhooks",
+                  "agents": [
+                    {
+                      "id": "pipeline_architect",
+                      "name": "Workflow Architect",
+                      "role": "Designing Multi-Tool Automations",
+                      "tag": "flow.design"
+                    },
+                    {
+                      "id": "webhook_engineer",
+                      "name": "Webhook & API Integrator",
+                      "role": "Connecting CRMs, Airtable, Notion, Stripe",
+                      "tag": "api.integrate"
+                    },
+                    {
+                      "id": "scraper_bot",
+                      "name": "Data Extractor",
+                      "role": "Web Scraping & Lead List Enrichment",
+                      "tag": "data.enrich"
+                    },
+                    {
+                      "id": "cron_supervisor",
+                      "name": "Automation Monitor",
+                      "role": "Self-Healing Automations & Failure Retry",
+                      "tag": "cron.supervise"
+                    }
+                  ]
+                },
+                "webops": {
+                  "title": "Existing Website Handling & Caretaker Swarm",
+                  "job": "Uptime monitoring, SSL renewal, WordPress/Shopify updates, speed optimization",
+                  "agents": [
+                    {
+                      "id": "uptime_sentry",
+                      "name": "Website Health Sentry",
+                      "role": "24/7 Status Checks & Latency Alarms",
+                      "tag": "uptime.check"
+                    },
+                    {
+                      "id": "security_guardian",
+                      "name": "Security & SSL Guardian",
+                      "role": "Malware Scanning & Auto-Patching",
+                      "tag": "security.patch"
+                    },
+                    {
+                      "id": "speed_optimizer",
+                      "name": "PageSpeed Tuner",
+                      "role": "Core Web Vitals, CDN & Asset Minification",
+                      "tag": "speed.optimize"
+                    },
+                    {
+                      "id": "backup_vault",
+                      "name": "Disaster Recovery Vault",
+                      "role": "Daily Snapshots & 1-Click Rollbacks",
+                      "tag": "backup.sync"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }

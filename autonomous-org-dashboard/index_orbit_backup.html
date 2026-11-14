@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grok Bot Teams — Gomyweblab Autonomous Enterprise</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- GSAP for Smooth Fluid Animations -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <!-- Canvas Confetti for Celebration Feedback -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+  <style>
+    :root {
+      --bg: #e5ebf5;
+      --card-bg: #ffffff;
+      --text-dark: #0f172a;
+      --text-muted: #64748b;
+      --text-dim: #94a3b8;
+      --border-color: #e2e8f0;
+      
+      --color-teams: #0284c7;
+      --color-coding: #8b5cf6;
+      --color-life: #f43f5e;
+      --color-content: #f97316;
+      --color-trading: #10b981;
+      
+      --font-sans: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--bg);
+      background-image: 
+        radial-gradient(circle at 10% 15%, rgba(219, 234, 254, 0.85), transparent 40%),
+        radial-gradient(circle at 90% 15%, rgba(243, 232, 255, 0.85), transparent 40%),
+        radial-gradient(circle at 50% 90%, rgba(220, 252, 231, 0.7), transparent 50%);
+      color: var(--text-dark);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      padding: 24px 32px 40px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Modal for User Auth */
+    .auth-overlay {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(8px);
+      display: none; align-items: center; justify-content: center; z-index: 9999;
+    }
+    .auth-card {
+      background: #ffffff; border-radius: 24px; padding: 32px; width: 420px;
+      box-shadow: 0 20px 50px rgba(15, 23, 42, 0.2); position: relative;
+    }
+    .auth-header h2 { font-size: 20px; font-weight: 800; color: #0f172a; }
+    .auth-header p { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+    .auth-tabs { display: flex; gap: 8px; margin: 18px 0; background: #f1f5f9; padding: 4px; border-radius: 12px; }
+    .auth-tab {
+      flex: 1; padding: 8px; text-align: center; font-size: 13px; font-weight: 700;
+      border-radius: 8px; cursor: pointer; color: var(--text-muted); border: none; background: transparent;
+    }
+    .auth-tab.active { background: #0284c7; color: #ffffff; }
+    .auth-input-group { margin-bottom: 14px; }
+    .auth-input-group label { display: block; font-size: 11px; font-family: var(--font-mono); color: var(--text-dim); margin-bottom: 4px; text-transform: uppercase; }
+    .auth-input {
+      width: 100%; padding: 10px 14px; background: #f8fafc; border: 1px solid var(--border-color);
+      border-radius: 10px; color: #0f172a; font-size: 13px; outline: none;
+    }
+    .auth-input:focus { border-color: #0284c7; }
+    .auth-submit-btn {
+      width: 100%; padding: 12px; background: #0f172a; border: none; border-radius: 10px;
+      color: #ffffff; font-weight: 700; font-size: 13px; cursor: pointer; margin-top: 8px;
+    }
+
+    /* Top Bar Header */
+    .top-header {
+      display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;
+      position: relative; z-index: 20;
+    }
+
+    .brand-left { display: flex; align-items: center; gap: 14px; }
+    .logo-container {
+      width: 48px; height: 48px; background: #0f172a; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 14px rgba(15,23,42,0.15);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .logo-container:hover { transform: scale(1.08) rotate(-4deg); }
+    .logo-container svg { width: 26px; height: 26px; fill: #ffffff; }
+
+    .brand-text h1 { font-size: 26px; font-weight: 800; color: #0f172a; letter-spacing: -0.5px; }
+    .brand-sub { display: flex; align-items: center; gap: 10px; margin-top: 2px; }
+    .brand-sub span { font-size: 12.5px; color: var(--text-muted); }
+    .author-pill {
+      background: #0f172a; color: #ffffff; font-size: 11px; font-family: var(--font-mono);
+      padding: 3px 10px; border-radius: 20px; font-weight: 600; cursor: pointer;
+      transition: all 0.2s;
+    }
+    .author-pill:hover { background: #0284c7; transform: translateY(-1px); }
+
+    .header-metrics { display: flex; align-items: center; gap: 10px; }
+    .metric-pill {
+      background: #ffffff; border-radius: 14px; padding: 10px 18px;
+      display: flex; flex-direction: column; align-items: center; min-width: 90px;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04); border: 1px solid rgba(255, 255, 255, 0.8);
+      position: relative; transition: all 0.25s;
+    }
+    .metric-pill:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(15,23,42,0.08); }
+    .metric-pill::before {
+      content: ''; position: absolute; top: 0; left: 18px; right: 18px; height: 3px; border-radius: 2px;
+    }
+    .pill-blue::before { background: var(--color-teams); }
+    .pill-purple::before { background: var(--color-coding); }
+    .pill-red::before { background: var(--color-life); }
+    .pill-green::before { background: var(--color-trading); }
+
+    .metric-pill .val { font-family: var(--font-mono); font-size: 17px; font-weight: 800; color: #0f172a; }
+    .metric-pill .val small { font-size: 11px; color: var(--text-dim); font-weight: 500; }
+    .metric-pill .lbl { font-size: 10.5px; color: var(--text-dim); text-transform: uppercase; margin-top: 2px; font-weight: 600; }
+
+    /* Live Status Badge */
+    .live-status-row {
+      display: flex; justify-content: flex-end; align-items: center; gap: 8px;
+      font-size: 11px; font-family: var(--font-mono); color: var(--text-muted); margin-bottom: 12px;
+      position: relative; z-index: 20;
+    }
+    .live-dot {
+      width: 7px; height: 7px; border-radius: 50%; background: #10b981;
+      display: inline-block; box-shadow: 0 0 6px #10b981;
+      animation: pulseGreen 1.8s infinite;
+    }
+    @keyframes pulseGreen {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.3); opacity: 0.6; }
+    }
+
+    /* Terminal Console Bar */
+    .terminal-console {
+      background: #0f172a; border-radius: 16px; padding: 14px 22px;
+      display: flex; align-items: center; justify-content: space-between;
+      color: #ffffff; font-family: var(--font-mono); font-size: 13px; margin-bottom: 24px;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.15); position: relative; z-index: 20;
+    }
+    .terminal-left { display: flex; align-items: center; gap: 8px; }
+    .terminal-dir { color: #64748b; }
+    .terminal-cmd { color: #38bdf8; font-weight: 600; }
+    .terminal-args { color: #cbd5e1; }
+    .terminal-cursor {
+      display: inline-block; width: 8px; height: 16px; background: #cbd5e1;
+      margin-left: 2px; vertical-align: middle; animation: blink 1s infinite;
+    }
+    @keyframes blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+
+    .terminal-btn {
+      background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.18);
+      color: #ffffff; font-family: var(--font-sans); font-size: 12px; font-weight: 700;
+      padding: 7px 18px; border-radius: 8px; cursor: pointer; transition: all 0.2s;
+    }
+    .terminal-btn:hover {
+      background: #38bdf8; color: #0f172a; transform: translateY(-1px);
+      box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+    }
+    .terminal-btn:active { transform: scale(0.96); }
+
+    /* Main Dashboard Layout */
+    .dashboard-layout {
+      display: grid; grid-template-columns: 240px 1fr; gap: 24px; align-items: start;
+      position: relative; z-index: 20;
+    }
+
+    /* Left Sidebar */
+    .sidebar { display: flex; flex-direction: column; gap: 20px; }
+
+    .coordinator-box {
+      background: #ffffff; border-radius: 24px; padding: 24px 16px;
+      text-align: center; box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05); position: relative;
+    }
+    
+    .avatar-ring {
+      width: 104px; height: 104px; margin: 0 auto 14px; position: relative;
+      border-radius: 50%; padding: 4px;
+      background: conic-gradient(#0284c7, #8b5cf6, #f43f5e, #f97316, #10b981, #0284c7);
+      animation: rotateRing 8s linear infinite;
+    }
+    @keyframes rotateRing { to { transform: rotate(360deg); } }
+
+    .avatar-inner {
+      width: 100%; height: 100%; border-radius: 50%; background: #ffffff;
+      display: flex; align-items: center; justify-content: center; position: relative;
+      box-shadow: inset 0 2px 8px rgba(0,0,0,0.06);
+      animation: counterRotate 8s linear infinite;
+    }
+    @keyframes counterRotate { to { transform: rotate(-360deg); } }
+
+    .avatar-eyes { display: flex; gap: 14px; }
+    .avatar-eye {
+      width: 12px; height: 22px; background: #0f172a; border-radius: 6px; transform: rotate(-8deg);
+      animation: eyeBlink 5s infinite;
+    }
+    .avatar-eye:last-child { transform: rotate(8deg); }
+    @keyframes eyeBlink { 0%, 90%, 100% { transform: scaleY(1); } 95% { transform: scaleY(0.1); } }
+
+    .grok-badge-btn {
+      background: #0f172a; color: #ffffff; font-size: 11px; font-weight: 800;
+      padding: 5px 14px; border-radius: 20px; display: inline-block; margin-bottom: 6px;
+      letter-spacing: 0.5px;
+    }
+    .coord-sub { font-size: 11px; color: var(--text-dim); text-transform: uppercase; font-family: var(--font-mono); }
+    .coord-status { font-size: 12px; color: #0284c7; font-weight: 700; margin-top: 4px; }
+
+    /* Teams Category Navigation */
+    .teams-list-nav {
+      background: #ffffff; border-radius: 20px; padding: 12px;
+      box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05); display: flex; flex-direction: column; gap: 6px;
+    }
+    .team-nav-btn {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 9px 14px; border-radius: 12px; font-size: 12px; font-weight: 700;
+      color: var(--text-muted); cursor: pointer; transition: all 0.2s; border: none; background: transparent;
+      text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .team-nav-btn:hover { background: #f8fafc; color: #0f172a; transform: translateX(3px); }
+    .team-nav-btn.active { background: #f0f7ff; color: #0284c7; }
+    .team-nav-btn .dot-ind { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 8px; }
+    .nav-count { font-family: var(--font-mono); font-size: 10.5px; color: var(--text-dim); }
+
+    /* Approval Boundaries Card */
+    .boundaries-card {
+      background: #ffffff; border-radius: 20px; padding: 16px;
+      box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05); font-size: 11.5px;
+    }
+    .bound-title { font-size: 11px; font-weight: 800; color: var(--text-dim); text-transform: uppercase; margin-bottom: 12px; letter-spacing: 0.5px; }
+    .bound-row {
+      display: flex; justify-content: space-between; align-items: center; padding: 6px 0;
+      border-bottom: 1px solid #f1f5f9; color: var(--text-muted);
+    }
+    .bound-row:last-child { border-bottom: none; }
+    .bound-pill {
+      font-family: var(--font-mono); font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 6px;
+      background: #f1f5f9; color: #64748b;
+    }
+    .bound-pill.verifier { background: #f5f3ff; color: #7c3aed; }
+
+    /* Right Swarms Grid Layout */
+    .teams-main-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px;
+    }
+
+    .swarm-panel {
+      background: #ffffff; border-radius: 22px; padding: 20px;
+      box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05); position: relative; border: 1px solid rgba(255,255,255,0.8);
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .swarm-panel:hover {
+      transform: translateY(-4px); box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+    }
+
+    .swarm-header {
+      display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;
+    }
+    .swarm-badge-pill {
+      font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.6px;
+      padding: 6px 14px; border-radius: 12px; color: #ffffff; display: inline-flex; align-items: center; gap: 6px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .badge-teams { background: var(--color-teams); }
+    .badge-coding { background: var(--color-coding); }
+    .badge-life { background: var(--color-life); }
+    .badge-content { background: var(--color-content); }
+    .badge-trading { background: var(--color-trading); }
+
+    .swarm-header-sub { font-size: 12px; color: var(--text-muted); font-weight: 500; }
+
+    /* Agents Grid with Full Visual Task Progress Tracking */
+    .agents-subgrid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 14px;
+    }
+
+    .agent-slot-card {
+      background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px;
+      padding: 14px 10px 12px; text-align: center; position: relative;
+      cursor: pointer; transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+      display: flex; flex-direction: column; justify-content: space-between;
+    }
+    .agent-slot-card:hover {
+      border-color: #0284c7; box-shadow: 0 8px 20px rgba(2, 132, 199, 0.14);
+      transform: translateY(-4px);
+    }
+
+    .agent-illus-icon {
+      width: 44px; height: 44px; margin: 0 auto 8px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center; font-size: 18px;
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .agent-slot-card:hover .agent-illus-icon { transform: scale(1.15) rotate(6deg); }
+
+    .illus-blue { background: #e0f2fe; color: #0284c7; }
+    .illus-purple { background: #ede9fe; color: #7c3aed; }
+    .illus-pink { background: #ffe4e6; color: #e11d48; }
+    .illus-amber { background: #ffedd5; color: #ea580c; }
+    .illus-emerald { background: #d1fae5; color: #059669; }
+
+    .agent-title { font-size: 12.5px; font-weight: 800; color: #0f172a; margin-bottom: 2px; }
+    .agent-status-label { font-size: 10px; font-family: var(--font-mono); color: #10b981; margin-bottom: 8px; font-weight: 600; }
+
+    /* Visual Real-Time Task Box */
+    .task-tracking-box {
+      background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px;
+      padding: 8px; text-align: left; margin: 6px 0; font-size: 10.5px;
+    }
+    .task-tracking-header {
+      display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;
+    }
+    .task-name-text {
+      font-weight: 700; color: #0f172a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 110px;
+    }
+    .task-pct-badge {
+      font-family: var(--font-mono); font-size: 10px; font-weight: 800; color: #0284c7;
+    }
+
+    /* Animated Visual Progress Bar */
+    .progress-track {
+      width: 100%; height: 5px; background: #e2e8f0; border-radius: 3px; overflow: hidden; margin-bottom: 6px;
+    }
+    .progress-fill {
+      height: 100%; border-radius: 3px; transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .fill-blue { background: linear-gradient(90deg, #38bdf8, #0284c7); }
+    .fill-purple { background: linear-gradient(90deg, #c084fc, #7c3aed); }
+    .fill-pink { background: linear-gradient(90deg, #fb7185, #e11d48); }
+    .fill-amber { background: linear-gradient(90deg, #fbbf24, #ea580c); }
+    .fill-emerald { background: linear-gradient(90deg, #34d399, #059669); }
+
+    /* Time Period & Estimate Stats */
+    .task-time-row {
+      display: flex; justify-content: space-between; font-size: 9.5px; font-family: var(--font-mono); color: var(--text-dim);
+    }
+    .time-val { color: #475569; font-weight: 700; }
+
+    .agent-tag-box {
+      display: inline-block; font-family: var(--font-mono); font-size: 9.5px; padding: 2px 6px;
+      border-radius: 6px; background: #ffffff; border: 1px solid #e2e8f0; color: #64748b; margin-top: 4px;
+    }
+
+    /* Card Footer GitHub Links */
+    .swarm-footer-github {
+      display: flex; align-items: center; justify-content: space-between;
+      padding-top: 10px; border-top: 1px dashed #e2e8f0; font-size: 11px; color: var(--text-dim);
+    }
+    .github-link { color: #0284c7; text-decoration: none; font-weight: 600; font-family: var(--font-mono); }
+    .github-link:hover { text-decoration: underline; }
+
+    /* Bottom Wide Trading Banner */
+    .trading-full-banner {
+      grid-column: 1 / -1; background: #ffffff; border-radius: 22px; padding: 20px;
+      box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05);
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .trading-full-banner:hover {
+      transform: translateY(-4px); box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+    }
+
+    /* Bottom Team Activity Log */
+    .team-log-bar {
+      background: #ffffff; border-radius: 20px; padding: 18px 24px;
+      box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05); font-family: var(--font-mono); font-size: 11.5px;
+      position: relative; z-index: 20;
+    }
+    .log-top-row {
+      display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;
+      color: var(--text-dim); font-size: 11px; text-transform: uppercase; font-weight: 700;
+    }
+    .log-entry-row {
+      display: flex; align-items: center; gap: 14px; padding: 6px 0; color: var(--text-dark);
+      animation: fadeInRow 0.4s forwards;
+    }
+    @keyframes fadeInRow { to { opacity: 1; transform: translateY(0); } }
+    .log-time-stamp { color: var(--text-dim); }
+    .log-tag-badge {
+      font-size: 10px; padding: 2px 8px; border-radius: 6px; background: #f1f5f9; color: #475569; font-weight: 700;
+    }
+    .tag-blue { background: #e0f2fe; color: #0284c7; }
+    .tag-green { background: #d1fae5; color: #059669; }
+    .tag-purple { background: #ede9fe; color: #7c3aed; }
+  </style>
+</head>
+<body>
+
+  <!-- Modal for User Auth -->
+  <div class="auth-overlay" id="authModal">
+    <div class="auth-card">
+      <div class="auth-header">
+        <h2>Gomyweblab Director Portal</h2>
+        <p>Login or Register to manage autonomous agent swarms & credentials</p>
+      </div>
+
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="tabLogin" onclick="switchAuthMode('login')">Sign In</button>
+        <button class="auth-tab" id="tabRegister" onclick="switchAuthMode('register')">Register</button>
+      </div>
+
+      <form id="authForm" onsubmit="handleAuthSubmit(event)">
+        <div class="auth-input-group">
+          <label>Username / Email</label>
+          <input type="text" class="auth-input" id="authUsername" placeholder="director" required value="director">
+        </div>
+        <div class="auth-input-group" id="emailGroup" style="display:none;">
+          <label>Email Address</label>
+          <input type="email" class="auth-input" id="authEmail" placeholder="director@gomyweblab.com">
+        </div>
+        <div class="auth-input-group">
+          <label>Password</label>
+          <input type="password" class="auth-input" id="authPassword" placeholder="••••••••" required value="admin123">
+        </div>
+        <button type="submit" class="auth-submit-btn" id="authSubmitBtn">Enter Command Deck</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Top Navigation Header -->
+  <header class="top-header">
+    <div class="brand-left">
+      <div class="logo-container">
+        <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zm0 9l-10-5v8l10 5 10-5v-8l-10 5z"/></svg>
+      </div>
+      <div>
+        <div class="brand-text">
+          <h1>Grok Bot Teams</h1>
+        </div>
+        <div class="brand-sub">
+          <span>5 ready-made agent teams</span>
+          <span class="author-pill" onclick="openAuthModal()">@gomyweblab</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Header Stats Counters with Real Revenue Tracker -->
+    <div class="header-metrics">
+      <div class="metric-pill pill-blue">
+        <div class="val">5<small>/5</small></div>
+        <div class="lbl">Teams Active</div>
+      </div>
+      <div class="metric-pill pill-purple">
+        <div class="val" id="realProjectsCount">5</div>
+        <div class="lbl">Live Client RFPs</div>
+      </div>
+      <div class="metric-pill pill-green" style="background:#f0fdf4;border-color:#bbf7d0;">
+        <div class="val" style="color:#059669;" id="revenueEarnedMetric">$0.00</div>
+        <div class="lbl" style="color:#047857;">Revenue Earned</div>
+      </div>
+      <div class="metric-pill pill-red">
+        <div class="val" id="escrowLockedMetric">$0.00</div>
+        <div class="lbl">In Escrow</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Live Subtitle Row -->
+  <div class="live-status-row">
+    <span><span class="live-dot"></span> LIVE</span>
+    <span>•</span>
+    <span>view: teams</span>
+  </div>
+
+  <!-- Terminal Command Bar -->
+  <div class="terminal-console">
+    <div class="terminal-left">
+      <span class="terminal-dir">~/gomyweblab $</span>
+      <span class="terminal-cmd">grok teams up</span>
+      <span class="terminal-args">--coding --research --marketing --trading --life</span>
+      <span class="terminal-cursor"></span>
+    </div>
+    <button class="terminal-btn" id="triggerBtn" onclick="triggerAutonomousCycle()">⚡ Run Autonomous Cycle</button>
+  </div>
+
+  <!-- Main Dashboard Layout -->
+  <div class="dashboard-layout">
+
+    <!-- Left Sidebar Column -->
+    <div class="sidebar">
+
+      <!-- Grok Bot Coordinator Widget -->
+      <div class="coordinator-box" id="coordBox">
+        <div class="avatar-ring">
+          <div class="avatar-inner">
+            <div class="avatar-eyes">
+              <div class="avatar-eye"></div>
+              <div class="avatar-eye"></div>
+            </div>
+          </div>
+        </div>
+        <div class="grok-badge-btn">GROK BOT</div>
+        <div class="coord-sub">COORDINATOR</div>
+        <div class="coord-status">staffing teams</div>
+      </div>
+
+      <!-- Teams Navigation -->
+      <div class="teams-list-nav">
+        <div style="font-size:10px;font-family:var(--font-mono);color:var(--text-dim);margin-bottom:4px;text-transform:uppercase;">Teams</div>
+        <button class="team-nav-btn active">
+          <span><span class="dot-ind" style="background:var(--color-teams)"></span>TEAMS</span>
+          <span class="nav-count">8/3</span>
+        </button>
+        <button class="team-nav-btn">
+          <span><span class="dot-ind" style="background:var(--color-coding)"></span>CODING</span>
+          <span class="nav-count">8/3</span>
+        </button>
+        <button class="team-nav-btn">
+          <span><span class="dot-ind" style="background:var(--color-life)"></span>LIFE</span>
+          <span class="nav-count">8/2</span>
+        </button>
+        <button class="team-nav-btn">
+          <span><span class="dot-ind" style="background:var(--color-content)"></span>CONTENT</span>
+          <span class="nav-count">0/1</span>
+        </button>
+        <button class="team-nav-btn">
+          <span><span class="dot-ind" style="background:var(--color-trading)"></span>TRADING</span>
+          <span class="nav-count">8/6</span>
+        </button>
+      </div>
+
+      <!-- Approval Boundaries -->
+      <div class="boundaries-card">
+        <div class="bound-title">Approval Boundaries</div>
+        <div class="bound-row">
+          <span>money / orders</span>
+          <span class="bound-pill">needs OK</span>
+        </div>
+        <div class="bound-row">
+          <span>publishing</span>
+          <span class="bound-pill">needs OK</span>
+        </div>
+        <div class="bound-row">
+          <span>calls · bookings</span>
+          <span class="bound-pill">needs OK</span>
+        </div>
+        <div class="bound-row">
+          <span>code merges</span>
+          <span class="bound-pill verifier">verifier</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Right Swarms Grid Layout -->
+    <div class="teams-main-grid">
+
+      <!-- Panel 1: TEAMS (Run the Company) -->
+      <div class="swarm-panel" id="panel-teams">
+        <div class="swarm-header">
+          <span class="swarm-badge-pill badge-teams">TEAMS</span>
+          <span class="swarm-header-sub">4 agents · job: run the company</span>
+        </div>
+
+        <div class="agents-subgrid">
+          <!-- Eng Lead -->
+          <div class="agent-slot-card">
+            <div>
+              <div class="agent-illus-icon illus-blue">👑</div>
+              <div class="agent-title">Eng Lead</div>
+              <div class="agent-status-label">● ACTIVE ONLINE</div>
+            </div>
+            <div class="task-tracking-box">
+              <div class="task-tracking-header">
+                <span class="task-name-text">Sprint Specs</span>
+                <span class="task-pct-badge" style="color:var(--color-teams)">88%</span>
+              </div>
+              <div class="progress-track"><div class="progress-fill fill-blue" style="width:88%"></div></div>
+              <div class="task-time-row">
+                <span>Spent: <span class="time-val">28m</span></span>
+                <span>Left: <span class="time-val">4m</span></span>
+              </div>
+            </div>
+            <div class="agent-tag-box">support.t</div>
+          </div>
+
+          <!-- Marketing -->
+          <div class="agent-slot-card">
+            <div>
+              <div class="agent-illus-icon illus-blue">💧</div>
+              <div class="agent-title">Marketing</div>
+              <div class="agent-status-label">● ACTIVE ONLINE</div>
+            </div>
+            <div class="task-tracking-box">
+              <div class="task-tracking-header">
+                <span class="task-name-text">Upwork Bids</span>
+                <span class="task-pct-badge" style="color:var(--color-teams)">78%</span>
+              </div>
+              <div class="progress-track"><div class="progress-fill fill-blue" style="width:78%"></div></div>
+              <div class="task-time-row">
+                <span>Spent: <span class="time-val">24m</span></span>
+                <span>Left: <span class="time-val">6m</span></span>
+              </div>
+            </div>
+            <div class="agent-tag-box">spec.spli</div>
+          </div>
+
+          <!-- Support -->
+          <div class="agent-slot-card">
+            <div>
+              <div class="agent-illus-icon illus-blue">🎧</div>
+              <div class="agent-title">Support</div>
+              <div class="agent-status-label">● ACTIVE ONLINE</div>
+            </div>
+            <div class="task-tracking-box">
+              <div class="task-tracking-header">
+                <span class="task-name-text">Ticket Triage</span>
+                <span class="task-pct-badge" style="color:var(--color-teams)">65%</span>
+              </div>
+              <div class="progress-track"><div class="progress-fill fill-blue" style="width:65%"></div></div>
+              <div class="task-time-row">
+                <span>Spent: <span class="time-val">12m</span></span>
+                <span>Left: <span class="time-val">8m</span></span>
+              </div>
+            </div>
+            <div class="agent-tag-box">cron.dail</div>
+          </div>
+
+          <!-- Sales -->
+          <div class="agent-slot-card">
+            <div>
+              <div class="agent-illus-icon illus-blue">💼</div>
+              <div class="agent-title">Sales</div>
+              <div class="agent-status-label">● ACTIVE ONLINE</div>
+            </div>
+            <div class="task-tracking-box">
+              <div class="task-tracking-header">
+                <span class="task-name-text">Escrow Invoicing</span>
+                <span class="task-pct-badge" style="color:var(--color-teams)">92%</span>
+              </div>
+              <div class="progress-track"><div class="progress-fill fill-blue" style="width:92%"></div></div>
+              <div class="task-time-row">
+                <span>Spent: <span class="time-val">35m</span></span>
+                <span>Left: <span class="time-val">3m</span></span>
+              </div>
+            </div>
+            <div class="agent-tag-box">sales.cal</div>
+          </div>
+        </div>
+
+        <div class="swarm-footer-github">
+          <span>from github:</span>
+          <div>
+            <a href="#" class="github-link">Agent Org Chart</a> &nbsp;·&nbsp;
+            <a href="#" class="github-link">Grok Factory</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel 2: CODING (Ship Features) -->
+      <div class="swarm-panel" id="panel-coding">
+        <div class="swarm-header">
+          <span class="swarm-badge-pill badge-coding">CODING</span>
+          <span class="swarm-header-sub">4 agents · job: ship features</span>
+        </div>
+
+        <div class="agents-subgrid">
+          <!-- Spec Writer -->
+          <div class="agent-slot-card">
+            <div>
+              <div class="agent-illus-icon illus-purple">📝</div>
+              <div class="agent-title">Spec Writer</div>
+              <div class="agent-status-label">● ACTIVE ONLINE</div>
+            </div>
+            <div class="task-tracking-box">
+              <div class="task-tracking-header">
+                <span class="task-name-text">Next.js Spec</span>
+                <span class="task-pct-badge" style="color:var(--color-coding)">70%</span>
+              </div>
+              <div class="progress-track"><div class="progress-fill fill-purple" style="width:70%"></div></div>
+              <div class="task-time-row">
+                <span>Spent: <span class="time-val">28m</span></span>
+                <span>Left: <span class="time-val">14m</span></span>
+              </div>
+            </div>
+            <div class="agent-tag-box">cli.run</div>
+          </div>
+
+          <!-- Bug Repro -->
+          <div class="agent-slot-card">
+            <div>
+              <div class="agent-illus-icon illus-purple">🐞</div>
+              <div class="agent-title">Bug Repro</div>
+              <div class="agent-status-label">● ACTIVE ONLINE</div>
+            </div>
+            <div class="task-tracking-box">
+              <div class="task-tracking-header">
+                <span class="task-name-text">Token Cache Test</span>
+                <span class="task-pct-badge" style="color:var(--color-coding)">60%</span>
+              </div>
+              <div class="progress-track"><div class="progress-fill fill-purple" style="width:60%"></div></div>
+              <div class="task-time-row">
+                <span>Spent: <span class="time-val">15m</span></span>
+                <span>Left: <span class="time-val">10m</span></span>
+              </div>
+            </div>
+            <div class="agent-tag-box">work.veri</div>
+          </div>
+
+          <!-- PR Producer -->
+          <div class="agent-slot-card">
+            <div>
+              <div class="agent-illus-icon illus-purple">⚡</div>
+              <div class="agent-title">PR Producer</div>
+              <div class="agent-status-label">● ACTIVE ONLINE</div>
+            </div>
+            <div class="task-tracking-box">
+              <div class="task-tracking-header">
+                <span class="task-name-text">Stripe Webhooks</span>
+                <span class="task-pct-badge" style="color:var(--color-coding)">82%</span>
+              </div>
+              <div class="progress-track"><div class="progress-fill fill-purple" style="width:82%"></div></div>
+              <div class="task-time-row">
+                <span>Spent: <span class="time-val">50m</span></span>
+                <span>Left: <span class="time-val">10m</span></span>
+              </div>
+            </div>
+            <div class="agent-tag-box">pr.verify</div>
+          </div>
+
+          <!-- PR Verifier -->
+          <div class="agent-slot-card">
+            <div>
+              <div class="agent-illus-icon illus-purple">🛡️</div>
+              <div class="agent-title">PR Verifier</div>
+              <div class="agent-status-label">● ACTIVE ONLINE</div>
+            </div>
+            <div class="task-tracking-box">
+              <div class="task-tracking-header">
+                <span class="task-name-text">OWASP Audit</span>
+                <span class="task-pct-badge" style="color:var(--color-coding)">95%</span>
+              </div>
+              <div class="progress-track"><div class="progress-fill fill-purple" style="width:95%"></div></div>
+              <div class="task-time-row">
+                <span>Spent: <span class="time-val">40m</span></span>
+                <span>Left: <span class="time-val">2m</span></span>
+              </div>
+            </div>
+            <div class="agent-tag-box">cli.run</div>
+          </div>
+        </div>
+
+        <div class="swarm-footer-github">
+          <span>from github:</span>
+          <div>
+            <a href="#" class="github-link">multiBot</a> &nbsp;·&nbsp;
+            <a href="#" class="github-link">Foreman</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel 3: LIFE & AUTOMATIONS -->
+      <div class="swarm-panel" id="panel-life">
+        <div class="swarm-header">
+          <span class="swarm-badge-pill badge-life">LIFE & FLOWS</span>
+          <span class="swarm-header-sub">4 agents · job: run your life & automated pipelines</span>
+        </div>
+
+        <div class="agents-subgrid">
+          <!-- Flow Arch -->
+          <div class="agent-slot-card">
+            <div>
+              <div class="agent-illus-icon illus-pink">🎯</div>
+              <div class="agent-title">Flow Arch</div>
+              <div class="agent-status-label">● ACTIVE ONLINE</div>
+            </div>
+            <div class="task-tracking-box">
+              <div class="task-tracking-header">
+                <span class="task-name-text">Zapier Pipeline</span>
+                <span class="task-pct-badge" style="color:var(--color-life)">80%</span>
+              </div>
+              <div class="progress-track"><div class="progress-fill fill-pink" style="width:80%"></div></div>
+              <div class="task-time-row">
+                <span>Spent: <span class="time-val">38m</span></span>
+                <span>Left: <span class="time-val">8m</span></span>
+              </div>
+            </div>
+            <div class="agent-tag-box">memory.sa</div>
+          </div>
+
+          <!-- Memory -->
+          <div class="agent-slot-card">
+            <div>
+              <div class="agent-illus-icon illus-pink">🧠</div>
+              <div class="agent-title">Memory</div>
+              <div class="agent-status-label">● ACTIVE ONLINE</div>
+            </div>
+            <div class="task-tracking-box">
+              <div class="task-tracking-header">
+                <span class="task-name-text">Vector Knowledge</span>
+                <span class="task-pct-badge" style="color:var(--color-life)">84%</span>
+              </div>
+              <div class="progress-track"><div class="progress-fill fill-pink" style="width:84%"></div></div>
+              <div class="task-time-row">
+                <span>Spent: <span class="time-val">22m</span></span>
+                <span>Left: <span class="time-val">5m</span></span>
+              </div>
+            </div>
+            <div class="agent-tag-box">table.boo</div>
+          </div>
+
+          <!-- Lead Scraper -->
+          <div class="agent-slot-card">
+            <div>
+              <div class="agent-illus-icon illus-pink">🔬</div>
+              <div class="agent-title">Lead Scraper</div>
+              <div class="agent-status-label">● ACTIVE ONLINE</div>
+            </div>
+            <div class="task-tracking-box">
+              <div class="task-tracking-header">
+                <span class="task-name-text">5k Lead List</span>
+                <span class="task-pct-badge" style="color:var(--color-life)">72%</span>
+              </div>
+              <div class="progress-track"><div class="progress-fill fill-pink" style="width:72%"></div></div>
+              <div class="task-time-row">
+                <span>Spent: <span class="time-val">48m</span></span>
+                <span>Left: <span class="time-val">18m</span></span>
+              </div>
+            </div>
+            <div class="agent-tag-box">research.</div>
+          </div>
+
+          <!-- Cron Watchdog -->
+          <div class="agent-slot-card">
+            <div>
+              <div class="agent-illus-icon illus-pink">📞</div>
+              <div class="agent-title">Watchdog</div>
+              <div class="agent-status-label">● ACTIVE ONLINE</div>
+            </div>
+            <div class="task-tracking-box">
+              <div class="task-tracking-header">
+                <span class="task-name-text">Cron Heartbeat</span>
+                <span class="task-pct-badge" style="color:var(--color-life)">99%</span>
+              </div>
+              <div class="progress-track"><div class="progress-fill fill-pink" style="width:99%"></div></div>
+              <div class="task-time-row">
+                <span>Spent: <span class="time-val">60m</span></span>
+                <span>Left: <span class="time-val">1m</span></span>
+              </div>
+            </div>
+            <div class="agent-tag-box">call.plac</div>
+          </div>
+        </div>
+
+        <div class="swarm-footer-github">
+          <span>from github:</span>
+          <div>
+            <a href="#" class="github-link">Second Brain</a> &nbsp;·&nbsp;
+            <a href="#" class="github-link">PhoneZero</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel 4: CONTENT & AUTO-AI-BLOG (TheSmartMag.com) -->
+      <div class="swarm-panel" id="panel-content">
+        <div class="swarm-header">
+          <div>
+            <span class="swarm-badge-pill badge-content">CONTENT & AUTO-AI-BLOG</span>
+            <span class="swarm-header-sub" style="margin-left:8px;"><a href="https://thesmartmag.com/" target="_blank" style="color:#f97316;font-weight:700;text-decoration:none;">TheSmartMag.com</a> · Live Syndication</span>
+          </div>
+          <div style="font-family:var(--font-mono);font-size:11px;background:#fff7ed;border:1px solid #ffedd5;color:#ea580c;padding:3px 10px;border-radius:8px;font-weight:700;">
+            ● ADSENSE + AHREFS LIVE
+          </div>
+        </div>
+
+        <div class="agents-subgrid" style="grid-template-columns: repeat(4, 1fr);">
+          <!-- Trend Scout -->
+          <div class="agent-slot-card">
+            <div>
+              <div class="agent-illus-icon illus-amber">🔍</div>
+              <div class="agent-title">Trend Scout</div>
+              <div class="agent-status-label">● ACTIVE ONLINE</div>
+            </div>
+            <div class="task-tracking-box">
+              <div class="task-tracking-header">
+                <span class="task-name-text">TheSmartMag RSS</span>
+                <span class="task-pct-badge" style="color:var(--color-content)">85%</span>
+              </div>
+              <div class="progress-track"><div class="progress-fill fill-amber" style="width:85%"></div></div>
+              <div class="task-time-row">
+                <span>Spent: <span class="time-val">35m</span></span>
+                <span>Left: <span class="time-val">10m</span></span>
+              </div>
+            </div>
+            <div class="agent-tag-box">rss.mine</div>
+          </div>
+
+          <!-- Copywriter -->
+          <div class="agent-slot-card">
+            <div>
+              <div class="agent-illus-icon illus-amber">✍️</div>
+              <div class="agent-title">Copywriter</div>
+              <div class="agent-status-label">● ACTIVE ONLINE</div>
+            </div>
+            <div class="task-tracking-box">
+              <div class="task-tracking-header">
+                <span class="task-name-text">Auto-AI-Blog</span>
+                <span class="task-pct-badge" style="color:var(--color-content)">78%</span>
+              </div>
+              <div class="progress-track"><div class="progress-fill fill-amber" style="width:78%"></div></div>
+              <div class="task-time-row">
+                <span>Spent: <span class="time-val">40m</span></span>
+                <span>Left: <span class="time-val">12m</span></span>
+              </div>
+            </div>
+            <div class="agent-tag-box">post.gen</div>
+          </div>
+
+          <!-- Publisher -->
+          <div class="agent-slot-card">
+            <div>
+              <div class="agent-illus-icon illus-amber">🚀</div>
+              <div class="agent-title">Publisher</div>
+              <div class="agent-status-label">● ACTIVE ONLINE</div>
+            </div>
+            <div class="task-tracking-box">
+              <div class="task-tracking-header">
+                <span class="task-name-text">@Theindainta9go</span>
+                <span class="task-pct-badge" style="color:var(--color-content)">92%</span>
+              </div>
+              <div class="progress-track"><div class="progress-fill fill-amber" style="width:92%"></div></div>
+              <div class="task-time-row">
+                <span>Spent: <span class="time-val">20m</span></span>
+                <span>Left: <span class="time-val">3m</span></span>
+              </div>
+            </div>
+            <div class="agent-tag-box">twitter.api</div>
+          </div>
+
+          <!-- SEO & Monetization -->
+          <div class="agent-slot-card">
+            <div>
+              <div class="agent-illus-icon illus-amber">📈</div>
+              <div class="agent-title">SEO & AdSense</div>
+              <div class="agent-status-label">● ACTIVE ONLINE</div>
+            </div>
+            <div class="task-tracking-box">
+              <div class="task-tracking-header">
+                <span class="task-name-text">AdSense Sync</span>
+                <span class="task-pct-badge" style="color:var(--color-content)">95%</span>
+              </div>
+              <div class="progress-track"><div class="progress-fill fill-amber" style="width:95%"></div></div>
+              <div class="task-time-row">
+                <span>Spent: <span class="time-val">45m</span></span>
+                <span>Left: <span class="time-val">Active</span></span>
+              </div>
+            </div>
+            <div class="agent-tag-box">adsense.live</div>
+          </div>
+        </div>
+
+        <div class="swarm-footer-github">
+          <span>integrated from:</span>
+          <div>
+            <a href="https://thesmartmag.com/" target="_blank" class="github-link">TheSmartMag.com</a> &nbsp;·&nbsp;
+            <a href="#" class="github-link">Auto-AI-Blog</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel 5: WEBOPS & LIVE CRYPTO TRADING DESK -->
+      <div class="trading-full-banner" id="panel-trading">
+        <div class="swarm-header">
+          <div>
+            <span class="swarm-badge-pill badge-trading">LIVE CRYPTO TRADING & TREASURY</span>
+            <span class="swarm-header-sub" style="margin-left:12px;">Delta Exchange India · Real Capital: <strong>$1,000.00 USDT</strong></span>
+          </div>
+          <div style="font-family:var(--font-mono);font-size:12px;background:#f0fdf4;border:1px solid #bbf7d0;color:#059669;padding:4px 12px;border-radius:10px;font-weight:700;">
+            ● BTC LIVE TICK: <span id="liveBtcPriceDisplay">$73,598.80</span>
+          </div>
+        </div>
+
+        <div class="agents-subgrid" style="grid-template-columns: repeat(5, 1fr);">
+          <!-- Uptime Sentry -->
+          <div class="agent-slot-card">
+            <div>
+              <div class="agent-illus-icon illus-emerald">📡</div>
+              <div class="agent-title">Uptime Sentry</div>
+              <div class="agent-status-label">● ACTIVE ONLINE</div>
+            </div>
+            <div class="task-tracking-box">
+              <div class="task-tracking-header">
+                <span class="task-name-text">Global Ping 24/7</span>
+                <span class="task-pct-badge" style="color:var(--color-trading)">96%</span>
+              </div>
+              <div class="progress-track"><div class="progress-fill fill-emerald" style="width:96%"></div></div>
+              <div class="task-time-row">
+                <span>Spent: <span class="time-val">55m</span></span>
+                <span>Left: <span class="time-val">2m</span></span>
+              </div>
+            </div>
+            <div class="agent-tag-box">uptime.99</div>
+          </div>
+
+          <!-- Security Patch -->
+          <div class="agent-slot-card">
+            <div>
+              <div class="agent-illus-icon illus-emerald">🔒</div>
+              <div class="agent-title">Security Patch</div>
+              <div class="agent-status-label">● ACTIVE ONLINE</div>
+            </div>
+            <div class="task-tracking-box">
+              <div class="task-tracking-header">
+                <span class="task-name-text">WordPress Hotfix</span>
+                <span class="task-pct-badge" style="color:var(--color-trading)">88%</span>
+              </div>
+              <div class="progress-track"><div class="progress-fill fill-emerald" style="width:88%"></div></div>
+              <div class="task-time-row">
+                <span>Spent: <span class="time-val">30m</span></span>
+                <span>Left: <span class="time-val">4m</span></span>
+              </div>
+            </div>
+            <div class="agent-tag-box">patch.zero</div>
+          </div>
+
+          <!-- Speed Tuner -->
+          <div class="agent-slot-card">
+            <div>
+              <div class="agent-illus-icon illus-emerald">⚡</div>
+              <div class="agent-title">Speed Tuner</div>
+              <div class="agent-status-label">● ACTIVE ONLINE</div>
+            </div>
+            <div class="task-tracking-box">
+              <div class="task-tracking-header">
+                <span class="task-name-text">PageSpeed Score</span>
+                <span class="task-pct-badge" style="color:var(--color-trading)">91%</span>
+              </div>
+              <div class="progress-track"><div class="progress-fill fill-emerald" style="width:91%"></div></div>
+              <div class="task-time-row">
+                <span>Spent: <span class="time-val">40m</span></span>
+                <span>Left: <span class="time-val">5m</span></span>
+              </div>
+            </div>
+            <div class="agent-tag-box">lcp.1.1s</div>
+          </div>
+
+          <!-- Backup Vault -->
+          <div class="agent-slot-card">
+            <div>
+              <div class="agent-illus-icon illus-emerald">💾</div>
+              <div class="agent-title">Backup Vault</div>
+              <div class="agent-status-label">● ACTIVE ONLINE</div>
+            </div>
+            <div class="task-tracking-box">
+              <div class="task-tracking-header">
+                <span class="task-name-text">Snapshot Sync</span>
+                <span class="task-pct-badge" style="color:var(--color-trading)">100%</span>
+              </div>
+              <div class="progress-track"><div class="progress-fill fill-emerald" style="width:100%"></div></div>
+              <div class="task-time-row">
+                <span>Spent: <span class="time-val">18m</span></span>
+                <span>Left: <span class="time-val">Done</span></span>
+              </div>
+            </div>
+            <div class="agent-tag-box">backup.s3</div>
+          </div>
+
+          <!-- Treasury Bot -->
+          <div class="agent-slot-card">
+            <div>
+              <div class="agent-illus-icon illus-emerald">📈</div>
+              <div class="agent-title">Treasury Bot</div>
+              <div class="agent-status-label">● ACTIVE ONLINE</div>
+            </div>
+            <div class="task-tracking-box">
+              <div class="task-tracking-header">
+                <span class="task-name-text">Fee Optimization</span>
+                <span class="task-pct-badge" style="color:var(--color-trading)">94%</span>
+              </div>
+              <div class="progress-track"><div class="progress-fill fill-emerald" style="width:94%"></div></div>
+              <div class="task-time-row">
+                <span>Spent: <span class="time-val">22m</span></span>
+                <span>Left: <span class="time-val">3m</span></span>
+              </div>
+            </div>
+            <div class="agent-tag-box">pnl.report</div>
+          </div>
+        </div>
+
+        <div class="swarm-footer-github">
+          <span>from github:</span>
+          <div>
+            <a href="#" class="github-link">HyperGrok Desk</a> &nbsp;·&nbsp;
+            <a href="#" class="github-link">Cryptofeed</a> &nbsp;·&nbsp;
+            <a href="#" class="github-link">CCXT</a> &nbsp;·&nbsp;
+            <a href="#" class="github-link">Freqtrade</a> &nbsp;·&nbsp;
+            <a href="#" class="github-link">QuantStats</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Bottom Team Activity Log Bar -->
+  <div class="team-log-bar">
+    <div class="log-top-row">
+      <span>REAL-TIME AGENT TASK EXECUTION LOG</span>
+      <span>task progress · time spent · estimated completion · verified results</span>
+    </div>
+    <div id="teamLogRows">
+      <div class="log-entry-row">
+        <span class="log-time-stamp">19:42</span>
+        <span class="log-tag-badge tag-blue">PR Verifier</span>
+        <span>• Completed OWASP security scan on PR #104 [95% Done] · Time spent: 40m · Est remaining: 2m</span>
+      </div>
+      <div class="log-entry-row">
+        <span class="log-time-stamp">19:40</span>
+        <span class="log-tag-badge tag-green">Speed Tuner</span>
+        <span>• Compressed asset pipeline for Client Site · Mobile score boosted to 96/100 · Time spent: 40m</span>
+      </div>
+      <div class="log-entry-row">
+        <span class="log-time-stamp">19:38</span>
+        <span class="log-tag-badge tag-purple">FullStack Dev</span>
+        <span>• Stripe webhook signature validation deployed [82% Done] · Time spent: 50m</span>
+      </div>
+      <div class="log-entry-row">
+        <span class="log-time-stamp">19:35</span>
+        <span class="log-tag-badge" style="background:#ffedd5;color:#ea580c;">Publisher</span>
+        <span>• Scheduled weekly AI automation threads on X and LinkedIn [90% Done]</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Initialize GSAP Entrance Animations
+    window.addEventListener('DOMContentLoaded', () => {
+      gsap.fromTo(".logo-container", { scale: 0 }, { duration: 0.6, scale: 1, ease: "back.out(1.7)" });
+      gsap.fromTo(".metric-pill", { y: -20, opacity: 0 }, { duration: 0.5, y: 0, opacity: 1, stagger: 0.08, ease: "power2.out" });
+      gsap.fromTo(".terminal-console", { y: 15, opacity: 0 }, { duration: 0.6, y: 0, opacity: 1, ease: "power3.out", delay: 0.1 });
+      gsap.fromTo(".coordinator-box", { x: -30, opacity: 0 }, { duration: 0.6, x: 0, opacity: 1, ease: "power3.out", delay: 0.15 });
+      gsap.fromTo(".swarm-panel, .trading-full-banner", 
+        { y: 25, opacity: 0 }, 
+        { duration: 0.6, y: 0, opacity: 1, stagger: 0.1, ease: "power3.out", delay: 0.2, clearProps: "transform,opacity" }
+      );
+    });
+
+    // Real-Time Backend Data Synchronization
+    async function syncRealData() {
+      try {
+        const [statusRes, pipeRes] = await Promise.all([
+          fetch('/api/status'),
+          fetch('/api/freelance-pipeline')
+        ]);
+
+        if (statusRes.ok) {
+          const s = await statusRes.json();
+          const earnedEl = document.getElementById('revenueEarnedMetric');
+          const escrowEl = document.getElementById('escrowLockedMetric');
+          if (earnedEl) earnedEl.innerText = '$' + s.revenue.total_earned_usd.toFixed(2);
+          if (escrowEl) escrowEl.innerText = '$' + s.revenue.in_escrow_usd.toFixed(2);
+
+          const btcDisplay = document.getElementById('liveBtcPriceDisplay');
+          if (btcDisplay && s.trading && s.trading.btc_price) {
+            btcDisplay.innerText = '$' + s.trading.btc_price.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+          }
+        }
+
+        if (pipeRes.ok) {
+          const p = await pipeRes.json();
+          const countEl = document.getElementById('realProjectsCount');
+          if (countEl) countEl.innerText = p.deals.length;
+        }
+      } catch (err) {}
+    }
+
+    // Trigger Autonomous Cycle with Confetti & Dynamic Task Progression
+    async function triggerAutonomousCycle() {
+      const btn = document.getElementById('triggerBtn');
+      gsap.to(btn, { scale: 0.94, duration: 0.1, yoyo: true, repeat: 1 });
+
+      try {
+        const res = await fetch('/api/trigger-cycle');
+        if (res.ok) {
+          const data = await res.json();
+          const logContainer = document.getElementById('teamLogRows');
+          const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+          const newRow = document.createElement('div');
+          newRow.className = 'log-entry-row';
+          newRow.innerHTML = `
+            <span class="log-time-stamp">${time}</span>
+            <span class="log-tag-badge tag-green">${data.freelance.agent || 'CYCLE'}</span>
+            <span>• ${data.freelance.action}: ${data.freelance.desc}</span>
+          `;
+          logContainer.prepend(newRow);
+
+          syncRealData();
+
+          // Confetti celebration
+          confetti({
+            particleCount: 45,
+            spread: 60,
+            origin: { y: 0.25 },
+            colors: ['#0284c7', '#8b5cf6', '#10b981', '#f97316']
+          });
+        }
+      } catch (e) {}
+    }
+
+    // Initial load and periodic refresh
+    window.addEventListener('DOMContentLoaded', () => {
+      syncRealData();
+      setInterval(syncRealData, 5000);
+    });
+
+    // Auth Modal Handlers
+    let currentAuthMode = 'login';
+    function switchAuthMode(mode) {
+      currentAuthMode = mode;
+      document.getElementById('tabLogin').classList.toggle('active', mode === 'login');
+      document.getElementById('tabRegister').classList.toggle('active', mode === 'register');
+      document.getElementById('emailGroup').style.display = mode === 'register' ? 'block' : 'none';
+      document.getElementById('authSubmitBtn').innerText = mode === 'register' ? 'Register Account' : 'Enter Command Deck';
+    }
+    function openAuthModal() {
+      document.getElementById('authModal').style.display = 'flex';
+      gsap.from(".auth-card", { scale: 0.85, opacity: 0, duration: 0.3, ease: "back.out(1.5)" });
+    }
+    function closeAuthModal() {
+      document.getElementById('authModal').style.display = 'none';
+    }
+    async function handleAuthSubmit(e) {
+      e.preventDefault();
+      const u = document.getElementById('authUsername').value;
+      const p = document.getElementById('authPassword').value;
+      const em = document.getElementById('authEmail').value;
+      const endpoint = currentAuthMode === 'register' ? '/api/register' : '/api/login';
+      try {
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username: u, password: p, email: em })
+        });
+        const data = await res.json();
+        if (data.success) {
+          alert('Authenticated as: ' + data.username);
+          closeAuthModal();
+        } else {
+          alert(data.error || 'Authentication error');
+        }
+      } catch (err) {
+        alert('Server unreachable');
+      }
+    }
+  </script>
+</body>
+</html>

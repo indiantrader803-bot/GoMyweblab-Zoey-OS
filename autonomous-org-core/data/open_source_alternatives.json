@@ -1,0 +1,1037 @@
+[
+  {
+    "category": "Artificial intelligence chatbot/ LLM (ChatGPT alternatives):",
+    "tools": [
+      {
+        "name": "OpenAssistant",
+        "github": "https://github.com/LAION-AI/Open-Assistant",
+        "website": "https://open-assistant.io/"
+      },
+      {
+        "name": "Leon",
+        "github": "https://github.com/leon-ai/leon",
+        "website": "https://getleon.ai/"
+      },
+      {
+        "name": "ChatRWKV",
+        "github": "https://github.com/BlinkDL/ChatRWKV",
+        "website": "https://twitter.com/BlinkDL_AI"
+      }
+    ]
+  },
+  {
+    "category": "AI code completion (Github CoPilot alternatives):",
+    "tools": [
+      {
+        "name": "FauxPilot",
+        "github": "https://github.com/fauxpilot/fauxpilot",
+        "website": "https://github.com/fauxpilot/fauxpilot/wiki"
+      },
+      {
+        "name": "YouCompleteMe",
+        "github": "https://github.com/ycm-core/ycmd",
+        "website": "https://ycm-core.github.io/ycmd/"
+      }
+    ]
+  },
+  {
+    "category": "Team knowledge base (Notion alternatives):",
+    "tools": [
+      {
+        "name": "AppFlowy",
+        "github": "https://github.com/AppFlowy-IO/AppFlowy",
+        "website": "https://appflowy.io/"
+      },
+      {
+        "name": "AFFiNE",
+        "github": "https://github.com/toeverything/AFFiNE",
+        "website": "https://affine.pro/"
+      },
+      {
+        "name": "docmost",
+        "github": "https://github.com/docmost/docmost",
+        "website": "https://docmost.com/"
+      }
+    ]
+  },
+  {
+    "category": "Internal tools (Retool alternatives):",
+    "tools": [
+      {
+        "name": "Appsmith",
+        "github": "https://github.com/appsmithorg/appsmith",
+        "website": "https://www.appsmith.com/"
+      },
+      {
+        "name": "ToolJet",
+        "github": "https://github.com/tooljet/tooljet",
+        "website": "https://www.tooljet.com/"
+      },
+      {
+        "name": "Budibase",
+        "github": "https://github.com/Budibase/budibase",
+        "website": "https://budibase.com/"
+      },
+      {
+        "name": "ILLA",
+        "github": "https://github.com/illacloud/illa-builder",
+        "website": "https://www.illacloud.com/"
+      },
+      {
+        "name": "Windmill",
+        "github": "https://github.com/windmill-labs/windmill",
+        "website": "https://www.windmill.dev/"
+      },
+      {
+        "name": "Openblocks",
+        "github": "https://github.com/openblocks-dev/openblocks",
+        "website": "https://openblocks.dev/"
+      },
+      {
+        "name": "DashPress",
+        "github": "https://github.com/dashpresshq/dashpress",
+        "website": "https://dashpress.io/"
+      }
+    ]
+  },
+  {
+    "category": "Web analytics (Google Analytics alternatives):",
+    "tools": [
+      {
+        "name": "Matomo",
+        "github": "https://github.com/matomo-org/matomo",
+        "website": "https://matomo.org/"
+      },
+      {
+        "name": "Umami",
+        "github": "https://github.com/umami-software/umami",
+        "website": "https://umami.is/"
+      },
+      {
+        "name": "Plausible",
+        "github": "https://github.com/plausible/analytics",
+        "website": "https://plausible.io/"
+      },
+      {
+        "name": "OpenWebAnalytics",
+        "github": "https://github.com/Open-Web-Analytics/Open-Web-Analytics",
+        "website": "https://www.openwebanalytics.com/"
+      }
+    ]
+  },
+  {
+    "category": "Note-taking/ Knowledge management (Evernote alternatives):",
+    "tools": [
+      {
+        "name": "Joplin",
+        "github": "https://github.com/laurent22/joplin",
+        "website": "https://joplinapp.org/"
+      },
+      {
+        "name": "Logseq",
+        "github": "https://github.com/logseq/logseq",
+        "website": "https://logseq.com/"
+      },
+      {
+        "name": "SiYuan",
+        "github": "https://github.com/siyuan-note/siyuan",
+        "website": "https://b3log.org/siyuan/en/"
+      },
+      {
+        "name": "Notesnook",
+        "github": "https://github.com/streetwriters/notesnook",
+        "website": "https://notesnook.com/"
+      }
+    ]
+  },
+  {
+    "category": "Company blogs/ newsletters (WordPress alternatives):",
+    "tools": [
+      {
+        "name": "Ghost",
+        "github": "https://github.com/TryGhost/Ghost",
+        "website": "https://ghost.org/"
+      }
+    ]
+  },
+  {
+    "category": "Blogging platform/ Personal website builder (Medium alternatives):",
+    "tools": [
+      {
+        "name": "WriteFreely",
+        "github": "https://github.com/writefreely/writefreely",
+        "website": "https://writefreely.org/"
+      },
+      {
+        "name": "btw",
+        "github": "https://github.com/btw-so/btw",
+        "website": "https://www.btw.so/"
+      }
+    ]
+  },
+  {
+    "category": "Newsletters (ConvertKit alternatives):",
+    "tools": [
+      {
+        "name": "listmonk",
+        "github": "https://github.com/knadh/listmonk",
+        "website": "https://listmonk.app/"
+      }
+    ]
+  },
+  {
+    "category": "Static website generator:",
+    "tools": [
+      {
+        "name": "Hugo",
+        "github": "https://github.com/gohugoio/hugo",
+        "website": "https://gohugo.io/"
+      },
+      {
+        "name": "Jekyll",
+        "github": "https://github.com/jekyll/jekyll",
+        "website": "https://jekyllrb.com/"
+      },
+      {
+        "name": "Astro",
+        "github": "https://github.com/withastro/astro",
+        "website": "https://astro.build/"
+      },
+      {
+        "name": "11ty",
+        "github": "https://github.com/11ty/eleventy",
+        "website": "https://www.11ty.dev/"
+      },
+      {
+        "name": "Zola",
+        "github": "https://github.com/getzola/zola",
+        "website": "https://getzola.org/"
+      }
+    ]
+  },
+  {
+    "category": "Website builder (Wix, Strikingly, Webflow alternatives):",
+    "tools": [
+      {
+        "name": "Silex",
+        "github": "https://github.com/silexlabs/Silex",
+        "website": "https://www.silex.me/"
+      },
+      {
+        "name": "DoTenX",
+        "github": "https://github.com/dotenx/dotenx",
+        "website": "https://dotenx.com/"
+      },
+      {
+        "name": "Webstudio",
+        "github": "https://github.com/webstudio-is/webstudio",
+        "website": "https://webstudio.is/"
+      }
+    ]
+  },
+  {
+    "category": "Icons (Noun Project alternatives):",
+    "tools": [
+      {
+        "name": "Font-Awesome",
+        "github": "https://github.com/FortAwesome/Font-Awesome",
+        "website": "https://fontawesome.com/"
+      },
+      {
+        "name": "feather",
+        "github": "https://github.com/feathericons/feather",
+        "website": "https://feathericons.com/"
+      },
+      {
+        "name": "Tabler-Icons",
+        "github": "https://github.com/tabler/tabler-icons",
+        "website": "https://tabler-icons.io/"
+      },
+      {
+        "name": "Bootstrap",
+        "github": "https://github.com/twbs/icons",
+        "website": "https://icons.getbootstrap.com/"
+      },
+      {
+        "name": "RemixIcon",
+        "github": "https://github.com/Remix-Design/RemixIcon",
+        "website": "https://remixicon.com/"
+      }
+    ]
+  },
+  {
+    "category": "Collaborative design tool (Figma alternatives):",
+    "tools": [
+      {
+        "name": "Penpot",
+        "github": "https://github.com/penpot/penpot",
+        "website": "https://penpot.app/"
+      },
+      {
+        "name": "Radix Primitives",
+        "github": "https://github.com/radix-ui/primitives",
+        "website": "https://www.radix-ui.com/"
+      },
+      {
+        "name": "Plasmic",
+        "github": "https://github.com/plasmicapp/plasmic",
+        "website": "https://www.plasmic.app/"
+      },
+      {
+        "name": "Quant-UX",
+        "github": "https://github.com/KlausSchaefers/quant-ux",
+        "website": "https://quant-ux.com/"
+      }
+    ]
+  },
+  {
+    "category": "Online forms (Typeform alternatives):",
+    "tools": [
+      {
+        "name": "Formbricks",
+        "github": "https://github.com/formbricks/formbricks",
+        "website": "https://formbricks.com/"
+      }
+    ]
+  },
+  {
+    "category": "Session replay and analytics (Fullstory alternatives):",
+    "tools": [
+      {
+        "name": "highlight",
+        "github": "https://github.com/highlight/highlight",
+        "website": "https://www.highlight.io/"
+      }
+    ]
+  },
+  {
+    "category": "Content Management System/ CMS (Contentful alternatives):",
+    "tools": [
+      {
+        "name": "Strapi",
+        "github": "https://github.com/strapi/strapi",
+        "website": "https://strapi.io/"
+      },
+      {
+        "name": "Payload",
+        "github": "https://github.com/payloadcms/payload",
+        "website": "https://payloadcms.com/"
+      },
+      {
+        "name": "Webiny",
+        "github": "https://github.com/webiny/webiny-js",
+        "website": "https://www.webiny.com/"
+      }
+    ]
+  },
+  {
+    "category": "Log management (Papertrail alternatives):",
+    "tools": [
+      {
+        "name": "Graylog",
+        "github": "https://github.com/Graylog2/graylog2-server",
+        "website": "https://www.graylog.org/"
+      }
+    ]
+  },
+  {
+    "category": "To-do app:",
+    "tools": [
+      {
+        "name": "super-productivity",
+        "github": "https://github.com/johannesjo/super-productivity",
+        "website": "http://super-productivity.com/"
+      }
+    ]
+  },
+  {
+    "category": "Community management:",
+    "tools": [
+      {
+        "name": "Discourse",
+        "github": "https://github.com/discourse/discourse",
+        "website": "https://www.discourse.org/"
+      },
+      {
+        "name": "Flarum",
+        "github": "https://github.com/flarum/flarum",
+        "website": "https://flarum.org/"
+      },
+      {
+        "name": "crowd.dev",
+        "github": "https://github.com/CrowdDotDev/crowd.dev",
+        "website": "https://www.crowd.dev/"
+      }
+    ]
+  },
+  {
+    "category": "Kanban board (Trello alternatives):",
+    "tools": [
+      {
+        "name": "WeKan",
+        "github": "https://github.com/wekan/wekan",
+        "website": "https://wekan.github.io/"
+      },
+      {
+        "name": "Focalboard",
+        "github": "https://github.com/mattermost/focalboard",
+        "website": "https://www.focalboard.com/"
+      },
+      {
+        "name": "Kanboard",
+        "github": "https://github.com/kanboard/kanboard",
+        "website": "https://kanboard.org/"
+      },
+      {
+        "name": "Planka",
+        "github": "https://github.com/plankanban/planka",
+        "website": "https://planka.app/"
+      }
+    ]
+  },
+  {
+    "category": "Social network/ Micro-blogging (Twitter alternatives):",
+    "tools": [
+      {
+        "name": "Mastodon",
+        "github": "https://github.com/mastodon/mastodon",
+        "website": "https://joinmastodon.org/"
+      },
+      {
+        "name": "HumHub",
+        "github": "https://github.com/humhub/humhub",
+        "website": "https://www.humhub.com/"
+      },
+      {
+        "name": "Elgg",
+        "github": "https://github.com/elgg/elgg",
+        "website": "https://elgg.org/"
+      }
+    ]
+  },
+  {
+    "category": "Ticket management (Zendesk, Freshdesk alternatives):",
+    "tools": [
+      {
+        "name": "Zammad",
+        "github": "https://github.com/zammad/zammad",
+        "website": "https://zammad.com"
+      },
+      {
+        "name": "Peppermint",
+        "github": "https://github.com/Peppermint-Lab/peppermint",
+        "website": "https://peppermint.sh/"
+      }
+    ]
+  },
+  {
+    "category": "Scheduling tool (Calendly alternatives):",
+    "tools": [
+      {
+        "name": "Cal.com",
+        "github": "https://github.com/calcom/cal.com",
+        "website": "https://cal.com/"
+      }
+    ]
+  },
+  {
+    "category": "Smart spreadsheet (Airtable alternatives):",
+    "tools": [
+      {
+        "name": "NocoDB",
+        "github": "https://github.com/nocodb/nocodb",
+        "website": "https://nocodb.com/"
+      },
+      {
+        "name": "Luckysheet",
+        "github": "https://github.com/dream-num/Luckysheet",
+        "website": "https://dream-num.github.io/LuckysheetDocs/"
+      },
+      {
+        "name": "APITable",
+        "github": "https://github.com/apitable/apitable",
+        "website": "https://apitable.com/"
+      },
+      {
+        "name": "Grist",
+        "github": "https://github.com/gristlabs/grist-core",
+        "website": "https://www.getgrist.com/"
+      }
+    ]
+  },
+  {
+    "category": "Team communication (Slack, Discord alternatives):",
+    "tools": [
+      {
+        "name": "Rocket.chat",
+        "github": "https://github.com/RocketChat/Rocket.Chat",
+        "website": "https://www.rocket.chat/"
+      },
+      {
+        "name": "Mattermost",
+        "github": "https://github.com/mattermost/mattermost-server",
+        "website": "https://mattermost.com/"
+      },
+      {
+        "name": "Zulip",
+        "github": "https://github.com/zulip/zulip",
+        "website": "https://zulip.com/"
+      },
+      {
+        "name": "Element",
+        "github": "https://github.com/vector-im/element-web",
+        "website": "https://element.io"
+      },
+      {
+        "name": "Spacebar",
+        "github": "https://github.com/spacebarchat/spacebarchat",
+        "website": "https://spacebar.chat/"
+      },
+      {
+        "name": "RelatedChat",
+        "github": "https://github.com/relatedcode/Messenger",
+        "website": "https://relatedcode.com/"
+      }
+    ]
+  },
+  {
+    "category": "Live chat (Intercom alternatives):",
+    "tools": [
+      {
+        "name": "Chatwoot",
+        "github": "https://github.com/chatwoot/chatwoot",
+        "website": "https://www.chatwoot.com/"
+      }
+    ]
+  },
+  {
+    "category": "User authentication (Auth0 alternatives):",
+    "tools": [
+      {
+        "name": "Keycloak",
+        "github": "https://github.com/keycloak/keycloak",
+        "website": "https://www.keycloak.org/"
+      },
+      {
+        "name": "SuperTokens",
+        "github": "https://github.com/supertokens/supertokens-core",
+        "website": "https://supertokens.com/"
+      },
+      {
+        "name": "Logto",
+        "github": "https://github.com/logto-io/logto",
+        "website": "https://logto.io/"
+      }
+    ]
+  },
+  {
+    "category": "Digital search experience (Algolia alternatives):",
+    "tools": [
+      {
+        "name": "Typesense",
+        "github": "https://github.com/typesense/typesense",
+        "website": "https://typesense.org/"
+      }
+    ]
+  },
+  {
+    "category": "Backend-as-a-Service (Firebase alternatives):",
+    "tools": [
+      {
+        "name": "Supabase",
+        "github": "https://github.com/supabase/supabase",
+        "website": "https://supabase.com/"
+      },
+      {
+        "name": "Appwrite",
+        "github": "https://github.com/appwrite/appwrite",
+        "website": "https://appwrite.io/"
+      },
+      {
+        "name": "Nhost",
+        "github": "https://github.com/nhost/nhost",
+        "website": "https://nhost.io/"
+      }
+    ]
+  },
+  {
+    "category": "Customer data platform/ CDP (Segment alternatives):",
+    "tools": [
+      {
+        "name": "Jitsu",
+        "github": "https://github.com/jitsucom/jitsu",
+        "website": "https://jitsu.com/"
+      }
+    ]
+  },
+  {
+    "category": "Link shortener (Bitly alternatives):",
+    "tools": [
+      {
+        "name": "Dub",
+        "github": "https://github.com/steven-tey/dub",
+        "website": "https://dub.sh/"
+      }
+    ]
+  },
+  {
+    "category": "Online store builder (Shopify alternatives):",
+    "tools": [
+      {
+        "name": "Medusa",
+        "github": "https://github.com/medusajs/medusa",
+        "website": "https://medusajs.com/"
+      },
+      {
+        "name": "Vue Storefront",
+        "github": "https://github.com/vuestorefront/vue-storefront",
+        "website": "https://vuestorefront.io/"
+      },
+      {
+        "name": "Sylius",
+        "github": "https://github.com/sylius/sylius",
+        "website": "https://sylius.com/"
+      },
+      {
+        "name": "Presta",
+        "github": "https://github.com/PrestaShop/PrestaShop",
+        "website": "https://www.prestashop-project.org/"
+      },
+      {
+        "name": "Bagisto",
+        "github": "https://github.com/bagisto/bagisto",
+        "website": "https://bagisto.com/"
+      },
+      {
+        "name": "Litekart",
+        "github": "https://github.com/itswadesh/svelte-commerce",
+        "website": "https://litekart.in/"
+      }
+    ]
+  },
+  {
+    "category": "Password manager (1Password alternatives):",
+    "tools": [
+      {
+        "name": "Bitwarden",
+        "github": "https://github.com/bitwarden/clients",
+        "website": "https://bitwarden.com/"
+      },
+      {
+        "name": "Passbolt",
+        "github": "https://github.com/passbolt/passbolt_api",
+        "website": "https://www.passbolt.com/"
+      },
+      {
+        "name": "Padloc",
+        "github": "https://github.com/padloc/padloc",
+        "website": "https://padloc.app/"
+      }
+    ]
+  },
+  {
+    "category": "Email delivery (Mailgun, SendGrid alternatives):",
+    "tools": [
+      {
+        "name": "Postal",
+        "github": "https://github.com/postalserver/postal",
+        "website": "https://docs.postalserver.io/"
+      }
+    ]
+  },
+  {
+    "category": "Usage-based billing (Stripe, Chargebee alternatives):",
+    "tools": [
+      {
+        "name": "Lago",
+        "github": "https://github.com/getlago/lago",
+        "website": "https://www.getlago.com/"
+      }
+    ]
+  },
+  {
+    "category": "File uploader:",
+    "tools": [
+      {
+        "name": "Uppy",
+        "github": "https://github.com/transloadit/uppy",
+        "website": "https://uppy.io/"
+      }
+    ]
+  },
+  {
+    "category": "Notification infrastructure:",
+    "tools": [
+      {
+        "name": "Novu",
+        "github": "https://github.com/novuhq/novu",
+        "website": "https://novu.co/"
+      },
+      {
+        "name": "ntfy",
+        "github": "https://github.com/binwiederhier/ntfy",
+        "website": "https://ntfy.sh/"
+      },
+      {
+        "name": "Gotify",
+        "github": "https://github.com/gotify/server",
+        "website": "https://gotify.net/"
+      },
+      {
+        "name": "Apprise",
+        "github": "https://github.com/caronc/apprise",
+        "website": "https://hub.docker.com/r/caronc/apprise"
+      }
+    ]
+  },
+  {
+    "category": "API development (Postman alternatives):",
+    "tools": [
+      {
+        "name": "hoppscotch",
+        "github": "https://github.com/hoppscotch/hoppscotch",
+        "website": "https://hoppscotch.io/"
+      },
+      {
+        "name": "Insomnia",
+        "github": "https://github.com/Kong/insomnia",
+        "website": "https://insomnia.rest/"
+      },
+      {
+        "name": "Firecamp",
+        "github": "https://github.com/firecamp-dev/firecamp",
+        "website": "https://firecamp.dev"
+      }
+    ]
+  },
+  {
+    "category": "Programmatic videos:",
+    "tools": [
+      {
+        "name": "Remotion",
+        "github": "https://github.com/remotion-dev/remotion",
+        "website": "https://www.remotion.dev/"
+      }
+    ]
+  },
+  {
+    "category": "Data warehouse (Snowflake alternatives):",
+    "tools": [
+      {
+        "name": "Databend",
+        "github": "https://github.com/datafuselabs/databend",
+        "website": "https://databend.rs/"
+      }
+    ]
+  },
+  {
+    "category": "Annotation:",
+    "tools": [
+      {
+        "name": "doccano",
+        "github": "https://github.com/doccano/doccano",
+        "website": "https://doccano.herokuapp.com/"
+      }
+    ]
+  },
+  {
+    "category": "Feature management/ Feature flag:",
+    "tools": [
+      {
+        "name": "Unleash",
+        "github": "https://github.com/Unleash/unleash",
+        "website": "https://www.getunleash.io/"
+      },
+      {
+        "name": "Flagsmith",
+        "github": "https://github.com/flagsmith/flagsmith",
+        "website": "https://flagsmith.com"
+      },
+      {
+        "name": "Flagr",
+        "github": "https://github.com/openflagr/flagr",
+        "website": "https://openflagr.github.io/flagr/"
+      },
+      {
+        "name": "FeatBit",
+        "github": "https://github.com/featbit/featbit",
+        "website": "https://www.featbit.co/"
+      }
+    ]
+  },
+  {
+    "category": "Product analytics (Mixpanel, Amptitude alternatives):",
+    "tools": [
+      {
+        "name": "PostHog",
+        "github": "https://github.com/PostHog/posthog",
+        "website": "https://posthog.com/"
+      }
+    ]
+  },
+  {
+    "category": "Video conferencing (Google Meet, Skype alternatives):",
+    "tools": [
+      {
+        "name": "Jitsi Meet",
+        "github": "https://github.com/jitsi/jitsi-meet",
+        "website": "https://jitsi.org/"
+      },
+      {
+        "name": "Element Call",
+        "github": "https://github.com/vector-im/element-call",
+        "website": "https://call.element.io/"
+      }
+    ]
+  },
+  {
+    "category": "Personal cloud (Dropbox alternatives):",
+    "tools": [
+      {
+        "name": "Nextcloud",
+        "github": "https://github.com/nextcloud/server",
+        "website": "https://nextcloud.com/"
+      }
+    ]
+  },
+  {
+    "category": "Business intelligence (Tableau, Looker, Power BI alternatives):",
+    "tools": [
+      {
+        "name": "Metabase",
+        "github": "https://github.com/metabase/metabase",
+        "website": "https://www.metabase.com/"
+      }
+    ]
+  },
+  {
+    "category": "Platform-as-a-Service/ PaaS (Heroku, Netlify, Vercel alternatives):",
+    "tools": [
+      {
+        "name": "Dokku",
+        "github": "https://github.com/dokku/dokku",
+        "website": "https://dokku.com/"
+      },
+      {
+        "name": "CapRover",
+        "github": "https://github.com/caprover/caprover",
+        "website": "https://caprover.com/"
+      },
+      {
+        "name": "Coolify",
+        "github": "https://github.com/coollabsio/coolify",
+        "website": "https://coolify.io/"
+      },
+      {
+        "name": "Kubero",
+        "github": "https://github.com/kubero-dev/kubero",
+        "website": "https://www.kubero.dev/"
+      }
+    ]
+  },
+  {
+    "category": "Unified Communication Platform & Telephony API (Twilio alternatives):",
+    "tools": [
+      {
+        "name": "Fonoster",
+        "github": "https://github.com/fonoster/fonoster",
+        "website": "https://fonoster.com/"
+      }
+    ]
+  },
+  {
+    "category": "Bug tracking/ Error tracking (Sentry alternatives):",
+    "tools": [
+      {
+        "name": "Bugzilla",
+        "github": "https://github.com/bugzilla/bugzilla",
+        "website": "https://www.bugzilla.org/"
+      }
+    ]
+  },
+  {
+    "category": "Invoicing:",
+    "tools": [
+      {
+        "name": "Invoice Ninja",
+        "github": "https://github.com/invoiceninja/invoiceninja",
+        "website": "https://invoiceninja.com/"
+      },
+      {
+        "name": "Crater",
+        "github": "https://github.com/crater-invoice/crater",
+        "website": "https://crater.financial/"
+      },
+      {
+        "name": "SolidInvoice",
+        "github": "https://github.com/SolidInvoice/SolidInvoice",
+        "website": "https://solidinvoice.co/"
+      }
+    ]
+  },
+  {
+    "category": "Graph database:",
+    "tools": [
+      {
+        "name": "JanusGraph",
+        "github": "https://github.com/JanusGraph/janusgraph",
+        "website": "https://janusgraph.org/"
+      },
+      {
+        "name": "Memgraph",
+        "github": "https://github.com/memgraph/memgraph",
+        "website": "https://memgraph.com/"
+      }
+    ]
+  },
+  {
+    "category": "Vector database:",
+    "tools": [
+      {
+        "name": "Milvus",
+        "github": "https://github.com/milvus-io/milvus",
+        "website": "https://milvus.io/"
+      },
+      {
+        "name": "Weaviate",
+        "github": "https://github.com/weaviate/weaviate",
+        "website": "https://weaviate.io/"
+      },
+      {
+        "name": "activeloopai/deeplake",
+        "github": "https://github.com/activeloopai/deeplake",
+        "website": "https://www.activeloop.ai/"
+      },
+      {
+        "name": "CozoDB",
+        "github": "https://github.com/cozodb/cozo",
+        "website": "https://www.cozodb.org/"
+      }
+    ]
+  },
+  {
+    "category": "Time-series database:",
+    "tools": [
+      {
+        "name": "Prometheus",
+        "github": "https://github.com/prometheus/prometheus",
+        "website": "https://prometheus.io/"
+      },
+      {
+        "name": "QuestDB",
+        "github": "https://github.com/questdb/questdb",
+        "website": "https://questdb.io/"
+      },
+      {
+        "name": "OpenTSDB",
+        "github": "https://github.com/OpenTSDB/opentsdb",
+        "website": "http://opentsdb.net/"
+      },
+      {
+        "name": "KairosDB",
+        "github": "https://github.com/kairosdb/kairosdb",
+        "website": "http://kairosdb.github.io/"
+      }
+    ]
+  },
+  {
+    "category": "Document signing (DocuSign alternatives):",
+    "tools": [
+      {
+        "name": "Documenso",
+        "github": "https://github.com/documenso/documenso",
+        "website": "https://documenso.com/"
+      }
+    ]
+  },
+  {
+    "category": "Workflow automation (Zapier alternatives):",
+    "tools": [
+      {
+        "name": "Automatisch",
+        "github": "https://github.com/automatisch/automatisch",
+        "website": "https://automatisch.io/"
+      },
+      {
+        "name": "Activepieces",
+        "github": "https://github.com/activepieces/activepieces",
+        "website": "https://activepieces.com/"
+      }
+    ]
+  },
+  {
+    "category": "Project Management (Asana, JIRA alternatives):",
+    "tools": [
+      {
+        "name": "Plane",
+        "github": "https://github.com/makeplane/plane",
+        "website": "https://plane.so/"
+      },
+      {
+        "name": "Leantime",
+        "github": "https://github.com/Leantime/leantime",
+        "website": "https://leantime.io/"
+      }
+    ]
+  },
+  {
+    "category": "Time Tracking (Toggl, Clockify alternatives)",
+    "tools": [
+      {
+        "name": "Kimai",
+        "github": "https://github.com/kimai/kimai",
+        "website": "https://www.kimai.org/"
+      },
+      {
+        "name": "solidtime",
+        "github": "https://github.com/solidtime-io/solidtime",
+        "website": "https://www.solidtime.io/"
+      }
+    ]
+  },
+  {
+    "category": "Personal finance (Empower Personal Wealth alternatives):",
+    "tools": [
+      {
+        "name": "Ghostfolio",
+        "github": "https://github.com/ghostfolio/ghostfolio",
+        "website": "https://ghostfol.io"
+      },
+      {
+        "name": "Firefly III",
+        "github": "https://github.com/firefly-iii/firefly-iii",
+        "website": "https://firefly-iii.org"
+      }
+    ]
+  },
+  {
+    "category": "CRM (Salesforce, Hubspot alternatives):",
+    "tools": [
+      {
+        "name": "Twenty",
+        "github": "https://github.com/twentyhq/twenty",
+        "website": "https://twenty.com"
+      }
+    ]
+  },
+  {
+    "category": "Integration Platform (Tray.io, Merge.dev alternatives)",
+    "tools": [
+      {
+        "name": "Revert",
+        "github": "https://github.com/revertinc/revert",
+        "website": "https://revert.dev"
+      }
+    ]
+  },
+  {
+    "category": "Online Survey Platform (SurveyMonkey, Qualtrics alternatives)",
+    "tools": [
+      {
+        "name": "LimeSurvey",
+        "github": "https://github.com/LimeSurvey/LimeSurvey",
+        "website": "https://www.limesurvey.org"
+      }
+    ]
+  }
+]

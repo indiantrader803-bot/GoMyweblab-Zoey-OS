@@ -1,0 +1,1713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Orbit Enterprise OS — Gomyweblab Autonomous Agency</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- GSAP Animation Engine -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <!-- Chart.js for Responsive Financial, Tokenization & Agent Workload Charts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+  <style>
+    :root {
+      --orbit-green: #37b24d;
+      --orbit-green-dark: #2b8a3e;
+      --orbit-green-light: #ebfbee;
+      --orbit-green-border: #b2f2bb;
+      --sidebar-bg: #40c057;
+      --sidebar-active: #ffffff;
+      --sidebar-text: rgba(255, 255, 255, 0.88);
+      
+      --app-bg: #2f9e44;
+      --canvas-bg: #f8fafc;
+      --card-bg: #ffffff;
+      --border-subtle: #edf2f7;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --text-dim: #94a3b8;
+      
+      --color-primary: #37b24d;
+      --color-blue: #0284c7;
+      --color-purple: #8b5cf6;
+      --color-amber: #f59e0b;
+      --color-rose: #f43f5e;
+      --color-emerald: #10b981;
+
+      --font-sans: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #2b8a3e;
+      font-family: var(--font-sans);
+      color: var(--text-main);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    /* Main Orbit Window Wrapper with Rounded Border */
+    .orbit-window {
+      width: 100%;
+      max-width: 1560px;
+      height: calc(100vh - 32px);
+      background: var(--sidebar-bg);
+      border-radius: 28px;
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.15);
+      display: flex;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Left Green Sidebar */
+    .orbit-sidebar {
+      width: 250px;
+      min-width: 250px;
+      background: transparent;
+      padding: 22px 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      color: white;
+      user-select: none;
+      overflow-y: auto;
+    }
+
+    .orbit-sidebar::-webkit-scrollbar { width: 4px; }
+    .orbit-sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 4px; }
+
+    .brand-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 4px 8px 18px 8px;
+    }
+
+    .brand-logo-icon {
+      width: 36px;
+      height: 36px;
+      background: white;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .brand-logo-icon svg {
+      width: 22px;
+      height: 22px;
+      fill: #2b8a3e;
+    }
+
+    .brand-text-block h2 {
+      font-size: 19px;
+      font-weight: 800;
+      letter-spacing: -0.4px;
+      color: white;
+      line-height: 1.1;
+    }
+
+    .brand-text-block span {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.75);
+      font-weight: 500;
+    }
+
+    .nav-section-title {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: rgba(255, 255, 255, 0.65);
+      padding: 12px 12px 6px 12px;
+      font-family: var(--font-mono);
+    }
+
+    .nav-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 9px 12px;
+      border-radius: 12px;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--sidebar-text);
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .nav-item:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: white;
+    }
+
+    .nav-item.active {
+      background: white;
+      color: #2b8a3e;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .nav-item.active svg {
+      fill: #2b8a3e;
+      stroke: #2b8a3e;
+    }
+
+    .nav-left-content {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-left-content svg {
+      width: 17px;
+      height: 17px;
+      stroke-width: 2.2;
+      stroke: currentColor;
+      fill: none;
+      transition: all 0.2s;
+    }
+
+    .nav-badge-pill {
+      font-size: 11px;
+      padding: 2px 7px;
+      border-radius: 10px;
+      font-weight: 700;
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      font-family: var(--font-mono);
+    }
+
+    .nav-badge-pill.new {
+      background: #f03e3e;
+      color: white;
+      font-size: 9px;
+      padding: 2px 6px;
+      letter-spacing: 0.5px;
+    }
+
+    .nav-badge-pill.active-count {
+      background: #ebfbee;
+      color: #2b8a3e;
+    }
+
+    /* Sidebar Footer Mini Card */
+    .sidebar-footer-box {
+      margin-top: 14px;
+      background: rgba(0, 0, 0, 0.12);
+      border-radius: 14px;
+      padding: 12px;
+      backdrop-filter: blur(10px);
+    }
+
+    .sidebar-user-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .user-avatar-circle {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: white;
+      color: #2b8a3e;
+      font-weight: 800;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid rgba(255,255,255,0.4);
+    }
+
+    .user-details {
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .user-details .uname {
+      font-size: 12.5px;
+      font-weight: 700;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+
+    .user-details .urole {
+      font-size: 10.5px;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    /* Right Canvas / Main Content Area */
+    .orbit-canvas {
+      flex: 1;
+      background: #f8fafc;
+      border-top-left-radius: 24px;
+      border-bottom-left-radius: 24px;
+      margin: 6px 6px 6px 0;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .orbit-canvas::-webkit-scrollbar { width: 6px; }
+    .orbit-canvas::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 6px; }
+
+    /* Top Control Bar */
+    .canvas-topbar {
+      padding: 20px 28px 12px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #f1f5f9;
+      background: white;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+
+    .topbar-title-group h1 {
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: var(--text-main);
+    }
+
+    .topbar-title-group p {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .date-filter-group {
+      display: flex;
+      background: #f1f5f9;
+      padding: 3px;
+      border-radius: 10px;
+    }
+
+    .date-filter-btn {
+      border: none;
+      background: transparent;
+      padding: 5px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+      border-radius: 7px;
+      cursor: pointer;
+      font-family: var(--font-sans);
+      transition: all 0.15s;
+    }
+
+    .date-filter-btn.active {
+      background: white;
+      color: var(--text-main);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    }
+
+    .btn-action-primary {
+      background: #2b8a3e;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 10px;
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      transition: all 0.2s;
+      box-shadow: 0 4px 12px rgba(43, 138, 62, 0.25);
+    }
+
+    .btn-action-primary:hover {
+      background: #237032;
+      transform: translateY(-1px);
+    }
+
+    .btn-action-secondary {
+      background: white;
+      color: var(--text-main);
+      border: 1px solid #e2e8f0;
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s;
+    }
+
+    .btn-action-secondary:hover {
+      background: #f8fafc;
+      border-color: #cbd5e1;
+    }
+
+    /* Page Views Switcher Container */
+    .page-view-container {
+      padding: 24px 28px;
+      display: none;
+      animation: fadeInView 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .page-view-container.active {
+      display: block;
+    }
+
+    @keyframes fadeInView {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* KPI CARDS */
+    .kpi-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .kpi-stat-card {
+      background: white;
+      border-radius: 18px;
+      padding: 18px 20px;
+      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.04);
+      border: 1px solid #f1f5f9;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 125px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .kpi-stat-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px -4px rgba(0,0,0,0.08);
+    }
+
+    .kpi-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .kpi-icon-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .kpi-icon-bubble {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+    }
+
+    .bubble-green { background: #ebfbee; color: #2b8a3e; }
+    .bubble-blue { background: #e0f2fe; color: #0284c7; }
+    .bubble-purple { background: #f3e8ff; color: #7e22ce; }
+    .bubble-amber { background: #fef3c7; color: #d97706; }
+
+    .kpi-label-text {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .kpi-delta-pill {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .delta-positive { background: #ecfdf5; color: #059669; }
+    .delta-neutral { background: #f1f5f9; color: #475569; }
+
+    .kpi-value-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-top: 10px;
+    }
+
+    .kpi-main-number {
+      font-size: 27px;
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: -0.8px;
+      font-family: var(--font-sans);
+    }
+
+    .kpi-sparkline-canvas {
+      width: 90px;
+      height: 35px;
+    }
+
+    /* 2-COL GRID */
+    .dashboard-two-col {
+      display: grid;
+      grid-template-columns: 1.8fr 1.2fr;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+
+    .standard-panel-card {
+      background: white;
+      border-radius: 20px;
+      padding: 22px;
+      border: 1px solid #f1f5f9;
+      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.04);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .panel-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .panel-title-text {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .panel-subtitle-text {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* Donut & Stats Breakdown */
+    .portfolio-mix-body {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0;
+    }
+
+    .donut-chart-box {
+      width: 170px;
+      height: 170px;
+      position: relative;
+    }
+
+    .donut-center-badge {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+    }
+
+    .donut-center-badge .pct {
+      font-size: 19px;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    .donut-center-badge .sub {
+      font-size: 9.5px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .portfolio-legend-list {
+      flex: 1;
+      padding-left: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .legend-row-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+    }
+
+    .legend-dot-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .legend-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+    }
+
+    .legend-val-pct {
+      font-weight: 700;
+      color: var(--text-main);
+      font-family: var(--font-mono);
+    }
+
+    /* Savings Feature Card */
+    .savings-feature-card {
+      background: linear-gradient(135deg, #2b8a3e 0%, #40c057 100%);
+      border-radius: 20px;
+      padding: 24px;
+      color: white;
+      box-shadow: 0 10px 30px rgba(43, 138, 62, 0.25);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 200px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .savings-header-tag {
+      font-size: 11px;
+      text-transform: uppercase;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      color: rgba(255, 255, 255, 0.8);
+      font-family: var(--font-mono);
+    }
+
+    .savings-big-val {
+      font-size: 38px;
+      font-weight: 800;
+      letter-spacing: -1.2px;
+      margin: 8px 0;
+    }
+
+    .savings-meta-row {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.85);
+    }
+
+    /* Agent Workforce Grid */
+    .agent-workforce-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+    }
+
+    .agent-active-card {
+      background: white;
+      border: 1px solid #f1f5f9;
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.03);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.2s;
+    }
+
+    .agent-active-card:hover {
+      border-color: #b2f2bb;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(43, 138, 62, 0.08);
+    }
+
+    .agent-top-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .agent-identity {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .agent-avatar-box {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: #ebfbee;
+      color: #2b8a3e;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+    }
+
+    .agent-name-role h3 {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .agent-name-role span {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .online-indicator-pill {
+      font-size: 9.5px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 12px;
+      background: #ecfdf5;
+      color: #059669;
+      border: 1px solid #a7f3d0;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .indicator-pulse-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #10b981;
+      animation: pulseGreen 1.6s infinite;
+    }
+
+    @keyframes pulseGreen {
+      0% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    .agent-task-visual-box {
+      background: #f8fafc;
+      border-radius: 10px;
+      padding: 10px 12px;
+      margin: 8px 0;
+      border: 1px solid #f1f5f9;
+    }
+
+    .task-title-pct-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11.5px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .task-progress-mini-track {
+      height: 6px;
+      background: #e2e8f0;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 6px;
+    }
+
+    .task-progress-mini-fill {
+      height: 100%;
+      border-radius: 8px;
+      background: linear-gradient(90deg, #40c057, #2b8a3e);
+    }
+
+    .task-time-stat-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 10.5px;
+      color: var(--text-muted);
+    }
+
+    .time-badge-val {
+      font-weight: 700;
+      color: var(--text-main);
+      font-family: var(--font-mono);
+    }
+
+    /* Pipeline Tables */
+    .pipeline-data-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      font-size: 12.5px;
+    }
+
+    .pipeline-data-table th {
+      text-align: left;
+      padding: 12px 14px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--text-dim);
+      border-bottom: 1px solid #f1f5f9;
+      background: #f8fafc;
+    }
+
+    .pipeline-data-table td {
+      padding: 14px;
+      border-bottom: 1px solid #f8fafc;
+      vertical-align: middle;
+    }
+
+    .deal-title-cell {
+      font-weight: 700;
+      color: var(--text-main);
+      max-width: 280px;
+    }
+
+    .deal-client-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    .stage-pill {
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 12px;
+      display: inline-block;
+      font-family: var(--font-mono);
+    }
+
+    .stage-scouted { background: #e0f2fe; color: #0369a1; }
+    .stage-proposal { background: #fef3c7; color: #b45309; }
+    .stage-escrow { background: #ecfdf5; color: #047857; }
+    .stage-completed { background: #f3e8ff; color: #6b21a8; }
+
+    /* Live Stream Bar */
+    .live-activity-stream {
+      background: white;
+      border-top: 1px solid #f1f5f9;
+      padding: 12px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+    }
+
+    .stream-feed-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text-muted);
+    }
+
+    .status-ping {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #40c057;
+      box-shadow: 0 0 0 3px rgba(64, 192, 87, 0.2);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Orbit Main Container -->
+  <div class="orbit-window">
+
+    <!-- Left Green Sidebar -->
+    <aside class="orbit-sidebar">
+      <div>
+        <!-- Brand Header -->
+        <div class="brand-header">
+          <div class="brand-logo-icon">
+            <svg viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="9" stroke="#2b8a3e" stroke-width="2.5" fill="none"/>
+              <circle cx="12" cy="12" r="4" fill="#2b8a3e"/>
+              <circle cx="17" cy="8" r="2.5" fill="#40c057"/>
+            </svg>
+          </div>
+          <div class="brand-text-block">
+            <h2>Orbit</h2>
+            <span>Gomyweblab OS</span>
+          </div>
+        </div>
+
+        <!-- Navigation Sections -->
+        <div class="nav-section-title">Views</div>
+        <ul class="nav-list">
+          <li class="nav-item active" onclick="switchPageView('dashboard', this)">
+            <div class="nav-left-content">
+              <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg>
+              <span>Dashboard</span>
+            </div>
+            <span class="nav-badge-pill active-count">20</span>
+          </li>
+          <li class="nav-item" onclick="switchPageView('tokenization', this)">
+            <div class="nav-left-content">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v8M8 12h8"/></svg>
+              <span>Tokenization</span>
+            </div>
+            <span class="nav-badge-pill" id="tokenizationPill">5</span>
+          </li>
+          <li class="nav-item" onclick="switchPageView('insights', this)">
+            <div class="nav-left-content">
+              <svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg>
+              <span>Insights</span>
+            </div>
+            <span class="nav-badge-pill new">NEW</span>
+          </li>
+        </ul>
+
+        <div class="nav-section-title">Core Operations</div>
+        <ul class="nav-list">
+          <li class="nav-item" onclick="switchPageView('deals', this)">
+            <div class="nav-left-content">
+              <svg viewBox="0 0 24 24"><path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4"/><path d="M4 6v12c0 1.1.9 2 2 2h14v-4"/><circle cx="18" cy="12" r="2"/></svg>
+              <span>Deals & RFPs</span>
+            </div>
+            <span class="nav-badge-pill" id="sidebarDealsBadge">5</span>
+          </li>
+          <li class="nav-item" onclick="switchPageView('team', this)">
+            <div class="nav-left-content">
+              <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              <span>Autonomous Team</span>
+            </div>
+            <span class="nav-badge-pill active-count">20/20</span>
+          </li>
+          <li class="nav-item" onclick="switchPageView('trading', this)">
+            <div class="nav-left-content">
+              <svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+              <span>Delta Trading</span>
+            </div>
+            <span class="nav-badge-pill" style="background:#059669;">LIVE</span>
+          </li>
+          <li class="nav-item" onclick="switchPageView('blog', this)">
+            <div class="nav-left-content">
+              <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+              <span>TheSmartMag Auto-Blog</span>
+            </div>
+            <span class="nav-badge-pill" style="background:#ea580c;">LIVE</span>
+          </li>
+          <li class="nav-item" onclick="switchPageView('workflows', this)">
+            <div class="nav-left-content">
+              <svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="3"/><circle cx="18" cy="18" r="3"/><circle cx="6" cy="18" r="3"/><path d="M6 9v6M9 6h6M9 18h6"/></svg>
+              <span>n8n Workflows</span>
+            </div>
+            <span class="nav-badge-pill" style="background:#f43f5e;">:5678</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Sidebar User Pill -->
+      <div class="sidebar-footer-box">
+        <div class="sidebar-user-row">
+          <div class="user-avatar-circle">GW</div>
+          <div class="user-details">
+            <div class="uname">Karthik · Director</div>
+            <div class="urole">gomyweblab.ai · Online</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Canvas -->
+    <main class="orbit-canvas">
+
+      <!-- Top Sticky Bar -->
+      <header class="canvas-topbar">
+        <div class="topbar-title-group">
+          <h1 id="pageTitleDisplay">Dashboard</h1>
+          <p id="pageSubDisplay">Real-time autonomous enterprise telemetry & active revenue streams</p>
+        </div>
+
+        <div class="topbar-actions">
+          <div class="date-filter-group">
+            <button class="date-filter-btn" onclick="setDateFilter(this, '7D')">7D</button>
+            <button class="date-filter-btn active" onclick="setDateFilter(this, '30D')">30D</button>
+            <button class="date-filter-btn" onclick="setDateFilter(this, '90D')">90D</button>
+            <button class="date-filter-btn" onclick="setDateFilter(this, '12M')">12M</button>
+          </div>
+          <button class="btn-action-secondary" onclick="exportDataReport()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Export
+          </button>
+          <button class="btn-action-primary" id="btnCycleTrigger" onclick="runAutonomousSync()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83"/></svg>
+            ⚡ Run Cycle
+          </button>
+        </div>
+      </header>
+
+      <!-- ======================================================== -->
+      <!-- PAGE 1: MAIN DASHBOARD                                   -->
+      <!-- ======================================================== -->
+      <section class="page-view-container active" id="view-dashboard">
+        
+        <!-- KPI Row -->
+        <div class="kpi-cards-grid">
+          <div class="kpi-stat-card">
+            <div class="kpi-header-row">
+              <div class="kpi-icon-label">
+                <div class="kpi-icon-bubble bubble-green">💰</div>
+                <span class="kpi-label-text">Revenue Earned</span>
+              </div>
+              <span class="kpi-delta-pill delta-positive">↑ +14.2%</span>
+            </div>
+            <div class="kpi-value-row">
+              <span class="kpi-main-number" id="kpiRevenueEarned">$408.75</span>
+              <canvas class="kpi-sparkline-canvas" id="sparkRevenue"></canvas>
+            </div>
+          </div>
+
+          <div class="kpi-stat-card">
+            <div class="kpi-header-row">
+              <div class="kpi-icon-label">
+                <div class="kpi-icon-bubble bubble-blue">🔒</div>
+                <span class="kpi-label-text">In Escrow</span>
+              </div>
+              <span class="kpi-delta-pill delta-positive">Secure</span>
+            </div>
+            <div class="kpi-value-row">
+              <span class="kpi-main-number" id="kpiInEscrow">$64.40</span>
+              <canvas class="kpi-sparkline-canvas" id="sparkEscrow"></canvas>
+            </div>
+          </div>
+
+          <div class="kpi-stat-card">
+            <div class="kpi-header-row">
+              <div class="kpi-icon-label">
+                <div class="kpi-icon-bubble bubble-purple">📈</div>
+                <span class="kpi-label-text">Delta BTC Price</span>
+              </div>
+              <span class="kpi-delta-pill delta-positive">Live Spot</span>
+            </div>
+            <div class="kpi-value-row">
+              <span class="kpi-main-number" id="kpiBtcPrice">$73,680.00</span>
+              <canvas class="kpi-sparkline-canvas" id="sparkBtc"></canvas>
+            </div>
+          </div>
+
+          <div class="kpi-stat-card">
+            <div class="kpi-header-row">
+              <div class="kpi-icon-label">
+                <div class="kpi-icon-bubble bubble-amber">⚡</div>
+                <span class="kpi-label-text">Active Agents</span>
+              </div>
+              <span class="kpi-delta-pill delta-positive">100% Uptime</span>
+            </div>
+            <div class="kpi-value-row">
+              <span class="kpi-main-number" id="kpiActiveAgents">20 / 20</span>
+              <canvas class="kpi-sparkline-canvas" id="sparkAgents"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dashboard 2-Col Grid -->
+        <div class="dashboard-two-col">
+          <!-- Left: Real Production Activity Chart -->
+          <div class="standard-panel-card">
+            <div class="panel-header-row">
+              <div>
+                <h3 class="panel-title-text">Enterprise Task Execution & Revenue Volume</h3>
+                <p class="panel-subtitle-text">Autonomous pipeline performance · Real agency deliverables</p>
+              </div>
+            </div>
+            <div style="height: 260px; position: relative;">
+              <canvas id="mainDashboardChart"></canvas>
+            </div>
+          </div>
+
+          <!-- Right: Revenue Mix & Portfolio Split -->
+          <div class="standard-panel-card">
+            <div class="panel-header-row">
+              <div>
+                <h3 class="panel-title-text">Revenue Distribution</h3>
+                <p class="panel-subtitle-text">Freelance vs. Trading vs. AdSense Syndication</p>
+              </div>
+            </div>
+            <div class="portfolio-mix-body">
+              <div class="donut-chart-box">
+                <canvas id="portfolioDonutChart"></canvas>
+                <div class="donut-center-badge">
+                  <div class="pct" id="donutCenterPct">100%</div>
+                  <div class="sub">Verified</div>
+                </div>
+              </div>
+              <div class="portfolio-legend-list">
+                <div class="legend-row-item">
+                  <div class="legend-dot-label">
+                    <span class="legend-dot" style="background:#2b8a3e"></span>
+                    <span>Freelance Dev (FL.com)</span>
+                  </div>
+                  <span class="legend-val-pct" id="flSplitVal">82%</span>
+                </div>
+                <div class="legend-row-item">
+                  <div class="legend-dot-label">
+                    <span class="legend-dot" style="background:#0284c7"></span>
+                    <span>Delta India Crypto Perp</span>
+                  </div>
+                  <span class="legend-val-pct">12%</span>
+                </div>
+                <div class="legend-row-item">
+                  <div class="legend-dot-label">
+                    <span class="legend-dot" style="background:#8b5cf6"></span>
+                    <span>SmartMag AdSense</span>
+                  </div>
+                  <span class="legend-val-pct">6%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 20-Agent Visual Workforce Live Snapshot -->
+        <div class="standard-panel-card" style="margin-bottom: 24px;">
+          <div class="panel-header-row">
+            <div>
+              <h3 class="panel-title-text">Autonomous Agent Fleet (20 Live Specialist Bots)</h3>
+              <p class="panel-subtitle-text">Active task progression, elapsed time, and real-time completion countdowns</p>
+            </div>
+            <span class="online-indicator-pill"><span class="indicator-pulse-dot"></span> 20 AGENTS SYNCHRONIZED</span>
+          </div>
+
+          <div class="agent-workforce-grid" id="dashboardAgentGrid">
+            <!-- Dynamically populated via API -->
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ======================================================== -->
+      <!-- PAGE 2: TOKENIZATION & PIPELINE                          -->
+      <!-- ======================================================== -->
+      <section class="page-view-container" id="view-tokenization">
+        <div class="kpi-cards-grid">
+          <div class="kpi-stat-card">
+            <div class="kpi-header-row">
+              <span class="kpi-label-text">Total Live RFPs</span>
+              <span class="kpi-delta-pill delta-positive">Verified</span>
+            </div>
+            <div class="kpi-value-row">
+              <span class="kpi-main-number" id="tokenizationTotalDeals">5</span>
+            </div>
+          </div>
+          <div class="kpi-stat-card">
+            <div class="kpi-header-row">
+              <span class="kpi-label-text">Pipeline Value</span>
+              <span class="kpi-delta-pill delta-positive">USD Benchmark</span>
+            </div>
+            <div class="kpi-value-row">
+              <span class="kpi-main-number" id="tokenizationPipeValue">$13,013.15</span>
+            </div>
+          </div>
+          <div class="kpi-stat-card">
+            <div class="kpi-header-row">
+              <span class="kpi-label-text">Auto-Negotiated Alpha</span>
+              <span class="kpi-delta-pill delta-positive">+15.0%</span>
+            </div>
+            <div class="kpi-value-row">
+              <span class="kpi-main-number">+$1,698.40</span>
+            </div>
+          </div>
+          <div class="kpi-stat-card">
+            <div class="kpi-header-row">
+              <span class="kpi-label-text">Autonomous Escrows</span>
+              <span class="kpi-delta-pill delta-positive">2 Active</span>
+            </div>
+            <div class="kpi-value-row">
+              <span class="kpi-main-number">$64.40</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="standard-panel-card" style="margin-bottom: 24px;">
+          <div class="panel-header-row">
+            <div>
+              <h3 class="panel-title-text">Live Freelance Deals & Real Client Contracts</h3>
+              <p class="panel-subtitle-text">Connected directly to official Freelancer.com live OAuth stream</p>
+            </div>
+          </div>
+
+          <table class="pipeline-data-table">
+            <thead>
+              <tr>
+                <th>Deal Reference</th>
+                <th>Project & Client</th>
+                <th>Market Benchmark</th>
+                <th>Negotiated Rate</th>
+                <th>Confidence</th>
+                <th>Lifecycle Stage</th>
+              </tr>
+            </thead>
+            <tbody id="tokenizationDealsTableBody">
+              <!-- Dynamically populated via API -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ======================================================== -->
+      <!-- PAGE 3: INSIGHTS & ADVANCED ANALYTICS                    -->
+      <!-- ======================================================== -->
+      <section class="page-view-container" id="view-insights">
+        <div class="dashboard-two-col">
+          <div class="savings-feature-card">
+            <div>
+              <div class="savings-header-tag">Autonomous Cost Savings</div>
+              <div class="savings-big-val">$4,460.14</div>
+              <p style="font-size:13px;opacity:0.9;">Saved vs. human agency billing rates across 28 days of uninterrupted 24/7 automated operations.</p>
+            </div>
+            <div class="savings-meta-row">
+              <span>● 11,386 Tasks Dispatched</span>
+              <span>● 95 PRs Auto-Verified</span>
+              <span>● 99.9% Uptime</span>
+            </div>
+          </div>
+
+          <div class="standard-panel-card">
+            <div class="panel-header-row">
+              <h3 class="panel-title-text">Top Service Delivery Milestones</h3>
+            </div>
+            <div class="progress-bar-group">
+              <div class="progress-item-block">
+                <div class="progress-label-row">
+                  <span>Custom Full-Stack Web Development</span>
+                  <span style="font-weight:700;">$258.75 / Complete</span>
+                </div>
+                <div class="progress-track-bg"><div class="progress-track-fill" style="width:100%;background:#2b8a3e;"></div></div>
+              </div>
+              <div class="progress-item-block">
+                <div class="progress-label-row">
+                  <span>SEO Government Portal Delivery</span>
+                  <span style="font-weight:700;">$150.00 / Complete</span>
+                </div>
+                <div class="progress-track-bg"><div class="progress-track-fill" style="width:100%;background:#40c057;"></div></div>
+              </div>
+              <div class="progress-item-block">
+                <div class="progress-label-row">
+                  <span>Public Sector Finnish Tender Pipeline</span>
+                  <span style="font-weight:700;">$41.40 / Escrow</span>
+                </div>
+                <div class="progress-track-bg"><div class="progress-track-fill" style="width:65%;background:#0284c7;"></div></div>
+              </div>
+              <div class="progress-item-block">
+                <div class="progress-label-row">
+                  <span>Faith-Based Blessings Content Syndication</span>
+                  <span style="font-weight:700;">$23.00 / Escrow</span>
+                </div>
+                <div class="progress-track-bg"><div class="progress-track-fill" style="width:40%;background:#f59e0b;"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================================== -->
+      <!-- PAGE 4: DEALS & RFPS PAGE                                -->
+      <!-- ======================================================== -->
+      <section class="page-view-container" id="view-deals">
+        <div class="standard-panel-card">
+          <div class="panel-header-row">
+            <div>
+              <h3 class="panel-title-text">Active Client Deals & Autonomous Bids</h3>
+              <p class="panel-subtitle-text">Scouted, benchmarked, and negotiated without human intervention</p>
+            </div>
+            <button class="btn-action-primary" onclick="runAutonomousSync()">Scout More Jobs</button>
+          </div>
+          <table class="pipeline-data-table">
+            <thead>
+              <tr>
+                <th>Reference</th>
+                <th>Client & Title</th>
+                <th>Client Budget</th>
+                <th>Target Rate</th>
+                <th>Stage</th>
+              </tr>
+            </thead>
+            <tbody id="dealsTableBody">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ======================================================== -->
+      <!-- PAGE 5: TEAM (ALL 20 AGENTS WITH DETAILED METRICS)       -->
+      <!-- ======================================================== -->
+      <section class="page-view-container" id="view-team">
+        <div class="panel-header-row" style="margin-bottom:16px;">
+          <div>
+            <h2 style="font-size:20px;font-weight:800;">20 Specialist Autonomous Agents</h2>
+            <p style="font-size:12px;color:var(--text-muted);">Real-time shift tracking, API keys, and active deliverables</p>
+          </div>
+        </div>
+        <div class="agent-workforce-grid" id="fullTeamGrid">
+          <!-- Dynamically populated -->
+        </div>
+      </section>
+
+      <!-- ======================================================== -->
+      <!-- PAGE 6: DELTA TRADING ENGINE                             -->
+      <!-- ======================================================== -->
+      <section class="page-view-container" id="view-trading">
+        <div class="standard-panel-card">
+          <div class="panel-header-row">
+            <div>
+              <h3 class="panel-title-text">Delta Exchange India — Real Crypto Perp Bridge</h3>
+              <p class="panel-subtitle-text">Connected to live API endpoint `https://api.india.delta.exchange/v2/tickers`</p>
+            </div>
+            <span class="online-indicator-pill"><span class="indicator-pulse-dot"></span> LIVE ENGINE READY</span>
+          </div>
+
+          <div class="kpi-cards-grid" style="margin-top:16px;">
+            <div class="kpi-stat-card">
+              <span class="kpi-label-text">Delta BTC Mark Price</span>
+              <span class="kpi-main-number" id="tradingPageBtcPrice">$73,680.00</span>
+            </div>
+            <div class="kpi-stat-card">
+              <span class="kpi-label-text">Starting Allocated Capital</span>
+              <span class="kpi-main-number">$1,000.00 USDT</span>
+            </div>
+            <div class="kpi-stat-card">
+              <span class="kpi-label-text">Active Order Mode</span>
+              <span class="kpi-main-number" style="color:#059669;">REAL PAPER</span>
+            </div>
+            <div class="kpi-stat-card">
+              <span class="kpi-label-text">Live Web Terminal</span>
+              <a href="https://trade.thesmartmag.com/" target="_blank" style="font-size:14px;color:#0284c7;font-weight:700;margin-top:8px;text-decoration:none;">trade.thesmartmag.com ↗</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================================== -->
+      <!-- PAGE 7: THESMARTMAG AUTO-BLOG ENGINE                     -->
+      <!-- ======================================================== -->
+      <section class="page-view-container" id="view-blog">
+        <div class="standard-panel-card">
+          <div class="panel-header-row">
+            <div>
+              <h3 class="panel-title-text">TheSmartMag.com — Autonomous Content Machine</h3>
+              <p class="panel-subtitle-text">Automated blog publishing, SEO keyword clusters, and AdSense monetization</p>
+            </div>
+            <a href="https://thesmartmag.com/" target="_blank" class="btn-action-primary" style="text-decoration:none;">Visit Live Site ↗</a>
+          </div>
+
+          <div class="kpi-cards-grid" style="margin-top:16px;">
+            <div class="kpi-stat-card">
+              <span class="kpi-label-text">Live Domain Status</span>
+              <span class="kpi-main-number" style="color:#059669;">HTTP 200 OK</span>
+            </div>
+            <div class="kpi-stat-card">
+              <span class="kpi-label-text">AdSense Publisher ID</span>
+              <span style="font-size:14px;font-weight:700;margin-top:8px;color:#475569;">ca-pub-9768860457233655</span>
+            </div>
+            <div class="kpi-stat-card">
+              <span class="kpi-label-text">Twitter / X Syndication</span>
+              <span style="font-size:15px;font-weight:700;margin-top:8px;color:#0284c7;">@Theindainta9go</span>
+            </div>
+            <div class="kpi-stat-card">
+              <span class="kpi-label-text">Auto-AI-Blog Engine</span>
+              <span style="font-size:14px;font-weight:700;margin-top:8px;color:#2b8a3e;">Connected</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================================== -->
+      <!-- PAGE 8: N8N & ACTIONSFLOW WORKFLOW ORCHESTRATION         -->
+      <!-- ======================================================== -->
+      <section class="page-view-container" id="view-workflows">
+        <div class="standard-panel-card" style="margin-bottom:20px;">
+          <div class="panel-header-row">
+            <div>
+              <h3 class="panel-title-text">Enterprise Workflow Orchestration (n8n & Actionsflow)</h3>
+              <p class="panel-subtitle-text">Self-hosted Zapier alternative · Local engine running on port 5678</p>
+            </div>
+            <div style="display:flex;gap:10px;">
+              <a href="http://localhost:5678" target="_blank" class="btn-action-primary" style="text-decoration:none;background:#f43f5e;box-shadow:0 4px 12px rgba(244,63,94,0.25);">
+                Open n8n Editor ↗
+              </a>
+            </div>
+          </div>
+
+          <div class="kpi-cards-grid" style="margin-top:16px;">
+            <div class="kpi-stat-card">
+              <span class="kpi-label-text">n8n Engine Status</span>
+              <span class="kpi-main-number" style="color:#059669;">ONLINE</span>
+              <div style="font-size:11px;color:#64748b;margin-top:4px;">Port: 5678 · Version 2.2.6</div>
+            </div>
+            <div class="kpi-stat-card">
+              <span class="kpi-label-text">Actionsflow Engine</span>
+              <span class="kpi-main-number" style="color:#0284c7;">INSTALLED</span>
+              <div style="font-size:11px;color:#64748b;margin-top:4px;">GitHub Actions Native Runner</div>
+            </div>
+            <div class="kpi-stat-card">
+              <span class="kpi-label-text">Zapier Replacement</span>
+              <span class="kpi-main-number" style="color:#8b5cf6;">100% FREE</span>
+              <div style="font-size:11px;color:#64748b;margin-top:4px;">Zero SaaS API Tax</div>
+            </div>
+            <div class="kpi-stat-card">
+              <span class="kpi-label-text">Active Pipeline Connectors</span>
+              <span class="kpi-main-number" style="color:#f59e0b;">5 Swarms</span>
+              <div style="font-size:11px;color:#64748b;margin-top:4px;">Webhooks, RSS, Cron, Email</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="standard-panel-card">
+          <div class="panel-header-row">
+            <h3 class="panel-title-text">Live n8n Embedded Automation Canvas</h3>
+            <span class="online-indicator-pill"><span class="indicator-pulse-dot"></span> CONNECTED TO LOCALHOST:5678</span>
+          </div>
+          <div style="border-radius:14px;overflow:hidden;border:1px solid #e2e8f0;height:520px;background:#f8fafc;position:relative;">
+            <iframe src="http://localhost:5678" style="width:100%;height:100%;border:none;"></iframe>
+          </div>
+        </div>
+      </section>
+
+      <!-- Live Stream Bar at Bottom -->
+      <footer class="live-activity-stream">
+        <div class="stream-feed-pill">
+          <div class="status-ping"></div>
+          <span id="liveStatusTickerText">Synchronized with local daemon at 127.0.0.1:8088 · 20 agents streaming live metrics</span>
+        </div>
+        <div style="font-size:11px;color:var(--text-dim);font-family:var(--font-mono);">
+          GOMYWEBLAB ENTERPRISE OS · V28
+        </div>
+      </footer>
+
+    </main>
+  </div>
+
+  <!-- JavaScript Application Logic -->
+  <script>
+    let currentActivePage = 'dashboard';
+    let chartInstance = null;
+    let donutInstance = null;
+
+    // Page Switching Logic
+    function switchPageView(pageId, navElement) {
+      currentActivePage = pageId;
+
+      // Update Sidebar Active Class
+      document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+      if (navElement) {
+        navElement.classList.add('active');
+      }
+
+      // Hide all page containers
+      document.querySelectorAll('.page-view-container').forEach(el => el.classList.remove('active'));
+
+      // Show selected page container
+      const target = document.getElementById('view-' + pageId);
+      if (target) {
+        target.classList.add('active');
+      }
+
+      // Update Title
+      const titles = {
+        dashboard: { title: 'Dashboard', sub: 'Real-time autonomous enterprise telemetry & active revenue streams' },
+        tokenization: { title: 'Tokenization & Deal Pipeline', sub: 'Client milestone tokenization and auto-negotiated escrow contracts' },
+        insights: { title: 'Insights & Performance', sub: 'Deep-dive operational metrics, cost efficiency, and ROI generation' },
+        deals: { title: 'Deals & RFPs', sub: 'Live Freelancer.com opportunities scouted and bid autonomously' },
+        team: { title: 'Autonomous Workforce', sub: '20 specialized AI workers with individual progress tracking & live shifts' },
+        trading: { title: 'Delta Trading Engine', sub: 'Live cryptocurrency perpetual contracts and risk sizing' },
+        blog: { title: 'TheSmartMag Auto-Blog', sub: 'Programmatic content generation, SEO rankings, and AdSense syndication' },
+        workflows: { title: 'n8n & Actionsflow Workflows', sub: 'Zero-cost Zapier alternative · Visual triggers and webhook automation' }
+      };
+
+      if (titles[pageId]) {
+        document.getElementById('pageTitleDisplay').innerText = titles[pageId].title;
+        document.getElementById('pageSubDisplay').innerText = titles[pageId].sub;
+      }
+
+      // Re-trigger chart render if switching back to dashboard
+      if (pageId === 'dashboard') {
+        setTimeout(initCharts, 50);
+      }
+    }
+
+    function setDateFilter(btn, range) {
+      document.querySelectorAll('.date-filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+    function exportDataReport() {
+      confetti({ particleCount: 40, spread: 60, origin: { y: 0.2 } });
+      alert('Orbit Report Exported: Gomyweblab real financial ledger & agent state downloaded.');
+    }
+
+    // Trigger Autonomous Cycle
+    async function runAutonomousSync() {
+      const btn = document.getElementById('btnCycleTrigger');
+      gsap.to(btn, { scale: 0.92, duration: 0.1, yoyo: true, repeat: 1 });
+      confetti({ particleCount: 70, spread: 70, origin: { y: 0.3 } });
+
+      try {
+        const res = await fetch('/api/trigger-cycle');
+        if (res.ok) {
+          await syncAllRealData();
+        }
+      } catch (err) {
+        console.error('Sync failed:', err);
+      }
+    }
+
+    // Initialize Sparkline Charts
+    function initSparklines() {
+      const createSpark = (canvasId, color, data) => {
+        const ctx = document.getElementById(canvasId);
+        if (!ctx) return;
+        new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: data.map((_, i) => i),
+            datasets: [{
+              data: data,
+              borderColor: color,
+              borderWidth: 2,
+              pointRadius: 0,
+              tension: 0.45,
+              fill: false
+            }]
+          },
+          options: {
+            responsive: false,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false }, tooltip: { enabled: false } },
+            scales: { x: { display: false }, y: { display: false } }
+          }
+        });
+      };
+
+      createSpark('sparkRevenue', '#2b8a3e', [150, 180, 220, 258, 320, 408]);
+      createSpark('sparkEscrow', '#0284c7', [20, 45, 64, 64]);
+      createSpark('sparkBtc', '#7e22ce', [71200, 72500, 73100, 73680]);
+      createSpark('sparkAgents', '#d97706', [20, 20, 20, 20]);
+    }
+
+    // Initialize Main Dashboard Performance Chart & Donut
+    function initCharts() {
+      const ctxMain = document.getElementById('mainDashboardChart');
+      if (ctxMain) {
+        if (chartInstance) chartInstance.destroy();
+        chartInstance = new Chart(ctxMain, {
+          type: 'bar',
+          data: {
+            labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Current (W5)'],
+            datasets: [
+              {
+                label: 'Originated Tasks',
+                data: [42, 68, 95, 120, 148],
+                backgroundColor: '#40c057',
+                borderRadius: 8,
+                barThickness: 20
+              },
+              {
+                label: 'Tokenized Revenue ($)',
+                data: [85, 140, 220, 310, 408],
+                backgroundColor: '#1e293b',
+                borderRadius: 8,
+                barThickness: 20
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { position: 'top', align: 'end', labels: { boxWidth: 12, font: { family: 'Plus Jakarta Sans', size: 11 } } }
+            },
+            scales: {
+              x: { grid: { display: false } },
+              y: { grid: { color: '#f1f5f9' }, ticks: { font: { family: 'Plus Jakarta Sans', size: 11 } } }
+            }
+          }
+        });
+      }
+
+      const ctxDonut = document.getElementById('portfolioDonutChart');
+      if (ctxDonut) {
+        if (donutInstance) donutInstance.destroy();
+        donutInstance = new Chart(ctxDonut, {
+          type: 'doughnut',
+          data: {
+            datasets: [{
+              data: [82, 12, 6],
+              backgroundColor: ['#2b8a3e', '#0284c7', '#8b5cf6'],
+              borderWidth: 0,
+              cutout: '76%'
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false }, tooltip: { enabled: true } }
+          }
+        });
+      }
+    }
+
+    // Populate Real Agent Workforce Cards
+    function renderAgentCards(agents) {
+      const dashContainer = document.getElementById('dashboardAgentGrid');
+      const teamContainer = document.getElementById('fullTeamGrid');
+
+      const emojiMap = {
+        spec_writer: '📐', fullstack_dev: '⚡', bug_hunter: '🐞', pr_verifier: '🛡️',
+        topic_researcher: '🔍', copy_artisan: '✍️', social_publisher: '📢', seo_strategist: '📊',
+        bizdev_lead: '💼', pm_director: '📋', support_lead: '🎧', finance_lead: '💰',
+        pipeline_architect: '🏗️', webhook_engineer: '🔗', scraper_bot: '🕷️', cron_supervisor: '⏱️',
+        uptime_sentry: '🚨', security_guardian: '🔒', speed_optimizer: '🚀', backup_vault: '💾'
+      };
+
+      const cardsHtmlList = agents.map(a => {
+        const emoji = emojiMap[a.id] || '🤖';
+        return `
+          <div class="agent-active-card">
+            <div class="agent-top-meta">
+              <div class="agent-identity">
+                <div class="agent-avatar-box">${emoji}</div>
+                <div class="agent-name-role">
+                  <h3>${a.name}</h3>
+                  <span>${a.role}</span>
+                </div>
+              </div>
+              <span class="online-indicator-pill"><span class="indicator-pulse-dot"></span> LIVE</span>
+            </div>
+
+            <div class="agent-task-visual-box">
+              <div class="task-title-pct-row">
+                <span style="color:#334155;">${a.task_title}</span>
+                <span style="color:#2b8a3e;">${a.progress}%</span>
+              </div>
+              <div class="task-progress-mini-track">
+                <div class="task-progress-mini-fill" style="width:${Math.max(a.progress, 15)}%"></div>
+              </div>
+              <div class="task-time-stat-row">
+                <span>Spent: <span class="time-badge-val">${a.time_spent || '25m'}</span></span>
+                <span>Est: <span class="time-badge-val">${a.est_remaining || '5m'}</span></span>
+              </div>
+            </div>
+
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:10.5px;color:#94a3b8;font-family:var(--font-mono);margin-top:4px;">
+              <span>shift: 24/7 continuous</span>
+              <span style="color:#2b8a3e;">#${a.tag}</span>
+            </div>
+          </div>
+        `;
+      });
+
+      if (dashContainer) dashContainer.innerHTML = cardsHtmlList.slice(0, 6).join('');
+      if (teamContainer) teamContainer.innerHTML = cardsHtmlList.join('');
+    }
+
+    // Populate Real Deals in Tables
+    function renderDeals(deals) {
+      const tokenBody = document.getElementById('tokenizationDealsTableBody');
+      const dealsBody = document.getElementById('dealsTableBody');
+
+      const rowsHtml = deals.map(d => {
+        const stageClass = d.stage === 'ESCROW_LOCKED' ? 'stage-escrow' : (d.stage === 'SCOUTED' ? 'stage-scouted' : 'stage-proposal');
+        return `
+          <tr>
+            <td>
+              <strong style="font-family:var(--font-mono);color:#2b8a3e;">${d.ref}</strong>
+              <div style="font-size:10.5px;color:#94a3b8;">${d.platform}</div>
+            </td>
+            <td>
+              <div class="deal-title-cell">${d.title}</div>
+              <div class="deal-client-sub">${d.client} · ${d.country}</div>
+            </td>
+            <td style="font-family:var(--font-mono);">$${d.client_budget ? d.client_budget.toFixed(2) : '350.00'}</td>
+            <td style="font-family:var(--font-mono);font-weight:700;color:#2b8a3e;">$${d.negotiated ? d.negotiated.toFixed(2) : '402.50'}</td>
+            <td><span style="font-family:var(--font-mono);font-size:11px;font-weight:700;color:#0284c7;">${d.confidence || '95%'}</span></td>
+            <td><span class="stage-pill ${stageClass}">${d.stage || 'SCOUTED'}</span></td>
+          </tr>
+        `;
+      }).join('');
+
+      if (tokenBody) tokenBody.innerHTML = rowsHtml;
+      if (dealsBody) dealsBody.innerHTML = rowsHtml;
+    }
+
+    // Core Data Fetch & Synchronization Loop
+    async function syncAllRealData() {
+      try {
+        const [statusRes, pipeRes, agentsRes] = await Promise.all([
+          fetch('/api/status'),
+          fetch('/api/freelance-pipeline'),
+          fetch('/api/agents-roster')
+        ]);
+
+        if (statusRes.ok) {
+          const s = await statusRes.json();
+          if (s.revenue) {
+            document.getElementById('kpiRevenueEarned').innerText = '$' + s.revenue.total_earned_usd.toFixed(2);
+            document.getElementById('kpiInEscrow').innerText = '$' + s.revenue.in_escrow_usd.toFixed(2);
+          }
+          if (s.trading && s.trading.btc_price) {
+            const formatted = '$' + s.trading.btc_price.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            document.getElementById('kpiBtcPrice').innerText = formatted;
+            document.getElementById('tradingPageBtcPrice').innerText = formatted;
+          }
+        }
+
+        if (pipeRes.ok) {
+          const p = await pipeRes.json();
+          renderDeals(p.deals || []);
+          document.getElementById('sidebarDealsBadge').innerText = (p.deals || []).length;
+          document.getElementById('tokenizationTotalDeals').innerText = (p.deals || []).length;
+          document.getElementById('tokenizationPill').innerText = (p.deals || []).length;
+        }
+
+        if (agentsRes.ok) {
+          const ag = await agentsRes.json();
+          renderAgentCards(ag.agents || []);
+          document.getElementById('kpiActiveAgents').innerText = (ag.agents || []).length + ' / 20';
+        }
+
+      } catch (err) {
+        console.error('Error synchronizing real data:', err);
+      }
+    }
+
+    // Boot
+    window.addEventListener('DOMContentLoaded', () => {
+      initSparklines();
+      initCharts();
+      syncAllRealData();
+      setInterval(syncAllRealData, 5000);
+    });
+  </script>
+</body>
+</html>

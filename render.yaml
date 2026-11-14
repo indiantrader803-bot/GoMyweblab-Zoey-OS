@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: gomyweblab-zoey-os
+    env: python
+    region: oregon
+    plan: starter
+    buildCommand: pip install -r requirements.txt
+    startCommand: python main.py
+    healthCheckPath: /api/status
+    autoDeploy: true
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: PYTHONUNBUFFERED
+        value: "true"
+      - key: TRADING_MODE
+        value: real
+      - key: ZOEY_OWNER_PHONE
+        value: "+918240438062"
+      - key: ZOEY_WHATSAPP_NUMBER
+        value: "+918240438062"
