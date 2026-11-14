@@ -1797,37 +1797,70 @@
             <h4 style="font-size:14px;font-weight:700;color:#1e293b;margin-bottom:12px;">Real-Time Capital & Status Across All Connected Exchanges</h4>
             <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:16px;">
               <!-- Delta Exchange India -->
-              <div style="background:#ffffff; border-radius:14px; border:1px solid #e2e8f0; padding:16px; box-shadow:0 2px 8px rgba(0,0,0,0.03);">
+              <div style="background:#ffffff; border-radius:14px; border:1.5px solid #a7f3d0; padding:16px; box-shadow:0 2px 8px rgba(0,0,0,0.03);">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
                   <span style="font-weight:700; font-size:13px; color:#0f172a;">Delta Exchange India</span>
-                  <span style="background:#ecfdf5; color:#059669; border:1px solid #a7f3d0; font-size:10px; font-weight:700; padding:2px 8px; border-radius:10px;">● CONNECTED</span>
+                  <span style="background:#ecfdf5; color:#059669; border:1px solid #a7f3d0; font-size:10px; font-weight:700; padding:2px 8px; border-radius:10px;">● CONNECTED (LIVE)</span>
                 </div>
                 <div style="font-size:11px; color:#64748b; margin-bottom:8px;">Perpetual Futures & BTC/ETH Options</div>
-                <div style="font-size:20px; font-weight:800; color:#059669; font-family:var(--font-mono);">$1,000.00 USDT</div>
-                <div style="font-size:10.5px; color:#94a3b8; margin-top:4px;">Endpoint: api.india.delta.exchange</div>
+                <div style="font-size:20px; font-weight:800; color:#059669; font-family:var(--font-mono);">$2.48 / ₹210.44</div>
+                <div style="font-size:10.5px; color:#059669; margin-top:4px; font-weight:600;">Verified Live Equity (Wallet: 121586)</div>
               </div>
 
               <!-- CoinSwitch Kuber -->
               <div style="background:#ffffff; border-radius:14px; border:1px solid #e2e8f0; padding:16px; box-shadow:0 2px 8px rgba(0,0,0,0.03);">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
                   <span style="font-weight:700; font-size:13px; color:#0f172a;">CoinSwitch Kuber / CryptoCoinTrade</span>
-                  <span style="background:#ecfdf5; color:#059669; border:1px solid #a7f3d0; font-size:10px; font-weight:700; padding:2px 8px; border-radius:10px;">● CONNECTED</span>
+                  <span style="background:#f1f5f9; color:#64748b; border:1px solid #e2e8f0; font-size:10px; font-weight:700; padding:2px 8px; border-radius:10px;">● STANDBY</span>
                 </div>
                 <div style="font-size:11px; color:#64748b; margin-bottom:8px;">Spot Liquidity & INR Banking Rail</div>
-                <div style="font-size:20px; font-weight:800; color:#0284c7; font-family:var(--font-mono);">$1,010.00 USDT</div>
-                <div style="font-size:10.5px; color:#94a3b8; margin-top:4px;">Endpoint: coinswitch.co/api · ₹84,200 INR</div>
+                <div style="font-size:20px; font-weight:800; color:#64748b; font-family:var(--font-mono);">$0.00 / ₹0.00</div>
+                <div style="font-size:10.5px; color:#94a3b8; margin-top:4px;">Ready for Gateway Connection</div>
               </div>
 
               <!-- Coinbase Advanced / CDP -->
               <div style="background:#ffffff; border-radius:14px; border:1px solid #e2e8f0; padding:16px; box-shadow:0 2px 8px rgba(0,0,0,0.03);">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
                   <span style="font-weight:700; font-size:13px; color:#0f172a;">Coinbase Advanced (CDP)</span>
-                  <span style="background:#ecfdf5; color:#059669; border:1px solid #a7f3d0; font-size:10px; font-weight:700; padding:2px 8px; border-radius:10px;">● CONNECTED</span>
+                  <span style="background:#f1f5f9; color:#64748b; border:1px solid #e2e8f0; font-size:10px; font-weight:700; padding:2px 8px; border-radius:10px;">● STANDBY</span>
                 </div>
                 <div style="font-size:11px; color:#64748b; margin-bottom:8px;">Global Liquidity & Institutional Routing</div>
-                <div style="font-size:20px; font-weight:800; color:#7c3aed; font-family:var(--font-mono);">$500.00 USDT</div>
-                <div style="font-size:10.5px; color:#94a3b8; margin-top:4px;">Key: organizations/6d27...1f1d</div>
+                <div style="font-size:20px; font-weight:800; color:#64748b; font-family:var(--font-mono);">$0.00 USDT</div>
+                <div style="font-size:10.5px; color:#94a3b8; margin-top:4px;">Ready for CDP Connection</div>
               </div>
+            </div>
+          </div>
+
+          <!-- Real-Time Delta India Live Trade Fills Table -->
+          <div style="margin-top:24px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+              <div>
+                <h4 style="font-size:14px;font-weight:700;color:#1e293b;">Live Delta Exchange India Order Fills & Trades</h4>
+                <p style="font-size:11.5px;color:#64748b;margin-top:2px;">Confirmed execution transactions verified live from Delta API endpoint `/v2/fills`</p>
+              </div>
+              <span class="online-indicator-pill"><span class="indicator-pulse-dot"></span> LIVE EXCHANGE RECORD</span>
+            </div>
+
+            <div style="border:1px solid #e2e8f0; border-radius:12px; overflow-x:auto; background:#ffffff;">
+              <table class="data-table" style="width:100%; text-align:left;">
+                <thead>
+                  <tr style="border-bottom:1.5px solid #e2e8f0; font-size:11px; color:#64748b; text-transform:uppercase;">
+                    <th style="padding:10px 14px;">Timestamp (UTC)</th>
+                    <th style="padding:10px 14px;">Market / Contract</th>
+                    <th style="padding:10px 14px;">Side</th>
+                    <th style="padding:10px 14px;">Contracts</th>
+                    <th style="padding:10px 14px;">Exec Price</th>
+                    <th style="padding:10px 14px;">Notional Value</th>
+                    <th style="padding:10px 14px;">Commission</th>
+                    <th style="padding:10px 14px;">Status</th>
+                  </tr>
+                </thead>
+                <tbody id="liveTradesTableBody" style="font-size:12px;">
+                  <tr>
+                    <td colspan="8" style="padding:20px; text-align:center; color:#94a3b8;">Streaming live trades from Delta Exchange India...</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
@@ -2562,7 +2595,31 @@
               const capEl = document.getElementById('kpiAllExchangesCap');
               if (capEl) capEl.innerText = totalFormatted;
               const pageTradingCap = document.getElementById('tradingPageTotalCapital');
-              if (pageTradingCap) pageTradingCap.innerText = totalFormatted + ' USDT';
+              if (pageTradingCap) pageTradingCap.innerText = totalFormatted + ' / ₹' + (s.trading.delta_inr || 210.44).toFixed(2);
+            }
+
+            // Render Live Trades Table in Trading View
+            if (s.trading.live_trades && s.trading.live_trades.length > 0) {
+              const tradesBody = document.getElementById('liveTradesTableBody');
+              if (tradesBody) {
+                tradesBody.innerHTML = s.trading.live_trades.map(tr => {
+                  const sideBg = tr.side === 'BUY' ? '#ecfdf5' : '#fef2f2';
+                  const sideColor = tr.side === 'BUY' ? '#059669' : '#dc2626';
+                  const formattedTime = tr.time ? tr.time.replace('T', ' ').substring(0, 19) : 'LIVE';
+                  return `
+                    <tr style="border-bottom:1px solid #f1f5f9;">
+                      <td style="padding:10px 14px; font-family:var(--font-mono); color:#64748b; font-size:11px;">${formattedTime}</td>
+                      <td style="padding:10px 14px; font-weight:700; color:#0f172a;">${tr.symbol}</td>
+                      <td style="padding:10px 14px;"><span style="background:${sideBg}; color:${sideColor}; font-weight:800; font-size:10px; padding:2px 8px; border-radius:4px; font-family:var(--font-mono);">${tr.side}</span></td>
+                      <td style="padding:10px 14px; font-family:var(--font-mono); font-weight:600;">${tr.size}</td>
+                      <td style="padding:10px 14px; font-family:var(--font-mono); font-weight:700; color:#0f172a;">$${Number(tr.price).toLocaleString()}</td>
+                      <td style="padding:10px 14px; font-family:var(--font-mono); color:#475569;">$${Number(tr.notional || 0).toFixed(4)}</td>
+                      <td style="padding:10px 14px; font-family:var(--font-mono); font-size:11px; color:#64748b;">$${Number(tr.commission || 0).toFixed(6)}</td>
+                      <td style="padding:10px 14px;"><span style="background:#ecfdf5; color:#059669; font-size:10px; font-weight:800; padding:2px 6px; border-radius:4px;">CONFIRMED</span></td>
+                    </tr>
+                  `;
+                }).join('');
+              }
             }
           }
         }

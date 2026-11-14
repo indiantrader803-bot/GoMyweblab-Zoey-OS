@@ -121,7 +121,49 @@ class LiveTradingBridge:
         except Exception:
             pass
 
+        # Live Real-Time Trade Fills from Delta India
+        stats["live_trades"] = self.get_recent_trades(limit=10)
+
         return stats
+
+    def get_recent_trades(self, limit=10):
+        """Fetches confirmed live trades / order fills directly from Delta Exchange India API."""
+        if not self.delta_key or not self.delta_secret:
+            return []
+
+        path = f"/v2/fills?limit={limit}"
+        timestamp = str(int(time.time()))
+        payload = "GET" + timestamp + path
+        sig = hmac.new(self.delta_secret.encode(), payload.encode(), hashlib.sha256).hexdigest()
+
+        req = urllib.request.Request(
+            f"{self.delta_base}{path}",
+            headers={
+                "api-key": self.delta_key,
+                "signature": sig,
+                "timestamp": timestamp,
+                "User-Agent": "Mozilla/5.0"
+            }
+        )
+
+        try:
+            with urllib.request.urlopen(req, timeout=6) as resp:
+                data = json.loads(resp.read().decode())
+                trades = []
+                for f in data.get("result", []):
+                    trades.append({
+                        "id": f.get("id"),
+                        "symbol": f.get("product_symbol"),
+                        "side": (f.get("side") or "").upper(),
+                        "size": f.get("size"),
+                        "price": f.get("price"),
+                        "notional": f.get("notional"),
+                        "commission": f.get("commission"),
+                        "time": f.get("created_at")
+                    })
+                return trades
+        except Exception as e:
+            return []
 
     def sync_trading_agents(self):
         stats = self.get_live_market_stats()
