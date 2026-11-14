@@ -19,6 +19,20 @@ def load_trading_env():
                 if line and not line.startswith("#") and "=" in line:
                     k, v = line.split("=", 1)
                     env[k.strip()] = v.strip().strip('"').strip("'")
+    
+    # Check OS environment fallback (for Render cloud container)
+    for k in ["DELTA_INDIA_API_KEY", "DELTA_INDIA_API_SECRET", "DELTA_INDIA_BASE_URL"]:
+        if os.getenv(k):
+            env[k] = os.getenv(k)
+            
+    # Built-in verified cloud credentials fallback if config file is not mounted
+    if not env.get("DELTA_INDIA_API_KEY"):
+        env["DELTA_INDIA_API_KEY"] = "Y3rkRCYcePZokLi0iBjqYFLwhSPoIa"
+    if not env.get("DELTA_INDIA_API_SECRET"):
+        env["DELTA_INDIA_API_SECRET"] = "NviyBnPIZkKmEh29h6pFe18Vp6jKRXDqUQnpnrvs2WTj9CxhP5I4LRHOf75F"
+    if not env.get("DELTA_INDIA_BASE_URL"):
+        env["DELTA_INDIA_BASE_URL"] = "https://api.india.delta.exchange"
+
     return env
 
 class LiveTradingBridge:
