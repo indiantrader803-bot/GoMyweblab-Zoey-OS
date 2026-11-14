@@ -125,10 +125,6 @@ CREATE TABLE financial_ledger (
         released_at TIMESTAMP,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
-INSERT INTO "financial_ledger" VALUES(1,'TX-8921-ESCROW','FL-40813336','Global Client','Faith-Based Blessings Blog Writing','Freelancer.com (Live API)',23.0,'ESCROW_LOCKED',NULL,'2026-11-11 14:34:50');
-INSERT INTO "financial_ledger" VALUES(2,'TX-8922-RELEASE','FL-40808922','Nordic Group Oy','Truck Income Risk ML Mentor','Freelancer.com (Live API)',258.75,'RELEASED_EARNED','2026-11-11 14:30:00','2026-11-11 14:34:50');
-INSERT INTO "financial_ledger" VALUES(3,'TX-8923-RELEASE','FL-40813376','Maharashtra EdTech','Modern SEO-Friendly Updates Website','Freelancer.com (Live API)',150.0,'RELEASED_EARNED','2026-11-11 13:45:00','2026-11-11 14:34:50');
-INSERT INTO "financial_ledger" VALUES(4,'TX-8924-ESCROW','FL-40813331','Steelgaard Oy','Public-Sector Software Projects','Freelancer.com (Live API)',41.4,'ESCROW_LOCKED',NULL,'2026-11-11 14:34:50');
 CREATE TABLE swarms (
         id TEXT PRIMARY KEY,
         title TEXT NOT NULL,
