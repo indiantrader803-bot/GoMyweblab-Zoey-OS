@@ -1,0 +1,44 @@
+{
+  "organization_name": "GoMyWebLab Autonomous Enterprise",
+  "mode": "local_autonomous",
+  "decision_engine": {
+    "auto_execute_confidence_threshold": 0.85,
+    "dual_agent_consensus_threshold": 0.70,
+    "escalate_threshold": 0.50
+  },
+  "budget_limits": {
+    "currency": "USD",
+    "auto_spend_limit_single": 100.0,
+    "daily_spend_limit": 500.0,
+    "require_risk_officer_above": 50.0
+  },
+  "technical_guardrails": {
+    "auto_merge_pr": true,
+    "min_review_score": 0.90,
+    "require_tests_pass": true,
+    "allow_auto_deploy": true,
+    "max_retries_per_task": 3
+  },
+  "active_swarms": {
+    "executive": {
+      "enabled": true,
+      "agents": ["eng_lead", "marketing_director", "support_specialist", "sales_lead"]
+    },
+    "coding": {
+      "enabled": true,
+      "agents": ["spec_writer", "bug_reproducer", "pr_producer", "pr_verifier"]
+    },
+    "content": {
+      "enabled": true,
+      "agents": ["x_researcher", "draft_generator", "publisher", "seo_optimizer"]
+    },
+    "trading": {
+      "enabled": true,
+      "agents": ["market_data", "strategy_bot", "risk_officer", "execution_engine"]
+    },
+    "operations": {
+      "enabled": true,
+      "agents": ["coordinator", "memory_indexer", "calendar_scheduler"]
+    }
+  }
+}

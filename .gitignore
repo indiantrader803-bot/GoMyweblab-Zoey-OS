@@ -1,14 +1,12 @@
 node_modules/
 __pycache__/
 *.pyc
-*.env*
+*.env
 .env
 .DS_Store
 .venv/
 venv/
 Octop/
-*.db
 *.log
-autonomous-org-core/config/
 autonomous-org-core/data/browser_session/
 autonomous-org-core/data/*.db
