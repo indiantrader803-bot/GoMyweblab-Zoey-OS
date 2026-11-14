@@ -90,6 +90,14 @@ def run_autonomous_agent_worker():
         except Exception as up_err:
             pass
 
+        # Run SuperteamDAO Earn & Multi-Platform cycle
+        try:
+            from multi_platform_connector import MultiPlatformFreelanceEngine
+            multi_engine = MultiPlatformFreelanceEngine()
+            multi_engine.scan_web3_bounties()
+        except Exception as multi_err:
+            pass
+
         # Run every 60 seconds autonomously in background
         time.sleep(60)
 
