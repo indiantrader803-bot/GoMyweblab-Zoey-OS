@@ -1146,6 +1146,7 @@
           <button class="date-filter-btn" onclick="switchZoeyTab('integrations')">17. Integrations</button>
           <button class="date-filter-btn" onclick="switchZoeyTab('history')">18. Activity History</button>
           <button class="date-filter-btn" onclick="switchZoeyTab('settings')">19. Settings</button>
+          <button class="date-filter-btn" onclick="switchZoeyTab('cloudbrowser')" style="background:#ede9fe; color:#6d28d9; border:1px solid #c4b5fd; font-weight:700;">🌐 20. Live Cloud Browser (Upwork & Freelancer)</button>
         </div>
 
         <!-- TAB CONTENT 1: OVERVIEW -->
@@ -1158,8 +1159,8 @@
             </div>
             <div class="kpi-stat-card">
               <span class="kpi-label-text">Verified Real Revenue</span>
-              <span class="kpi-main-number" style="color:#059669;">$408.75 USD</span>
-              <div style="font-size:11px;color:#059669;margin-top:4px;">Released & Confirmed in DB</div>
+              <span class="kpi-main-number" style="color:#059669;" id="zOverviewRevenue">$0.00 USD</span>
+              <div style="font-size:11px;color:#059669;margin-top:4px;">₹0.00 INR Balance Verified</div>
             </div>
             <div class="kpi-stat-card">
               <span class="kpi-label-text">Active Incidents</span>
@@ -1248,6 +1249,80 @@
             </div>
             <div id="zoeyMemoryContainer" style="margin-top:14px; display:grid; grid-template-columns: repeat(2, 1fr); gap:12px;">
               <!-- Populated dynamically -->
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB CONTENT 20: LIVE CLOUD BROWSER (UPWORK & FREELANCER DUAL PORTAL) -->
+        <div id="ztab-cloudbrowser" class="zoey-tab-panel" style="display:none;">
+          <div class="standard-panel-card" style="margin-bottom:16px;">
+            <div class="panel-header-row">
+              <div>
+                <h3 class="panel-title-text">Autonomous Browser Portal — Upwork & Freelancer.com</h3>
+                <p class="panel-subtitle-text">Cloud Session Manager: Direct embedded login, session state persistence & autonomous agent execution</p>
+              </div>
+              <div style="display:flex; gap:8px;">
+                <button class="btn-action-primary" onclick="setCloudBrowserUrl('https://www.upwork.com/ab/account-security/login')" style="background:#14a800; font-size:12px; padding:6px 14px;">
+                  🟢 Open Upwork
+                </button>
+                <button class="btn-action-primary" onclick="setCloudBrowserUrl('https://www.freelancer.com/login')" style="background:#007fed; font-size:12px; padding:6px 14px;">
+                  🔵 Open Freelancer.com
+                </button>
+              </div>
+            </div>
+
+            <!-- Credentials & Quick Copy Bar -->
+            <div style="margin-top:14px; display:grid; grid-template-columns: 1fr 1fr; gap:14px;">
+              <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:10px; padding:12px;">
+                <div style="font-weight:700; color:#166534; font-size:13px; margin-bottom:6px; display:flex; justify-content:space-between; align-items:center;">
+                  <span>🟢 Upwork Credentials</span>
+                  <span style="font-size:11px; font-weight:600; color:#15803d; background:#dcfce7; padding:2px 8px; border-radius:6px;">Ready</span>
+                </div>
+                <div style="font-size:12px; color:#14532d; font-family:var(--font-mono); margin-bottom:4px;">
+                  User: <strong>arnab.laha2018@gmail.com</strong>
+                  <button onclick="navigator.clipboard.writeText('arnab.laha2018@gmail.com')" style="background:#bbf7d0; border:none; padding:2px 6px; border-radius:4px; font-size:10px; cursor:pointer; margin-left:6px;">Copy</button>
+                </div>
+                <div style="font-size:12px; color:#14532d; font-family:var(--font-mono);">
+                  Pass: <strong>••••••••••••</strong>
+                  <button onclick="navigator.clipboard.writeText('Welcome@2026')" style="background:#bbf7d0; border:none; padding:2px 6px; border-radius:4px; font-size:10px; cursor:pointer; margin-left:6px;">Copy Pass</button>
+                </div>
+              </div>
+
+              <div style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:10px; padding:12px;">
+                <div style="font-weight:700; color:#1e40af; font-size:13px; margin-bottom:6px; display:flex; justify-content:space-between; align-items:center;">
+                  <span>🔵 Freelancer Credentials</span>
+                  <span style="font-size:11px; font-weight:600; color:#1d4ed8; background:#dbeafe; padding:2px 8px; border-radius:6px;">Ready</span>
+                </div>
+                <div style="font-size:12px; color:#1e3a8a; font-family:var(--font-mono); margin-bottom:4px;">
+                  User: <strong>arnab.laha28@gmail.com</strong>
+                  <button onclick="navigator.clipboard.writeText('arnab.laha28@gmail.com')" style="background:#bfdbfe; border:none; padding:2px 6px; border-radius:4px; font-size:10px; cursor:pointer; margin-left:6px;">Copy</button>
+                </div>
+                <div style="font-size:12px; color:#1e3a8a; font-family:var(--font-mono);">
+                  Pass: <strong>••••••••••••</strong>
+                  <button onclick="navigator.clipboard.writeText('Myjobmail@1234')" style="background:#bfdbfe; border:none; padding:2px 6px; border-radius:4px; font-size:10px; cursor:pointer; margin-left:6px;">Copy Pass</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Embedded Interactive Browser Window -->
+            <div style="margin-top:16px; border-radius:12px; border:1px solid #cbd5e1; overflow:hidden; background:#1e293b; box-shadow:0 8px 24px rgba(0,0,0,0.12);">
+              <div style="background:#0f172a; padding:10px 14px; display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid #334155;">
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <span style="height:10px; width:10px; border-radius:50%; background:#ef4444; display:inline-block;"></span>
+                  <span style="height:10px; width:10px; border-radius:50%; background:#f59e0b; display:inline-block;"></span>
+                  <span style="height:10px; width:10px; border-radius:50%; background:#10b981; display:inline-block;"></span>
+                  <input type="text" id="cloudBrowserUrlInput" value="https://www.upwork.com/ab/account-security/login" style="background:#1e293b; color:#f8fafc; border:1px solid #475569; border-radius:6px; padding:4px 12px; font-size:12px; font-family:var(--font-mono); width:450px; outline:none;" readonly>
+                </div>
+                <div style="display:flex; gap:8px;">
+                  <a id="cloudBrowserExternalLink" href="https://www.upwork.com/ab/account-security/login" target="_blank" style="background:#3b82f6; color:#ffffff; padding:4px 12px; border-radius:6px; font-size:11px; text-decoration:none; font-weight:600; display:flex; align-items:center; gap:4px;">
+                    ↗ Open Tab
+                  </a>
+                  <button onclick="refreshCloudBrowserFrame()" style="background:#334155; color:#f8fafc; border:none; padding:4px 10px; border-radius:6px; font-size:11px; cursor:pointer;">
+                    🔄 Refresh
+                  </button>
+                </div>
+              </div>
+              <iframe id="cloudBrowserFrame" src="https://www.upwork.com/ab/account-security/login" style="width:100%; height:620px; border:none; background:#ffffff;"></iframe>
             </div>
           </div>
         </div>
@@ -1862,6 +1937,20 @@
         const over = document.getElementById('ztab-overview');
         if (over) over.style.display = 'block';
       }
+    }
+
+    function setCloudBrowserUrl(url) {
+      const frame = document.getElementById('cloudBrowserFrame');
+      const input = document.getElementById('cloudBrowserUrlInput');
+      const link = document.getElementById('cloudBrowserExternalLink');
+      if (frame) frame.src = url;
+      if (input) input.value = url;
+      if (link) link.href = url;
+    }
+
+    function refreshCloudBrowserFrame() {
+      const frame = document.getElementById('cloudBrowserFrame');
+      if (frame) frame.src = frame.src;
     }
 
     async function submitAskZoey() {
