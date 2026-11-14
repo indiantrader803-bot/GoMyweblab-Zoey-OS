@@ -146,7 +146,7 @@ class ZoeyOrchestrator:
             earned = cur.fetchone()[0]
             conn.close()
 
-            resp_text = f"Good day Director. Overall operations are stable. All 5 swarms (20 agents) are active online. Total tasks logged: {total_tasks}. Active operational incidents: {active_incidents}. Real verified earned revenue stands at ${earned:.2f} USD."
+            resp_text = f"Good day Sir. As your Chief Operating Officer, I can confirm all systems are fully operational under the J.A.R.V.I.S. protocol. All 5 swarms and 20 autonomous agents are on duty. Total tasks executed: {total_tasks}. Operational incidents requiring attention: {active_incidents}. Real verified revenue stands at ${earned:.2f} USD. What is your priority directive for the team today?"
             self._record_agent_response("zoey_coo", resp_text)
             return {
                 "agent": agent.title,
@@ -264,11 +264,11 @@ class ZoeyOrchestrator:
         else:
             agent = self.agents["zoey_coo"]
             conn.close()
-            resp_text = f"Zoey COO here. I have recorded your directive: '{user_prompt}'. I am coordinating with the 9 specialist managers and the 20 workforce agents to execute this safely under our organizational policies."
+            resp_text = f"Right away, Sir. I have taken note of your directive: '{user_prompt}'. I am delegating this across the engineering and operations swarms, maintaining continuous monitoring under standard J.A.R.V.I.S. protocols."
             self._record_agent_response("zoey_coo", resp_text)
             return {
-                "agent": agent.title,
-                "role": agent.role,
+                "agent": "Zoey J.A.R.V.I.S. (COO)",
+                "role": "Chief Operating Officer",
                 "response": resp_text,
                 "action_type": "ROUTINE EXECUTION",
                 "verified": True,
