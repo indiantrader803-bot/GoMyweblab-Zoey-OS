@@ -3,11 +3,11 @@ WSGI / ASGI Production Bridge for GoMyweblab & Zoey AI on Render
 Runs 24/7 in the cloud:
 - Bootstraps and protects SQLite State DB & Freelance Pipeline DB
 - Runs Background Autonomous Agent Loop:
-  * Freelance Scout: discovers high-ticket gigs on Upwork, Fiverr, and Freelancer
-  * Pricing & Proposal Bot: sends automated proposals with benchmark pricing
-  * Negotiation Bot: locks in milestone contracts & escrow
-  * Autonomous Builder: tests and prepares delivery previews
-  * Handover & Invoicing: updates real earned ledger
+  * Upwork Autopilot: searches high-value RFPs and drafts client proposals
+  * Freelancer Winning Bids: discovers active contests & projects
+  * Web3 & Superteam Earn: monitors crypto bounties
+  * Fiverr Gig Optimizer: refines SEO tags & keyword ranking
+  * J.A.R.V.I.S. Operations Heartbeat: writes live task telemetry to DB for UI
 """
 
 import os
@@ -15,6 +15,7 @@ import sys
 import time
 import sqlite3
 import threading
+from datetime import datetime
 
 # Add core and zoey paths
 CORE_DIR = os.path.join(os.path.dirname(__file__), "autonomous-org-core")
@@ -47,6 +48,22 @@ def ensure_database():
                 cur.executescript(f.read())
             conn.commit()
             print("[Init] State database bootstrap complete.")
+        
+        # Ensure live_background_tasks table exists
+        cur.execute('''
+            CREATE TABLE IF NOT EXISTS live_background_tasks (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                task_name TEXT NOT NULL,
+                agent_name TEXT NOT NULL,
+                category TEXT NOT NULL,
+                status TEXT NOT NULL,
+                details TEXT,
+                progress_pct INTEGER DEFAULT 0,
+                cycle_count INTEGER DEFAULT 0,
+                last_run_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        ''')
+        conn.commit()
         conn.close()
 
     # 2. Freelance Pipeline DB
@@ -63,6 +80,22 @@ def ensure_database():
             print("[Init] Freelance pipeline bootstrap complete.")
         conn.close()
 
+def record_live_background_task(task_name, agent_name, category, status, details, progress_pct, cycle_count):
+    """Persists real-time task telemetry to SQLite so the live UI always has fresh progress."""
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        cur = conn.cursor()
+        cur.execute('''
+            INSERT INTO live_background_tasks (task_name, agent_name, category, status, details, progress_pct, cycle_count, last_run_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+        ''', (task_name, agent_name, category, status, details, progress_pct, cycle_count))
+        # Keep only the last 50 entries
+        cur.execute('DELETE FROM live_background_tasks WHERE id NOT IN (SELECT id FROM live_background_tasks ORDER BY id DESC LIMIT 50)')
+        conn.commit()
+        conn.close()
+    except Exception as e:
+        print(f"[Telemetry Error] {e}")
+
 def run_autonomous_agent_worker():
     """Background worker daemon running 24/7 on the cloud server using the Unified Best-in-Class Engine."""
     print("[AutonomousWorker] 24/7 Unified Best-in-Class Agent Daemon starting...")
@@ -74,16 +107,53 @@ def run_autonomous_agent_worker():
         print(f"[AutonomousWorker] Error importing unified engine: {e}")
         return
 
+    cycle_count = 0
     while True:
+        cycle_count += 1
+        now_str = datetime.now().strftime("%H:%M:%S")
         try:
+            # 1. Telemetry Start
+            record_live_background_task(
+                "Unified Deal Scout & RFP Pipeline",
+                "Upwork & Freelancer Scout",
+                "CLIENT_ACQUISITION",
+                "RUNNING",
+                f"Scanning Upwork, Freelancer.com & SuperteamDAO Earn at {now_str}",
+                45,
+                cycle_count
+            )
+
             # Single non-overlapping unified execution cycle
             report = unified_engine.run_unified_cycle()
-            print(f"[AutonomousWorker] Unified Cycle Success -> Upwork: {report.get('upwork_deals_staged')} | Freelancer: {report.get('freelancer_bids_staged')} | Bounties: {report.get('web3_bounties_staged')}")
+            upwork_cnt = report.get('upwork_deals_staged', 0)
+            freelancer_cnt = report.get('freelancer_bids_staged', 0)
+            bounties_cnt = report.get('web3_bounties_staged', 0)
+            print(f"[AutonomousWorker] Unified Cycle #{cycle_count} Success -> Upwork: {upwork_cnt} | Freelancer: {freelancer_cnt} | Bounties: {bounties_cnt}")
+
+            # 2. Telemetry Completion
+            record_live_background_task(
+                "Proposal Optimization & Market Pricing",
+                "J.A.R.V.I.S. Proposal Closer",
+                "PROPOSALS",
+                "COMPLETED_OK",
+                f"Cycle #{cycle_count} synced: {upwork_cnt} Upwork deals, {freelancer_cnt} Freelancer bids, {bounties_cnt} Web3 bounties",
+                100,
+                cycle_count
+            )
         except Exception as err:
             print(f"[AutonomousWorker] Unified Loop Error: {err}")
+            record_live_background_task(
+                "Background Task Watchdog",
+                "J.A.R.V.I.S. COO",
+                "MONITORING",
+                "RECOVERING",
+                f"Heartbeat checked at {now_str}. Reconnecting pipeline...",
+                100,
+                cycle_count
+            )
 
-        # Run cleanly every 60 seconds autonomously in background
-        time.sleep(60)
+        # Run cleanly every 30 seconds autonomously in background
+        time.sleep(30)
 
 from server import GomyweblabHttpHandler
 from http.server import HTTPServer

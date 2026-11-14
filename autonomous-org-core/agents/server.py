@@ -300,7 +300,24 @@ class GomyweblabHttpHandler(SimpleHTTPRequestHandler):
             } for r in fcur.fetchall()]
             fconn.close()
 
-            self.send_json({"deals": deals, "messages": messages})
+            # Retrieve real-time background task telemetry
+            b_tasks = []
+            try:
+                conn_b = sqlite3.connect(DB_PATH)
+                cur_b = conn_b.cursor()
+                cur_b.execute("""
+                    SELECT task_name, agent_name, category, status, details, progress_pct, last_run_at
+                    FROM live_background_tasks ORDER BY id DESC LIMIT 15
+                """)
+                b_tasks = [{
+                    "task": row[0], "agent": row[1], "category": row[2], "status": row[3],
+                    "details": row[4], "progress": row[5], "time": row[6]
+                } for row in cur_b.fetchall()]
+                conn_b.close()
+            except Exception:
+                pass
+
+            self.send_json({"deals": deals, "messages": messages, "live_background_tasks": b_tasks})
             return
 
         # 4. Trigger Autonomous Cycle

@@ -1938,6 +1938,37 @@
             </div>
           </div>
         </div>
+
+        <!-- Real-Time Background Tasks Stream (Live Cloud Daemon) -->
+        <div class="standard-panel-card" style="margin-top:20px;">
+          <div class="panel-header-row">
+            <div>
+              <h3 class="panel-title-text">24/7 Live Background Tasks Stream</h3>
+              <p class="panel-subtitle-text">Continuous worker processes running inside Render cloud container</p>
+            </div>
+            <span class="online-indicator-pill"><span class="indicator-pulse-dot"></span> LIVE EXECUTION LOG</span>
+          </div>
+
+          <div style="margin-top:14px; overflow-x:auto;">
+            <table class="data-table" style="width:100%; text-align:left;">
+              <thead>
+                <tr style="border-bottom:1.5px solid #e2e8f0; font-size:11px; color:#64748b; text-transform:uppercase;">
+                  <th style="padding:10px 12px;">Timestamp</th>
+                  <th style="padding:10px 12px;">Task Name</th>
+                  <th style="padding:10px 12px;">Agent / Owner</th>
+                  <th style="padding:10px 12px;">Category</th>
+                  <th style="padding:10px 12px;">Live Details</th>
+                  <th style="padding:10px 12px;">Status</th>
+                </tr>
+              </thead>
+              <tbody id="liveTasksTableBody" style="font-size:12px;">
+                <tr>
+                  <td colspan="6" style="padding:20px; text-align:center; color:#94a3b8;">Streaming background tasks from Render 24/7 daemon...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </section>
 
       <!-- Live Stream Bar at Bottom -->
@@ -2529,6 +2560,27 @@
           document.getElementById('sidebarDealsBadge').innerText = (p.deals || []).length;
           document.getElementById('tokenizationTotalDeals').innerText = (p.deals || []).length;
           document.getElementById('tokenizationPill').innerText = (p.deals || []).length;
+
+          // Render live background tasks in Admin Workflows view
+          if (p.live_background_tasks && p.live_background_tasks.length > 0) {
+            const tableBody = document.getElementById('liveTasksTableBody');
+            if (tableBody) {
+              tableBody.innerHTML = p.live_background_tasks.map(t => {
+                const statusColor = t.status === 'RUNNING' ? '#0284c7' : '#059669';
+                const statusBg = t.status === 'RUNNING' ? '#e0f2fe' : '#ecfdf5';
+                return `
+                  <tr style="border-bottom:1px solid #f1f5f9;">
+                    <td style="padding:10px 12px; font-family:var(--font-mono); color:#64748b; font-size:11px;">${t.time || 'LIVE'}</td>
+                    <td style="padding:10px 12px; font-weight:700; color:#0f172a;">${t.task}</td>
+                    <td style="padding:10px 12px;"><span style="background:#ede9fe; color:#7c3aed; font-size:10px; font-weight:700; padding:2px 8px; border-radius:4px;">${t.agent}</span></td>
+                    <td style="padding:10px 12px; font-size:11px; color:#64748b;">${t.category}</td>
+                    <td style="padding:10px 12px; color:#334155;">${t.details}</td>
+                    <td style="padding:10px 12px;"><span style="background:${statusBg}; color:${statusColor}; font-size:10px; font-weight:800; padding:2px 8px; border-radius:6px;">${t.status} (${t.progress}%)</span></td>
+                  </tr>
+                `;
+              }).join('');
+            }
+          }
         }
 
         if (agentsRes.ok) {

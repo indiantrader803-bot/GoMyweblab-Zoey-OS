@@ -1313,6 +1313,27 @@
           const p = await pipeRes.json();
           const countEl = document.getElementById('realProjectsCount');
           if (countEl) countEl.innerText = p.deals.length;
+
+          // Render live background tasks in Real-Time Agent Execution Log
+          if (p.live_background_tasks && p.live_background_tasks.length > 0) {
+            const container = document.getElementById('logEntriesContainer');
+            if (container) {
+              container.innerHTML = p.live_background_tasks.map(t => {
+                const timeOnly = t.time ? t.time.split(' ')[1] || t.time : 'LIVE';
+                const statusColor = t.status === 'RUNNING' ? '#0284c7' : '#059669';
+                const statusBg = t.status === 'RUNNING' ? '#e0f2fe' : '#ecfdf5';
+                return `
+                  <div class="log-entry-row" style="display:flex; align-items:center; gap:12px; padding:4px 0; color:#0f172a; font-size:11px; border-bottom:1px solid #f8fafc;">
+                    <span class="log-time-stamp" style="color:#64748b; font-family:var(--font-mono); font-size:10px;">${timeOnly}</span>
+                    <span class="log-tag-badge" style="background:#ede9fe; color:#7c3aed; font-size:9.5px; padding:1px 6px; border-radius:4px; font-weight:700;">${t.agent}</span>
+                    <span style="font-weight:600; color:#1e293b;">[${t.task}]</span>
+                    <span style="color:#475569;">• ${t.details}</span>
+                    <span style="margin-left:auto; background:${statusBg}; color:${statusColor}; font-size:9px; font-weight:800; padding:1px 6px; border-radius:4px; font-family:var(--font-mono);">${t.status} (${t.progress}%)</span>
+                  </div>
+                `;
+              }).join('');
+            }
+          }
         }
       } catch (err) {}
     }
