@@ -89,6 +89,86 @@ Proposed Budget: $850.00 | Delivery: 4 Days.
 
 Best regards,
 Arnab Laha','UPWORK_PROPOSAL','READY_IN_PORTAL','2026-11-14 07:27:02');
+INSERT INTO "client_conversations" VALUES(14,'UP-41564','ZOEY:Upwork Closer','Hi there,
+
+I reviewed your project "Python & Node.js Developer for High-Throughput REST APIs" and would love to build this for you. Our engineering team specializes in production-ready Python, FastAPI, Automation, Node.js, delivering modular, fully tested code that fits enterprise standards.
+
+### Delivery Strategy:
+1. Core architecture & database design within 24 hours.
+2. Interactive staging deployment provided for continuous client preview.
+3. Full unit testing and documentation before milestone release.
+
+Proposed Budget: $550.00 | Delivery: 4 Days.
+
+Best regards,
+Arnab Laha','UPWORK_PROPOSAL','READY_IN_PORTAL','2026-11-14 07:32:44');
+INSERT INTO "client_conversations" VALUES(15,'UP-41565','ZOEY:Upwork Closer','Hi there,
+
+I reviewed your project "Modern Next.js Dashboard with Real-Time WebSockets" and would love to build this for you. Our engineering team specializes in production-ready Next.js, TypeScript, TailwindCSS, delivering modular, fully tested code that fits enterprise standards.
+
+### Delivery Strategy:
+1. Core architecture & database design within 24 hours.
+2. Interactive staging deployment provided for continuous client preview.
+3. Full unit testing and documentation before milestone release.
+
+Proposed Budget: $950.00 | Delivery: 4 Days.
+
+Best regards,
+Arnab Laha','UPWORK_PROPOSAL','READY_IN_PORTAL','2026-11-14 07:32:44');
+INSERT INTO "client_conversations" VALUES(16,'FL-40817605','ZOEY:Proposal Bot','Hi there,
+
+I reviewed your project requirement: "Logo Refinement and Vectorization". Our team specializes in full-stack Python engineering, workflow automation, and custom web applications, delivering clean, production-grade solutions that strictly match your functional criteria.
+
+### Proposed Execution Strategy & Milestones:
+1. **Phase 1: Architecture & Data Model:** Immediate setup of the core logic, schema, and API interface within 24 hours.
+2. **Phase 2: Core Development & Automation:** Full implementation with unit tests to ensure 100% bug-free behavior.
+3. **Phase 3: Client Review & Staging Preview:** We provide a live staging demo URL so you can inspect and test the deliverable firsthand.
+4. **Phase 4: Deployment & Final Handover:** Clean codebase delivery with clear setup documentation and deployment assistance.
+
+### Commercials:
+- **Proposed Bid:** $475.00 USD
+- **Estimated Delivery:** 5 Days
+
+We are ready to start immediately. Feel free to open a chat so we can discuss the specific details and launch the first milestone!
+
+Best regards,
+Arnab & The Autonomous Engineering Team','PROPOSAL_DRAFT','READY_TO_SUBMIT','2026-11-14 07:32:44');
+INSERT INTO "client_conversations" VALUES(17,'FL-40817599','ZOEY:Proposal Bot','Hi there,
+
+I reviewed your project requirement: "Part-Time Digital Marketing Management". Our team specializes in full-stack Python engineering, workflow automation, and custom web applications, delivering clean, production-grade solutions that strictly match your functional criteria.
+
+### Proposed Execution Strategy & Milestones:
+1. **Phase 1: Architecture & Data Model:** Immediate setup of the core logic, schema, and API interface within 24 hours.
+2. **Phase 2: Core Development & Automation:** Full implementation with unit tests to ensure 100% bug-free behavior.
+3. **Phase 3: Client Review & Staging Preview:** We provide a live staging demo URL so you can inspect and test the deliverable firsthand.
+4. **Phase 4: Deployment & Final Handover:** Clean codebase delivery with clear setup documentation and deployment assistance.
+
+### Commercials:
+- **Proposed Bid:** $6,650.00 USD
+- **Estimated Delivery:** 5 Days
+
+We are ready to start immediately. Feel free to open a chat so we can discuss the specific details and launch the first milestone!
+
+Best regards,
+Arnab & The Autonomous Engineering Team','PROPOSAL_DRAFT','READY_TO_SUBMIT','2026-11-14 07:32:44');
+INSERT INTO "client_conversations" VALUES(18,'FL-40817592','ZOEY:Proposal Bot','Hi there,
+
+I reviewed your project requirement: "Pre-Sales Live Chat Support". Our team specializes in full-stack Python engineering, workflow automation, and custom web applications, delivering clean, production-grade solutions that strictly match your functional criteria.
+
+### Proposed Execution Strategy & Milestones:
+1. **Phase 1: Architecture & Data Model:** Immediate setup of the core logic, schema, and API interface within 24 hours.
+2. **Phase 2: Core Development & Automation:** Full implementation with unit tests to ensure 100% bug-free behavior.
+3. **Phase 3: Client Review & Staging Preview:** We provide a live staging demo URL so you can inspect and test the deliverable firsthand.
+4. **Phase 4: Deployment & Final Handover:** Clean codebase delivery with clear setup documentation and deployment assistance.
+
+### Commercials:
+- **Proposed Bid:** $19.00 USD
+- **Estimated Delivery:** 3 Days
+
+We are ready to start immediately. Feel free to open a chat so we can discuss the specific details and launch the first milestone!
+
+Best regards,
+Arnab & The Autonomous Engineering Team','PROPOSAL_DRAFT','READY_TO_SUBMIT','2026-11-14 07:32:44');
 CREATE TABLE freelance_deals (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         deal_ref TEXT UNIQUE,
@@ -123,7 +203,12 @@ INSERT INTO "freelance_deals" VALUES(16,'ST-the-raenest-glob','SuperteamDAO Earn
 INSERT INTO "freelance_deals" VALUES(17,'ST-startup-village-','SuperteamDAO Earn','Superteam DAO Sponsor','Global (Solana)','Startup Village Chitwan - Gaida Race',NULL,100.0,100.0,100.0,'BOUNTY_OPEN','https://earn.superteam.fun/listings/bounties/startup-village-chitwan-gaida-race',NULL,NULL,0.99,'2026-11-14 07:31:05','2026-11-14 07:31:05');
 INSERT INTO "freelance_deals" VALUES(18,'ST-chimp-on-metaple','SuperteamDAO Earn','Superteam DAO Sponsor','Global (Solana)','Write a thread on $CHIMP Fair Launch - Part 1',NULL,500.0,500.0,500.0,'BOUNTY_OPEN','https://earn.superteam.fun/listings/bounties/chimp-on-metaplex',NULL,NULL,0.99,'2026-11-14 07:31:05','2026-11-14 07:31:05');
 INSERT INTO "freelance_deals" VALUES(19,'ST-make-a-video-abo','SuperteamDAO Earn','Superteam DAO Sponsor','Global (Solana)','Make a video about our x402 Feature',NULL,500.0,500.0,500.0,'BOUNTY_OPEN','https://earn.superteam.fun/listings/bounties/make-a-video-about-our-x402-feature',NULL,NULL,0.99,'2026-11-14 07:31:05','2026-11-14 07:31:05');
+INSERT INTO "freelance_deals" VALUES(20,'UP-41564','Upwork','Enterprise US Client','United States','Python & Node.js Developer for High-Throughput REST APIs',NULL,550.0,632.5,550.0,'PROPOSAL_DRAFTED','https://www.upwork.com',NULL,NULL,0.98,'2026-11-14 07:32:44','2026-11-14 07:32:44');
+INSERT INTO "freelance_deals" VALUES(21,'UP-41565','Upwork','FinTech Startup','United Kingdom','Modern Next.js Dashboard with Real-Time WebSockets',NULL,950.0,1092.5,950.0,'PROPOSAL_DRAFTED','https://www.upwork.com',NULL,NULL,0.98,'2026-11-14 07:32:44','2026-11-14 07:32:44');
+INSERT INTO "freelance_deals" VALUES(22,'FL-40817605','Freelancer.com','Verified Client','Global','Logo Refinement and Vectorization',NULL,250.0,750.0,475.0,'DRAFTED_WINNING_BID','https://www.freelancer.com/projects/adobe-creative-cloud/Logo-Refinement-Vectorization',NULL,NULL,0.98,'2026-11-14 07:32:44','2026-11-14 07:32:44');
+INSERT INTO "freelance_deals" VALUES(23,'FL-40817599','Freelancer.com','Verified Client','Global','Part-Time Digital Marketing Management',NULL,1500.0,12500.0,6650.0,'DRAFTED_WINNING_BID','https://www.freelancer.com/projects/digital-marketing/Part-Time-Digital-Marketing-Management',NULL,NULL,0.98,'2026-11-14 07:32:44','2026-11-14 07:32:44');
+INSERT INTO "freelance_deals" VALUES(24,'FL-40817592','Freelancer.com','Verified Client','Global','Pre-Sales Live Chat Support',NULL,15.0,25.0,19.0,'DRAFTED_WINNING_BID','https://www.freelancer.com/projects/customer-service/Pre-Sales-Live-Chat-Support',NULL,NULL,0.98,'2026-11-14 07:32:44','2026-11-14 07:32:44');
 DELETE FROM "sqlite_sequence";
-INSERT INTO "sqlite_sequence" VALUES('freelance_deals',19);
-INSERT INTO "sqlite_sequence" VALUES('client_conversations',13);
+INSERT INTO "sqlite_sequence" VALUES('freelance_deals',24);
+INSERT INTO "sqlite_sequence" VALUES('client_conversations',18);
 COMMIT;

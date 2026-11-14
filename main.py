@@ -64,41 +64,25 @@ def ensure_database():
         conn.close()
 
 def run_autonomous_agent_worker():
-    """Background worker daemon running 24/7 on the cloud server."""
-    print("[AutonomousWorker] 24/7 Agent Lifecycle Daemon starting...")
+    """Background worker daemon running 24/7 on the cloud server using the Unified Best-in-Class Engine."""
+    print("[AutonomousWorker] 24/7 Unified Best-in-Class Agent Daemon starting...")
     time.sleep(5)  # initial wait for server bind
     try:
-        from orchestrator import FullLifecycleFreelanceOrchestrator
-        orch = FullLifecycleFreelanceOrchestrator()
+        from unified_engine import UnifiedFreelanceEngine
+        unified_engine = UnifiedFreelanceEngine()
     except Exception as e:
-        print(f"[AutonomousWorker] Error importing orchestrator: {e}")
+        print(f"[AutonomousWorker] Error importing unified engine: {e}")
         return
 
     while True:
         try:
-            # Advance one deal or scout new freelance project
-            res = orch.run_lifecycle_step()
-            print(f"[AutonomousAgentAction] {res.get('agent')}: {res.get('action')} -> {res.get('desc')[:80]}")
+            # Single non-overlapping unified execution cycle
+            report = unified_engine.run_unified_cycle()
+            print(f"[AutonomousWorker] Unified Cycle Success -> Upwork: {report.get('upwork_deals_staged')} | Freelancer: {report.get('freelancer_bids_staged')} | Bounties: {report.get('web3_bounties_staged')}")
         except Exception as err:
-            print(f"[AutonomousWorker] Loop error: {err}")
+            print(f"[AutonomousWorker] Unified Loop Error: {err}")
 
-        # Run Upwork Autopilot cycle
-        try:
-            from upwork_worker import Upwork247Worker
-            up_worker = Upwork247Worker()
-            up_worker.run_cycle()
-        except Exception as up_err:
-            pass
-
-        # Run SuperteamDAO Earn & Multi-Platform cycle
-        try:
-            from multi_platform_connector import MultiPlatformFreelanceEngine
-            multi_engine = MultiPlatformFreelanceEngine()
-            multi_engine.scan_web3_bounties()
-        except Exception as multi_err:
-            pass
-
-        # Run every 60 seconds autonomously in background
+        # Run cleanly every 60 seconds autonomously in background
         time.sleep(60)
 
 from server import GomyweblabHttpHandler
