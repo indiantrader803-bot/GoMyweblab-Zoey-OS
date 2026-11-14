@@ -63,6 +63,32 @@ We are ready to start immediately. Feel free to open a chat so we can discuss th
 
 Best regards,
 Arnab & The Autonomous Engineering Team','PROPOSAL_DRAFT','READY_TO_SUBMIT','2026-11-14 07:13:43');
+INSERT INTO "client_conversations" VALUES(12,'UP-41222','ZOEY:Upwork Autopilot','Hi there,
+
+I read your project "Python Developer for REST API Integration & Automation" and would love to deliver this for you. With strong expertise across Python, workflow orchestration, and modern web application development, I can implement your requirements cleanly with full test coverage.
+
+### Key Highlights:
+- Architecture & Data Layer setup within 24 hours.
+- Clean, modular codebase adhering strictly to industry standards.
+- Live demo staging provided for your review before final release.
+
+Proposed Budget: $450.00 | Delivery: 4 Days.
+
+Best regards,
+Arnab Laha','UPWORK_PROPOSAL','READY_IN_PORTAL','2026-11-14 07:27:02');
+INSERT INTO "client_conversations" VALUES(13,'UP-41223','ZOEY:Upwork Autopilot','Hi there,
+
+I read your project "Full-Stack Web App (FastAPI / Next.js) with Authentication" and would love to deliver this for you. With strong expertise across Python, workflow orchestration, and modern web application development, I can implement your requirements cleanly with full test coverage.
+
+### Key Highlights:
+- Architecture & Data Layer setup within 24 hours.
+- Clean, modular codebase adhering strictly to industry standards.
+- Live demo staging provided for your review before final release.
+
+Proposed Budget: $850.00 | Delivery: 4 Days.
+
+Best regards,
+Arnab Laha','UPWORK_PROPOSAL','READY_IN_PORTAL','2026-11-14 07:27:02');
 CREATE TABLE freelance_deals (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         deal_ref TEXT UNIQUE,
@@ -91,7 +117,9 @@ INSERT INTO "freelance_deals" VALUES(10,'FL-40813336','Freelancer.com (Live API)
 INSERT INTO "freelance_deals" VALUES(11,'FL-40817533','Freelancer.com','Verified Client','Global','Fast, Editable PDF-to-Word Conversion',NULL,15.0,25.0,19.0,'DRAFTED_WINNING_BID','https://www.freelancer.com/projects/adobe-acrobat/Fast-Editable-PDF-Word-Conversion',NULL,NULL,0.98,'2026-11-14 07:13:43','2026-11-14 07:13:43');
 INSERT INTO "freelance_deals" VALUES(12,'FL-40817544','Freelancer.com','Verified Client','Global','Financial Reconciliation Desktop App',NULL,30.0,250.0,133.0,'DRAFTED_WINNING_BID','https://www.freelancer.com/projects/pandas/Financial-Reconciliation-Desktop-App',NULL,NULL,0.98,'2026-11-14 07:13:43','2026-11-14 07:13:43');
 INSERT INTO "freelance_deals" VALUES(13,'FL-40817537','Freelancer.com','Verified Client','Global','Automated VPN Subscription Platform Development',NULL,200.0,210.0,194.75,'DRAFTED_WINNING_BID','https://www.freelancer.com/projects/nodejs/Automated-VPN-Subscription-Platform',NULL,NULL,0.98,'2026-11-14 07:13:43','2026-11-14 07:13:43');
+INSERT INTO "freelance_deals" VALUES(14,'UP-41222','Upwork','Enterprise US Client','United States','Python Developer for REST API Integration & Automation',NULL,450.0,517.5,450.0,'PROPOSAL_DRAFTED','https://www.upwork.com',NULL,NULL,0.96,'2026-11-14 07:27:02','2026-11-14 07:27:02');
+INSERT INTO "freelance_deals" VALUES(15,'UP-41223','Upwork','FinTech Startup','United Kingdom','Full-Stack Web App (FastAPI / Next.js) with Authentication',NULL,850.0,9.77499999999999886e+02,850.0,'PROPOSAL_DRAFTED','https://www.upwork.com',NULL,NULL,0.96,'2026-11-14 07:27:02','2026-11-14 07:27:02');
 DELETE FROM "sqlite_sequence";
-INSERT INTO "sqlite_sequence" VALUES('freelance_deals',13);
-INSERT INTO "sqlite_sequence" VALUES('client_conversations',11);
+INSERT INTO "sqlite_sequence" VALUES('freelance_deals',15);
+INSERT INTO "sqlite_sequence" VALUES('client_conversations',13);
 COMMIT;

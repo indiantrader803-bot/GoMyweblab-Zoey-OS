@@ -81,6 +81,15 @@ def run_autonomous_agent_worker():
             print(f"[AutonomousAgentAction] {res.get('agent')}: {res.get('action')} -> {res.get('desc')[:80]}")
         except Exception as err:
             print(f"[AutonomousWorker] Loop error: {err}")
+
+        # Run Upwork Autopilot cycle
+        try:
+            from upwork_worker import Upwork247Worker
+            up_worker = Upwork247Worker()
+            up_worker.run_cycle()
+        except Exception as up_err:
+            pass
+
         # Run every 60 seconds autonomously in background
         time.sleep(60)
 
