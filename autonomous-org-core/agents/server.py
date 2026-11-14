@@ -16,6 +16,20 @@ sys.path.append(BASE_DIR)
 sys.path.append(os.path.join(BASE_DIR, "..", "connectors"))
 import auth_manager
 from live_trading_bridge import LiveTradingBridge
+
+# Initialize Zoey multi-core modules (zoey-ferbin-core memory + autonomous-org-core zoey)
+FERBIN_CORE_DIR = os.path.abspath(os.path.join(BASE_DIR, "..", "..", "zoey-ferbin-core"))
+if os.path.exists(FERBIN_CORE_DIR) and FERBIN_CORE_DIR not in sys.path:
+    sys.path.insert(0, FERBIN_CORE_DIR)
+
+try:
+    import zoey
+    org_zoey_dir = os.path.abspath(os.path.join(BASE_DIR, "..", "zoey"))
+    if org_zoey_dir not in getattr(zoey, '__path__', []):
+        zoey.__path__.append(org_zoey_dir)
+except Exception:
+    pass
+
 sys.path.append(os.path.join(BASE_DIR, "..", "zoey"))
 from zoey_orchestrator import ZoeyOrchestrator
 from daily_reporter import DailyReporter

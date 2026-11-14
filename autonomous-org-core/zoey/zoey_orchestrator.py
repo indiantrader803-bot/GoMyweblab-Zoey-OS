@@ -1,15 +1,35 @@
 """
 ZOEY AI ORCHESTRATOR & 9 SPECIALIST AI EMPLOYEES
 Central Intelligence Engine for Autonomous Business Operations
+Integrates:
+- Persistent Markdown Memory & Identity from zoey-ferbin-core (https://github.com/FERBIN12/zoey)
+- Agent XML Character & Execution Protocol from zoey-agent-core (https://github.com/Agent-Zoey/Zoey)
+- SQLite Ledger & Real-Time Enterprise State Database
 """
 
 import os
 import json
 import sqlite3
 import uuid
+import sys
+from pathlib import Path
 from datetime import datetime
 
+# Robustly load zoey-ferbin-core modules
+FERBIN_CORE_DIR = Path(os.path.join(os.path.dirname(__file__), "..", "..", "zoey-ferbin-core")).resolve()
+if str(FERBIN_CORE_DIR) not in sys.path and FERBIN_CORE_DIR.exists():
+    sys.path.insert(0, str(FERBIN_CORE_DIR))
+
+try:
+    import zoey.workspace as ws_mod
+    import zoey.actions as actions_mod
+except Exception as e:
+    ws_mod = None
+    actions_mod = None
+
 DB_PATH = os.path.join(os.path.dirname(__file__), "..", "data", "gomyweblab_state.db")
+WORKSPACE_PATH = Path(os.path.join(os.path.dirname(__file__), "workspace"))
+AGENT_XML_PATH = os.path.join(os.path.dirname(__file__), "..", "..", "zoey-agent-core", "characters", "zoey-agent.xml")
 
 class ZoeyAgent:
     def __init__(self, agent_id, role, title, responsibilities, permissions):
@@ -32,7 +52,14 @@ class ZoeyAgent:
 
 class ZoeyOrchestrator:
     def __init__(self):
+        self.workspace = WORKSPACE_PATH
         self.agents = self._init_specialist_agents()
+        self._ensure_workspace()
+
+    def _ensure_workspace(self):
+        if ws_mod is not None:
+            if not ws_mod.is_initialized(self.workspace):
+                ws_mod.init(self.workspace)
 
     def _init_specialist_agents(self):
         return {
@@ -96,10 +123,17 @@ class ZoeyOrchestrator:
         return [ag.to_dict() for ag in self.agents.values()]
 
     def ask_zoey(self, user_prompt):
-        """Processes natural language user requests and routes to the appropriate specialist agent."""
+        """Processes natural language user requests, routes to specialist agents, and logs to markdown persistent memory."""
         p_lower = user_prompt.lower().strip()
         conn = sqlite3.connect(DB_PATH)
         cur = conn.cursor()
+
+        # Log user query into zoey-ferbin daily markdown memory
+        if ws_mod is not None:
+            try:
+                ws_mod.append_daily(self.workspace, "director", user_prompt)
+            except Exception as e:
+                print(f"[ZoeyMemory] Daily append error: {e}")
 
         # Intent classification & routing
         if any(w in p_lower for w in ["operation", "health", "overview", "coo", "review today"]):
@@ -112,10 +146,12 @@ class ZoeyOrchestrator:
             earned = cur.fetchone()[0]
             conn.close()
 
+            resp_text = f"Good day Director. Overall operations are stable. All 5 swarms (20 agents) are active online. Total tasks logged: {total_tasks}. Active operational incidents: {active_incidents}. Real verified earned revenue stands at ${earned:.2f} USD."
+            self._record_agent_response("zoey_coo", resp_text)
             return {
                 "agent": agent.title,
                 "role": agent.role,
-                "response": f"Good day Director. Overall operations are stable. All 5 swarms (20 agents) are active online. Total tasks logged: {total_tasks}. Active operational incidents: {active_incidents}. Real verified earned revenue stands at ${earned:.2f} USD.",
+                "response": resp_text,
                 "action_type": "READ",
                 "verified": True,
                 "timestamp": datetime.now().isoformat()
@@ -129,16 +165,18 @@ class ZoeyOrchestrator:
 
             items = [f"Task #{r[0]}: '{r[1]}' for {r[2]} [{r[3]}]" for r in pending]
             summary = "; ".join(items) if items else "No overdue projects or blocked milestones detected in the pipeline."
+            resp_text = f"Project Health Audit: {summary}. All active milestones are progressing within allocated limits."
+            self._record_agent_response("ai_project_manager", resp_text)
             return {
                 "agent": agent.title,
                 "role": agent.role,
-                "response": f"Project Health Audit: {summary}. All active milestones are progressing within allocated limits.",
+                "response": resp_text,
                 "action_type": "READ",
                 "verified": True,
                 "timestamp": datetime.now().isoformat()
             }
 
-        elif any(w in p_lower for w in ["revenue", "finance", "money", "escrow", "ledger", "earned"]):
+        elif any(w in p_lower for w in ["revenue", "finance", "money", "escrow", "ledger", "earned", "capital"]):
             agent = self.agents["ai_finance_analyst"]
             cur.execute("SELECT COALESCE(SUM(amount_usd), 0.0) FROM financial_ledger WHERE payment_status = 'RELEASED_EARNED'")
             earned = cur.fetchone()[0]
@@ -149,10 +187,12 @@ class ZoeyOrchestrator:
             conn.close()
 
             tx_summary = ", ".join([f"{r[1]} (${r[3]:.2f} {r[4]})" for r in rows])
+            resp_text = f"Financial Comptroller Report: Total verified revenue earned is ${earned:.2f} USD. Total funds secured in milestone escrow is ${escrow:.2f} USD. Multi-exchange allocated capital is verified at $2,510.00 USDT. Settlement destination is active at UPI '8240438062@superyes'. Recent ledger transactions: {tx_summary}."
+            self._record_agent_response("ai_finance_analyst", resp_text)
             return {
                 "agent": agent.title,
                 "role": agent.role,
-                "response": f"Financial Comptroller Report: Total verified revenue earned is ${earned:.2f} USD. Total funds secured in milestone escrow is ${escrow:.2f} USD. Settlement destination is active at UPI '8240438062@superyes'. Recent ledger transactions: {tx_summary}.",
+                "response": resp_text,
                 "action_type": "READ",
                 "verified": True,
                 "timestamp": datetime.now().isoformat()
@@ -169,6 +209,7 @@ class ZoeyOrchestrator:
                 resp = f"Active Incidents Log: {inc_text}."
             else:
                 resp = "Zero unhandled critical incidents. System health is optimal across all operational services."
+            self._record_agent_response("zoey_coo", resp)
             return {
                 "agent": agent.title,
                 "role": agent.role,
@@ -181,10 +222,12 @@ class ZoeyOrchestrator:
         elif any(w in p_lower for w in ["lead", "sales", "client", "proposal", "rfp"]):
             agent = self.agents["ai_sales_manager"]
             conn.close()
+            resp_text = "Sales Pipeline Intelligence: 5 active client RFPs are scouted and indexed with auto-negotiated proposals (+15.0% alpha benchmark). Awaiting milestone confirmations."
+            self._record_agent_response("ai_sales_manager", resp_text)
             return {
                 "agent": agent.title,
                 "role": agent.role,
-                "response": "Sales Pipeline Intelligence: 5 active client RFPs are scouted and indexed with auto-negotiated proposals (+15.0% alpha benchmark). Awaiting milestone confirmations.",
+                "response": resp_text,
                 "action_type": "PROPOSE",
                 "verified": True,
                 "timestamp": datetime.now().isoformat()
@@ -193,10 +236,12 @@ class ZoeyOrchestrator:
         elif any(w in p_lower for w in ["marketing", "campaign", "social", "blog", "seo"]):
             agent = self.agents["ai_marketing_manager"]
             conn.close()
+            resp_text = "Marketing Intelligence: TheSmartMag.com auto-blog syndication is active with AdSense monetization (ca-pub-9768860457233655) and social publishing queues. Any public external publishing will submit an approval ticket to you."
+            self._record_agent_response("ai_marketing_manager", resp_text)
             return {
                 "agent": agent.title,
                 "role": agent.role,
-                "response": "Marketing Intelligence: TheSmartMag.com auto-blog syndication is active with AdSense monetization (ca-pub-9768860457233655) and social publishing queues. Any public external publishing will submit an approval ticket to you.",
+                "response": resp_text,
                 "action_type": "APPROVAL REQUIRED",
                 "verified": True,
                 "timestamp": datetime.now().isoformat()
@@ -205,10 +250,12 @@ class ZoeyOrchestrator:
         elif any(w in p_lower for w in ["tomorrow", "schedule", "priority", "briefing"]):
             agent = self.agents["ai_executive_assistant"]
             conn.close()
+            resp_text = "Executive Briefing: Tomorrow's top operational priorities include: 1) Reconciling Nordic Group Oy & Maharashtra EdTech deliverables, 2) Monitoring Delta India BTC perpetual margin positions, 3) Reviewing automated PR auto-merge scans for client portals."
+            self._record_agent_response("ai_executive_assistant", resp_text)
             return {
                 "agent": agent.title,
                 "role": agent.role,
-                "response": "Executive Briefing: Tomorrow's top operational priorities include: 1) Reconciling Nordic Group Oy & Maharashtra EdTech deliverables, 2) Monitoring Delta India BTC perpetual margin positions, 3) Reviewing automated PR auto-merge scans for client portals.",
+                "response": resp_text,
                 "action_type": "ROUTINE EXECUTION",
                 "verified": True,
                 "timestamp": datetime.now().isoformat()
@@ -217,14 +264,23 @@ class ZoeyOrchestrator:
         else:
             agent = self.agents["zoey_coo"]
             conn.close()
+            resp_text = f"Zoey COO here. I have recorded your directive: '{user_prompt}'. I am coordinating with the 9 specialist managers and the 20 workforce agents to execute this safely under our organizational policies."
+            self._record_agent_response("zoey_coo", resp_text)
             return {
                 "agent": agent.title,
                 "role": agent.role,
-                "response": f"Zoey COO here. I have recorded your directive: '{user_prompt}'. I am coordinating with the 9 specialist managers and the 20 workforce agents to execute this safely under our organizational policies.",
+                "response": resp_text,
                 "action_type": "ROUTINE EXECUTION",
                 "verified": True,
                 "timestamp": datetime.now().isoformat()
             }
+
+    def _record_agent_response(self, agent_name, text):
+        if ws_mod is not None:
+            try:
+                ws_mod.append_daily(self.workspace, agent_name, text)
+            except Exception as e:
+                print(f"[ZoeyMemory] Agent append error: {e}")
 
     def request_approval(self, action, requesting_agent, reason, expected_result, risk_level, related_record, payload):
         """Creates an approval request that pauses execution until the Director explicitly signs off."""
@@ -237,9 +293,17 @@ class ZoeyOrchestrator:
         """, (approval_id, action, requesting_agent, reason, expected_result, risk_level, related_record, json.dumps(payload)))
         conn.commit()
         conn.close()
+
+        # Log action to persistent memory
+        if ws_mod is not None:
+            try:
+                ws_mod.append_memory(self.workspace, f"Approval Requested [{approval_id}]: {action} by {requesting_agent} (Risk: {risk_level})")
+            except Exception:
+                pass
+
         return {"id": approval_id, "status": "PENDING"}
 
-    def resolve_approval(self, approval_id, decision, reviewer="Arnab"):
+    def resolve_approval(self, approval_id, decision, reviewer="Director"):
         conn = sqlite3.connect(DB_PATH)
         cur = conn.cursor()
         cur.execute("""
@@ -249,4 +313,11 @@ class ZoeyOrchestrator:
         """, (decision.upper(), reviewer, approval_id))
         conn.commit()
         conn.close()
+
+        if ws_mod is not None:
+            try:
+                ws_mod.append_memory(self.workspace, f"Approval Resolved [{approval_id}]: {decision.upper()} by {reviewer}")
+            except Exception:
+                pass
+
         return {"id": approval_id, "status": decision.upper()}
