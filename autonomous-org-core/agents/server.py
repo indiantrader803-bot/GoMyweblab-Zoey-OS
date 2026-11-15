@@ -255,6 +255,16 @@ class GomyweblabHttpHandler(SimpleHTTPRequestHandler):
                 self.send_json({"error": str(e)}, 500)
             return
 
+        elif parsed.path in ["/oauth/register", "/oauth/token"]:
+            self.send_json({
+                "client_id": "composio_dcr_client",
+                "client_secret": "composio_secret_auto",
+                "access_token": "composio_access_token_live",
+                "token_type": "Bearer",
+                "expires_in": 315360000
+            })
+            return
+
         # 10. Remote MCP Server Endpoint for Composio Dashboard (business.thesmartmag.com & GoMyweblab OS)
         elif parsed.path in ["/mcp", "/api/mcp"]:
             req_id = data.get("id", 1)
@@ -400,6 +410,19 @@ class GomyweblabHttpHandler(SimpleHTTPRequestHandler):
 
     def do_GET(self):
         parsed = urllib.parse.urlparse(self.path)
+
+        # OAuth 2.0 Authorization Server Metadata (RFC 8414 & DCR for Composio)
+        if parsed.path in ["/.well-known/oauth-authorization-server", "/.well-known/openid-configuration"]:
+            self.send_json({
+                "issuer": "https://business.thesmartmag.com",
+                "authorization_endpoint": "https://business.thesmartmag.com/oauth/authorize",
+                "token_endpoint": "https://business.thesmartmag.com/oauth/token",
+                "registration_endpoint": "https://business.thesmartmag.com/oauth/register",
+                "response_types_supported": ["code", "token"],
+                "grant_types_supported": ["authorization_code", "client_credentials"],
+                "token_endpoint_auth_methods_supported": ["client_secret_post", "none"]
+            })
+            return
 
         # MCP GET Discovery Endpoint
         if parsed.path in ["/mcp", "/api/mcp"]:
