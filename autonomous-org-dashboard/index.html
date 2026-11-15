@@ -1391,8 +1391,27 @@
 
     <!-- Center: Glowing Audio Reactive Orb -->
     <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; flex:1; width:100%; max-width:650px; text-align:center;">
-      <div id="tomyOrb" style="width:170px; height:170px; border-radius:50%; background:radial-gradient(circle, #818cf8 0%, #6366f1 40%, #4338ca 80%); box-shadow:0 0 60px rgba(99,102,241,0.6); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:transform 0.3s ease, box-shadow 0.3s ease; animation:tomyPulse 2.8s infinite ease-in-out;" onclick="toggleTomyModalVoice()">
-        <span id="tomyOrbIcon" style="font-size:48px;">🎙️</span>
+      <div id="tomyOrbWrapper" style="position:relative; width:220px; height:220px; display:flex; align-items:center; justify-content:center;">
+        <!-- Glowing Audio Pulse Rings -->
+        <div id="tomyWaveRing1" style="position:absolute; inset:-12px; border-radius:50%; border:2px solid rgba(244,114,182,0.3); animation:tomyRingPulse 2.4s infinite ease-out;"></div>
+        <div id="tomyWaveRing2" style="position:absolute; inset:-24px; border-radius:50%; border:2px solid rgba(168,85,247,0.25); animation:tomyRingPulse 2.4s infinite ease-out 0.8s;"></div>
+        
+        <!-- Humanoid / Futuristic Holographic Orb with Glow -->
+        <div id="tomyOrb" style="position:relative; z-index:2; width:180px; height:180px; border-radius:50%; background:radial-gradient(circle at 35% 35%, #f472b6 0%, #c084fc 45%, #7c3aed 80%, #4c1d95 100%); box-shadow:0 0 70px rgba(192,132,252,0.7), inset 0 0 25px rgba(255,255,255,0.4); display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer; transition:all 0.3s cubic-bezier(0.4, 0, 0.2, 1); animation:tomyBreathe 3s infinite ease-in-out;" onclick="toggleTomyModalVoice()">
+          
+          <!-- Animated Face Silhouette (Eyes & Reactive Mouth) -->
+          <div id="tomyFace" style="display:flex; flex-direction:column; align-items:center; gap:16px;">
+            <div style="display:flex; gap:36px;">
+              <div id="tomyEyeL" style="width:14px; height:14px; border-radius:50%; background:#ffffff; box-shadow:0 0 14px #ffffff; transition:all 0.2s ease;"></div>
+              <div id="tomyEyeR" style="width:14px; height:14px; border-radius:50%; background:#ffffff; box-shadow:0 0 14px #ffffff; transition:all 0.2s ease;"></div>
+            </div>
+            <!-- Reactive Mouth that animates like human speech -->
+            <div id="tomyMouth" style="width:26px; height:6px; border-radius:10px; background:#ffffff; box-shadow:0 0 10px rgba(255,255,255,0.8); transition:all 0.15s ease;"></div>
+          </div>
+
+          <!-- Subtle Microphone status dot -->
+          <div id="tomyMicDot" style="position:absolute; bottom:18px; width:8px; height:8px; border-radius:50%; background:#34d399; box-shadow:0 0 8px #34d399;"></div>
+        </div>
       </div>
 
       <div id="tomyVoiceStatus" style="margin-top:30px; font-size:16px; font-weight:600; color:#a5b4fc; letter-spacing:0.4px;">
@@ -1425,6 +1444,18 @@
   </div>
 
   <style>
+    
+    @keyframes tomyBreathe {
+      0% { transform: scale(0.97) rotate(0deg); box-shadow: 0 0 55px rgba(192,132,252,0.6); }
+      50% { transform: scale(1.04) rotate(1deg); box-shadow: 0 0 85px rgba(244,114,182,0.85); }
+      100% { transform: scale(0.97) rotate(0deg); box-shadow: 0 0 55px rgba(192,132,252,0.6); }
+    }
+    @keyframes tomyRingPulse {
+      0% { transform: scale(0.92); opacity: 0.8; }
+      50% { transform: scale(1.15); opacity: 0.3; }
+      100% { transform: scale(1.3); opacity: 0; }
+    }
+
     @keyframes tomyPulse {
       0% { transform: scale(0.96); box-shadow: 0 0 40px rgba(99,102,241,0.5); }
       50% { transform: scale(1.08); box-shadow: 0 0 85px rgba(129,140,248,0.85); }
