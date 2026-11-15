@@ -3518,10 +3518,11 @@ window.addEventListener('DOMContentLoaded', () => {
 
     modalRecognition.onstart = function() {
       isModalListening = true;
-      if (status) status.innerText = 'Listening to you now...';
-      if (orb) {
-        orb.style.boxShadow = '0 0 90px #38bdf8';
-      }
+      if (status) status.innerText = '[ AUDIO SIGNAL DETECTED — SPEAK NOW ]';
+      const telem = document.getElementById('tonyTelemetryState');
+      if (telem) telem.innerText = 'STATUS: LISTENING INTENSITY: HIGH';
+      const holoImg = document.getElementById('tonyHologramImg');
+      if (holoImg) holoImg.style.filter = 'drop-shadow(0 0 65px rgba(56, 189, 248, 0.9)) drop-shadow(0 0 110px rgba(245, 158, 11, 0.7))';
     };
 
     modalRecognition.onresult = function(event) {
@@ -3529,12 +3530,14 @@ window.addEventListener('DOMContentLoaded', () => {
       for (let i = event.resultIndex; i < event.results.length; ++i) {
         if (event.results[i].isFinal) {
           const finalTranscript = event.results[i][0].transcript;
-          if (transcriptBox) transcriptBox.innerText = '"' + finalTranscript + '"';
+          if (transcriptBox) transcriptBox.innerText = finalTranscript;
           isModalListening = false;
+          const telem = document.getElementById('tonyTelemetryState');
+          if (telem) telem.innerText = 'STATUS: THINKING INTENSITY: HIGH';
           handleMediaVoiceDirective(finalTranscript);
         } else {
           interim += event.results[i][0].transcript;
-          if (transcriptBox) transcriptBox.innerText = '"' + interim + '"';
+          if (transcriptBox) transcriptBox.innerText = interim;
         }
       }
     };
@@ -3612,95 +3615,110 @@ window.addEventListener('DOMContentLoaded', () => {
     <!-- TONY FULLSCREEN INTERACTIVE VOICE EXPERIENCE MODAL      -->
     <!-- (Same as Azaris / Luke's video: Pulsing Orb, Live Mic)   -->
     <!-- ======================================================== -->
-    <div id="tonyVoiceModal" style="display:none; position:fixed; inset:0; z-index:99999; background:radial-gradient(circle at center, #1e1b4b 0%, #030712 100%); color:#fff; flex-direction:column; align-items:center; justify-content:space-between; padding:40px 20px; box-sizing:border-box;">
+    <!-- ======================================================== -->
+    <!-- TONY FULLSCREEN HOLOGRAPHIC CYBER-ENTITY VOICE UI           -->
+    <!-- Exactly matching the apex cybernetic holographic avatar UI   -->
+    <!-- ======================================================== -->
+    <div id="tonyVoiceModal" style="display:none; position:fixed; inset:0; z-index:99999; background:#000000; color:#fff; flex-direction:column; align-items:center; justify-content:space-between; padding:24px 20px; box-sizing:border-box; overflow:hidden;">
       
-      <!-- Top Bar: Status & Close -->
-      <div style="width:100%; max-width:800px; display:flex; justify-content:space-between; align-items:center;">
-        <div style="display:flex; align-items:center; gap:10px;">
-          <div style="width:12px; height:12px; border-radius:50%; background:#10b981; box-shadow:0 0 12px #10b981;"></div>
-          <span style="font-weight:700; letter-spacing:0.5px; font-size:15px; color:#e0e7ff;">TONY EXECUTIVE VOICE MODE</span>
+      <!-- Top Telemetry Header -->
+      <div style="width:100%; max-width:1100px; display:flex; justify-content:space-between; align-items:center; z-index:10;">
+        <div style="display:flex; align-items:center; gap:12px;">
+          <div style="width:10px; height:10px; border-radius:50%; background:#00f2fe; box-shadow:0 0 14px #00f2fe; animation:tonyCyanPulse 1.8s infinite;"></div>
+          <span style="font-family:'Courier New', monospace; font-weight:800; letter-spacing:2px; font-size:13px; color:#38bdf8;">APEX // TONY AI SYNTHETIC INTELLIGENCE</span>
         </div>
-        <button onclick="closeTonyVoiceModal()" style="background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); color:#fff; padding:8px 16px; border-radius:20px; cursor:pointer; font-size:13px; font-weight:600;">
-          ✕ Exit Voice Mode
-        </button>
+        <div style="display:flex; align-items:center; gap:16px;">
+          <span id="tonyTelemetryState" style="font-family:'Courier New', monospace; font-size:12px; color:#38bdf8; letter-spacing:1.5px; text-shadow:0 0 10px rgba(56,189,248,0.8);">STATUS: LISTENING INTENSITY: HIGH</span>
+          <button onclick="closeTonyVoiceModal()" style="background:rgba(255,255,255,0.06); border:1px solid rgba(56,189,248,0.4); color:#e0f2fe; padding:6px 16px; border-radius:4px; cursor:pointer; font-size:12px; font-family:'Courier New', monospace; font-weight:700; letter-spacing:1px; backdrop-filter:blur(8px);">
+            [EXIT SYSTEM]
+          </button>
+        </div>
       </div>
 
-      <!-- Center: Glowing Siri/Jarvis/Tony Audio Reactive Orb -->
-      <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; flex:1; width:100%; max-width:600px; text-align:center;">
-        <div id="tonyOrbWrapper" style="position:relative; width:220px; height:220px; display:flex; align-items:center; justify-content:center;">
-        <!-- Glowing Audio Pulse Rings -->
-        <div id="tonyWaveRing1" style="position:absolute; inset:-12px; border-radius:50%; border:2px solid rgba(244,114,182,0.3); animation:tonyRingPulse 2.4s infinite ease-out;"></div>
-        <div id="tonyWaveRing2" style="position:absolute; inset:-24px; border-radius:50%; border:2px solid rgba(168,85,247,0.25); animation:tonyRingPulse 2.4s infinite ease-out 0.8s;"></div>
+      <!-- Center: Fullscreen Glowing Holographic Entity with Audio Reactivity -->
+      <div style="position:relative; width:100%; max-width:900px; flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer;" onclick="toggleTonyModalVoice()">
         
-        <!-- Humanoid / Futuristic Holographic Orb with Glow -->
-        <div id="tonyOrb" style="position:relative; z-index:2; width:180px; height:180px; border-radius:50%; background:radial-gradient(circle at 35% 35%, #f472b6 0%, #c084fc 45%, #7c3aed 80%, #4c1d95 100%); box-shadow:0 0 70px rgba(192,132,252,0.7), inset 0 0 25px rgba(255,255,255,0.4); display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer; transition:all 0.3s cubic-bezier(0.4, 0, 0.2, 1); animation:tonyBreathe 3s infinite ease-in-out;" onclick="toggleTonyModalVoice()">
+        <!-- Background Ambient Bioluminescent Mountains / Circuit Glow -->
+        <div style="position:absolute; inset:0; background:radial-gradient(circle at center, rgba(14, 165, 233, 0.22) 0%, rgba(2, 6, 23, 0.8) 60%, #000000 100%); z-index:1;"></div>
+        
+        <!-- Cyber Holographic Figure Container -->
+        <div id="tonyHologramContainer" style="position:relative; z-index:3; width:100%; max-width:480px; height:520px; display:flex; align-items:center; justify-content:center;">
           
-          <!-- Animated Face Silhouette (Eyes & Reactive Mouth) -->
-          <div id="tonyFace" style="display:flex; flex-direction:column; align-items:center; gap:16px;">
-            <div style="display:flex; gap:36px;">
-              <div id="tonyEyeL" style="width:14px; height:14px; border-radius:50%; background:#ffffff; box-shadow:0 0 14px #ffffff; transition:all 0.2s ease;"></div>
-              <div id="tonyEyeR" style="width:14px; height:14px; border-radius:50%; background:#ffffff; box-shadow:0 0 14px #ffffff; transition:all 0.2s ease;"></div>
-            </div>
-            <!-- Reactive Mouth that animates like human speech -->
-            <div id="tonyMouth" style="width:26px; height:6px; border-radius:10px; background:#ffffff; box-shadow:0 0 10px rgba(255,255,255,0.8); transition:all 0.15s ease;"></div>
+          <!-- Outer Pulsing Aura Rings -->
+          <div id="tonyPulseAura" style="position:absolute; width:340px; height:340px; border-radius:50%; background:radial-gradient(circle, rgba(56,189,248,0.3) 0%, rgba(245,158,11,0.2) 50%, transparent 70%); filter:blur(30px); animation:tonyAuraBreathe 3s infinite ease-in-out;"></div>
+          
+          <!-- Holographic Entity Canvas / Image -->
+          <div style="position:relative; width:100%; height:100%; display:flex; align-items:center; justify-content:center;">
+            <img id="tonyHologramImg" src="/assets/tony_hologram_core.jpg" alt="Tony Cybernetic Hologram" style="max-height:480px; width:auto; object-fit:contain; border-radius:16px; filter:drop-shadow(0 0 45px rgba(56, 189, 248, 0.65)) drop-shadow(0 0 90px rgba(245, 158, 11, 0.45)); animation:tonyHoloGlitch 4s infinite ease-in-out; transition:transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);">
+            
+            <!-- Glowing Core Energy Heartbeat Overlay -->
+            <div id="tonyEnergyCore" style="position:absolute; top:28%; left:50%; transform:translate(-50%, -50%); width:110px; height:90px; border-radius:50%; background:radial-gradient(circle, rgba(254, 240, 138, 0.85) 0%, rgba(245, 158, 11, 0.6) 45%, rgba(56, 189, 248, 0) 75%); filter:blur(10px); mix-blend-mode:screen; pointer-events:none; animation:tonyCoreFlicker 1.6s infinite alternate;"></div>
           </div>
+        </div>
 
-          <!-- Subtle Microphone status dot -->
-          <div id="tonyMicDot" style="position:absolute; bottom:18px; width:8px; height:8px; border-radius:50%; background:#34d399; box-shadow:0 0 8px #34d399;"></div>
+        <!-- Real-Time Subtitle Bar (Exactly Like the Video: Centered, Bold, Translucent Shadow) -->
+        <div style="position:absolute; bottom:25px; left:50%; transform:translateX(-50%); z-index:10; width:90%; max-width:700px; text-align:center;">
+          <div id="tonyLiveTranscriptBox" style="font-family:'Montserrat', system-ui, -apple-system, sans-serif; font-size:32px; font-weight:800; color:#ffffff; text-shadow:0 3px 12px rgba(0,0,0,0.95), 0 0 20px rgba(56,189,248,0.7); letter-spacing:-0.5px; line-height:1.25; min-height:45px;">
+            Listening
+          </div>
+          <div id="tonyVoiceStatus" style="margin-top:8px; font-family:'Courier New', monospace; font-size:12px; color:#38bdf8; letter-spacing:1px; text-transform:uppercase;">
+            [ TAP ANYWHERE TO SPEAK TO TONY ]
+          </div>
         </div>
       </div>
 
-        <div id="tonyVoiceStatus" style="margin-top:30px; font-size:16px; font-weight:600; color:#a5b4fc; letter-spacing:0.4px;">
-          Click the Orb or speak: "Tony, say hi" or "Tony, blast free ads"
-        </div>
-
-        <!-- Live Subtitles / Transcription Stream -->
-        <div id="tonyLiveTranscriptBox" style="margin-top:20px; min-height:60px; max-width:550px; font-size:17px; line-height:1.5; color:#f8fafc; font-weight:500; text-shadow:0 2px 8px rgba(0,0,0,0.6);">
-          "Listening for your command..."
-        </div>
-      </div>
-
-      <!-- Bottom Bar: Model Switcher & Manual Controls -->
-      <div style="width:100%; max-width:600px; display:flex; flex-direction:column; align-items:center; gap:12px;">
-        <div style="display:flex; align-items:center; gap:10px; font-size:12px; color:#94a3b8;">
-          <span>Active LLM Model:</span>
-          <select id="tonyModelSelector" style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.2); color:#fff; padding:6px 12px; border-radius:8px; font-size:12px; cursor:pointer;">
-            <option value="gpt-5">GPT-5 / GPT-4o (Autonomous)</option>
-            <option value="claude-3-7">Claude 3.7 Sonnet (Advanced Reasoning)</option>
-            <option value="grok-3">Grok 3 (Real-time X Knowledge)</option>
-            <option value="deepseek-r1">DeepSeek R1 (Open Logic)</option>
-          </select>
-        </div>
-        <div style="font-size:11.5px; color:#64748b;">
-          💡 Same voice interface as Azaris: Full duplex audio with auto speech recognition & Jarvis-style vocal synthesis.
-        </div>
+      <!-- Bottom Audio Frequency Bar -->
+      <div style="width:100%; max-width:800px; display:flex; justify-content:center; align-items:center; gap:4px; height:24px; z-index:10;">
+        <div class="tony-eq-bar" style="height:6px;"></div>
+        <div class="tony-eq-bar" style="height:14px;"></div>
+        <div class="tony-eq-bar" style="height:22px;"></div>
+        <div class="tony-eq-bar" style="height:12px;"></div>
+        <div class="tony-eq-bar" style="height:18px;"></div>
+        <div class="tony-eq-bar" style="height:8px;"></div>
+        <div class="tony-eq-bar" style="height:24px;"></div>
+        <div class="tony-eq-bar" style="height:16px;"></div>
+        <div class="tony-eq-bar" style="height:10px;"></div>
       </div>
     </div>
 
-    <!-- Voice Orb Animation Styles -->
+    <!-- Holographic Animations Matching Uploaded Video Exactly -->
     <style>
-      
-    @keyframes tonyBreathe {
-      0% { transform: scale(0.97) rotate(0deg); box-shadow: 0 0 55px rgba(192,132,252,0.6); }
-      50% { transform: scale(1.04) rotate(1deg); box-shadow: 0 0 85px rgba(244,114,182,0.85); }
-      100% { transform: scale(0.97) rotate(0deg); box-shadow: 0 0 55px rgba(192,132,252,0.6); }
+    .tony-eq-bar {
+      width: 4px;
+      background: #38bdf8;
+      border-radius: 2px;
+      box-shadow: 0 0 8px #38bdf8;
+      animation: tonyEqBounce 0.8s infinite ease-in-out alternate;
     }
-    @keyframes tonyRingPulse {
-      0% { transform: scale(0.92); opacity: 0.8; }
-      50% { transform: scale(1.15); opacity: 0.3; }
-      100% { transform: scale(1.3); opacity: 0; }
-    }
+    .tony-eq-bar:nth-child(2n) { animation-delay: 0.15s; background: #fbbf24; box-shadow: 0 0 8px #fbbf24; }
+    .tony-eq-bar:nth-child(3n) { animation-delay: 0.3s; }
 
-    @keyframes tonyPulse {
-        0% { transform: scale(0.96); box-shadow: 0 0 40px rgba(99,102,241,0.5); }
-        50% { transform: scale(1.08); box-shadow: 0 0 85px rgba(129,140,248,0.85); }
-        100% { transform: scale(0.96); box-shadow: 0 0 40px rgba(99,102,241,0.5); }
-      }
-      @keyframes tonySpeakingWave {
-        0% { transform: scale(1.0); box-shadow: 0 0 60px #10b981; }
-        50% { transform: scale(1.18); box-shadow: 0 0 110px #34d399; }
-        100% { transform: scale(1.0); box-shadow: 0 0 60px #10b981; }
-      }
+    @keyframes tonyEqBounce {
+      0% { height: 4px; }
+      100% { height: 26px; }
+    }
+    @keyframes tonyAuraBreathe {
+      0% { transform: scale(0.92); opacity: 0.6; }
+      50% { transform: scale(1.12); opacity: 0.9; }
+      100% { transform: scale(0.92); opacity: 0.6; }
+    }
+    @keyframes tonyCoreFlicker {
+      0% { transform: translate(-50%, -50%) scale(0.95); opacity: 0.75; }
+      50% { transform: translate(-50%, -50%) scale(1.12); opacity: 1; filter: blur(14px); }
+      100% { transform: translate(-50%, -50%) scale(0.95); opacity: 0.75; }
+    }
+    @keyframes tonyHoloGlitch {
+      0% { transform: translateY(0px) scale(1); filter: drop-shadow(0 0 35px rgba(56, 189, 248, 0.6)); }
+      48% { transform: translateY(-4px) scale(1.01); filter: drop-shadow(0 0 50px rgba(56, 189, 248, 0.8)) drop-shadow(0 0 80px rgba(245, 158, 11, 0.5)); }
+      50% { transform: translateY(-3px) scale(1.015); }
+      52% { transform: translateY(-4px) scale(1.01); }
+      100% { transform: translateY(0px) scale(1); filter: drop-shadow(0 0 35px rgba(56, 189, 248, 0.6)); }
+    }
+    @keyframes tonyCyanPulse {
+      0% { transform: scale(0.9); box-shadow: 0 0 6px #00f2fe; }
+      50% { transform: scale(1.2); box-shadow: 0 0 16px #00f2fe; }
+      100% { transform: scale(0.9); box-shadow: 0 0 6px #00f2fe; }
+    }
     </style>
 
 </body>
