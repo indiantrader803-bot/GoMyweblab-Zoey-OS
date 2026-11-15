@@ -7,7 +7,7 @@ Runs 24/7 in the cloud:
   * Freelancer Winning Bids: discovers active contests & projects
   * Web3 & Superteam Earn: monitors crypto bounties
   * Fiverr Gig Optimizer: refines SEO tags & keyword ranking
-  * J.A.R.V.I.S. Operations Heartbeat: writes live task telemetry to DB for UI
+  * TOMY Operations Heartbeat: writes live task telemetry to DB for UI
 """
 
 import os
@@ -133,7 +133,7 @@ def run_autonomous_agent_worker():
             # 2. Telemetry Completion
             record_live_background_task(
                 "Proposal Optimization & Market Pricing",
-                "J.A.R.V.I.S. Proposal Closer",
+                "TOMY Proposal Closer",
                 "PROPOSALS",
                 "COMPLETED_OK",
                 f"Cycle #{cycle_count} synced: {upwork_cnt} Upwork deals, {freelancer_cnt} Freelancer bids, {bounties_cnt} Web3 bounties",
@@ -144,7 +144,7 @@ def run_autonomous_agent_worker():
             print(f"[AutonomousWorker] Unified Loop Error: {err}")
             record_live_background_task(
                 "Background Task Watchdog",
-                "J.A.R.V.I.S. COO",
+                "TOMY COO",
                 "MONITORING",
                 "RECOVERING",
                 f"Heartbeat checked at {now_str}. Reconnecting pipeline...",

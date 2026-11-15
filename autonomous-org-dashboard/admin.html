@@ -964,7 +964,7 @@
           <li class="nav-item" onclick="switchPageView('zoey', this)" style="border:1.5px solid #a855f7;background:linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);margin-bottom:6px;">
             <div class="nav-left-content">
               <span style="font-size:16px;">🤖</span>
-              <span style="font-weight:800;color:#6d28d9;">J.A.R.V.I.S. (COO)</span>
+              <span style="font-weight:800;color:#6d28d9;">TOMY (COO)</span>
             </div>
             <span class="nav-badge-pill" style="background:#7c3aed;color:#fff;">ONLINE</span>
           </li>
@@ -1090,11 +1090,12 @@
                 ✨
               </div>
               <div>
-                <h2 style="font-size:20px; font-weight:800; color:#4c1d95;">J.A.R.V.I.S. — Chief Operating Officer</h2>
+                <h2 style="font-size:20px; font-weight:800; color:#4c1d95;">TOMY — Chief Operating Officer & Executive AI</h2>
                 <p style="font-size:12.5px; color:#6d28d9; margin-top:2px;">Autonomous Business Operating System · Voice Synthesis Active · 9 Specialist Managers · 20 Live Execution Agents</p>
               </div>
             </div>
             <div style="display:flex; gap:8px;">
+              <button class="btn-action-primary" onclick="openTomyVoiceModal()" style="background:#4338ca; border:1px solid #6366f1; color:#fff; font-weight:700; box-shadow:0 2px 8px rgba(99,102,241,0.4);">🎙️ Open Tomy Voice (Fullscreen)</button>
               <button class="btn-action-primary" onclick="triggerTestVoiceCall()" style="background:#7c3aed;box-shadow:0 4px 12px rgba(124,58,237,0.25);">
                 📞 Test Emergency Call
               </button>
@@ -1115,9 +1116,9 @@
             </div>
             <div id="zoeyResponseBox" style="margin-top:10px; display:none; padding:12px; background:#f5f3ff; border-radius:8px; border:1px solid #ddd6fe; font-size:12.5px; color:#3b0764; font-family:var(--font-sans); line-height:1.5;">
               <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-                <div style="font-weight:700; color:#6d28d9;" id="zoeyAgentLabel">J.A.R.V.I.S. (COO)</div>
+                <div style="font-weight:700; color:#6d28d9;" id="zoeyAgentLabel">TOMY (COO)</div>
                 <button onclick="speakZoeyResponse()" id="speakResponseBtn" style="background:#ede9fe; border:1px solid #c4b5fd; color:#6d28d9; padding:2px 10px; border-radius:6px; font-size:11px; cursor:pointer; font-weight:600; display:flex; align-items:center; gap:4px;">
-                  🔊 Play Voice (J.A.R.V.I.S.)
+                  🔊 Play Voice (TOMY)
                 </button>
               </div>
               <div id="zoeyResponseText"></div>
@@ -2802,6 +2803,71 @@ window.addEventListener('DOMContentLoaded', () => {
 
     window.addEventListener('DOMContentLoaded', checkAuthStatus);
 </script>
+
+
+    <!-- ======================================================== -->
+    <!-- TOMY FULLSCREEN INTERACTIVE VOICE EXPERIENCE MODAL      -->
+    <!-- (Same as Azaris / Luke's video: Pulsing Orb, Live Mic)   -->
+    <!-- ======================================================== -->
+    <div id="tomyVoiceModal" style="display:none; position:fixed; inset:0; z-index:99999; background:radial-gradient(circle at center, #1e1b4b 0%, #030712 100%); color:#fff; flex-direction:column; align-items:center; justify-content:space-between; padding:40px 20px; box-sizing:border-box;">
+      
+      <!-- Top Bar: Status & Close -->
+      <div style="width:100%; max-width:800px; display:flex; justify-content:space-between; align-items:center;">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div style="width:12px; height:12px; border-radius:50%; background:#10b981; box-shadow:0 0 12px #10b981;"></div>
+          <span style="font-weight:700; letter-spacing:0.5px; font-size:15px; color:#e0e7ff;">TOMY EXECUTIVE VOICE MODE</span>
+        </div>
+        <button onclick="closeTomyVoiceModal()" style="background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); color:#fff; padding:8px 16px; border-radius:20px; cursor:pointer; font-size:13px; font-weight:600;">
+          ✕ Exit Voice Mode
+        </button>
+      </div>
+
+      <!-- Center: Glowing Siri/Jarvis/Tomy Audio Reactive Orb -->
+      <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; flex:1; width:100%; max-width:600px; text-align:center;">
+        <div id="tomyOrb" style="width:170px; height:170px; border-radius:50%; background:radial-gradient(circle, #818cf8 0%, #6366f1 40%, #4338ca 80%); box-shadow:0 0 60px rgba(99,102,241,0.6); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:transform 0.3s ease, box-shadow 0.3s ease; animation:tomyPulse 2.8s infinite ease-in-out;" onclick="toggleTomyModalVoice()">
+          <span id="tomyOrbIcon" style="font-size:48px;">🎙️</span>
+        </div>
+
+        <div id="tomyVoiceStatus" style="margin-top:30px; font-size:16px; font-weight:600; color:#a5b4fc; letter-spacing:0.4px;">
+          Click the Orb or speak: "Tomy, say hi" or "Tomy, blast free ads"
+        </div>
+
+        <!-- Live Subtitles / Transcription Stream -->
+        <div id="tomyLiveTranscriptBox" style="margin-top:20px; min-height:60px; max-width:550px; font-size:17px; line-height:1.5; color:#f8fafc; font-weight:500; text-shadow:0 2px 8px rgba(0,0,0,0.6);">
+          "Listening for your command..."
+        </div>
+      </div>
+
+      <!-- Bottom Bar: Model Switcher & Manual Controls -->
+      <div style="width:100%; max-width:600px; display:flex; flex-direction:column; align-items:center; gap:12px;">
+        <div style="display:flex; align-items:center; gap:10px; font-size:12px; color:#94a3b8;">
+          <span>Active LLM Model:</span>
+          <select id="tomyModelSelector" style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.2); color:#fff; padding:6px 12px; border-radius:8px; font-size:12px; cursor:pointer;">
+            <option value="gpt-5">GPT-5 / GPT-4o (Autonomous)</option>
+            <option value="claude-3-7">Claude 3.7 Sonnet (Advanced Reasoning)</option>
+            <option value="grok-3">Grok 3 (Real-time X Knowledge)</option>
+            <option value="deepseek-r1">DeepSeek R1 (Open Logic)</option>
+          </select>
+        </div>
+        <div style="font-size:11.5px; color:#64748b;">
+          💡 Same voice interface as Azaris: Full duplex audio with auto speech recognition & Jarvis-style vocal synthesis.
+        </div>
+      </div>
+    </div>
+
+    <!-- Voice Orb Animation Styles -->
+    <style>
+      @keyframes tomyPulse {
+        0% { transform: scale(0.96); box-shadow: 0 0 40px rgba(99,102,241,0.5); }
+        50% { transform: scale(1.08); box-shadow: 0 0 85px rgba(129,140,248,0.85); }
+        100% { transform: scale(0.96); box-shadow: 0 0 40px rgba(99,102,241,0.5); }
+      }
+      @keyframes tomySpeakingWave {
+        0% { transform: scale(1.0); box-shadow: 0 0 60px #10b981; }
+        50% { transform: scale(1.18); box-shadow: 0 0 110px #34d399; }
+        100% { transform: scale(1.0); box-shadow: 0 0 60px #10b981; }
+      }
+    </style>
 
 </body>
 </html>

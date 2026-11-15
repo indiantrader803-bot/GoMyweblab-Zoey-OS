@@ -169,6 +169,48 @@ class GomyweblabHttpHandler(SimpleHTTPRequestHandler):
             conn.close()
             return
 
+        # 4. Tomy Organic Ad Blast Trigger
+        elif parsed.path == "/api/tomy/trigger-free-ads":
+            try:
+                from tomy_social_engine import TomySocialAndAdsEngine
+                engine = TomySocialAndAdsEngine()
+                res = engine.trigger_free_ad_blast()
+                self.send_json(res)
+            except Exception as e:
+                self.send_json({"error": str(e)}, 500)
+            return
+
+        # 5. Tomy Social Post Creator
+        elif parsed.path == "/api/tomy/create-post":
+            try:
+                platform = data.get("platform", "Twitter/X")
+                name = data.get("name", "Social Campaign Post")
+                content = data.get("content", "")
+                target = data.get("target", "All Audiences")
+                media_url = data.get("media_url", "")
+                from tomy_social_engine import TomySocialAndAdsEngine
+                engine = TomySocialAndAdsEngine()
+                res = engine.create_social_post(platform, name, content, target, media_url)
+                self.send_json(res)
+            except Exception as e:
+                self.send_json({"error": str(e)}, 500)
+            return
+
+        # 6. Tomy Email Campaign Dispatcher
+        elif parsed.path == "/api/tomy/send-email":
+            try:
+                subject = data.get("subject", "Automated Update")
+                sender = data.get("sender", "tomy@gomyweblab.com")
+                segment = data.get("segment", "All Leads")
+                body = data.get("body", "")
+                from tomy_social_engine import TomySocialAndAdsEngine
+                engine = TomySocialAndAdsEngine()
+                res = engine.send_email_campaign(subject, sender, segment, body)
+                self.send_json(res)
+            except Exception as e:
+                self.send_json({"error": str(e)}, 500)
+            return
+
         return super().do_POST()
 
     def do_GET(self):
@@ -487,6 +529,16 @@ class GomyweblabHttpHandler(SimpleHTTPRequestHandler):
         elif parsed.path == "/api/actionsflow-status":
             import actionsflow_bridge
             self.send_json(actionsflow_bridge.get_actionsflow_status())
+            return
+
+        # 9. Tomy Social, Email & Free Ads Engine Status
+        elif parsed.path == "/api/tomy/social-overview":
+            try:
+                from tomy_social_engine import TomySocialAndAdsEngine
+                engine = TomySocialAndAdsEngine()
+                self.send_json(engine.get_social_overview())
+            except Exception as e:
+                self.send_json({"error": str(e)}, 500)
             return
 
         return super().do_GET()

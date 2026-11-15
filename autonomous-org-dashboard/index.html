@@ -466,7 +466,7 @@
       </div>
       <div>
         <div class="brand-text">
-          <h1>J.A.R.V.I.S. Operating System</h1>
+          <h1>TOMY Operating System</h1>
         </div>
         <div class="brand-sub">
           <span>Autonomous AI Org & Agent Swarms</span>
@@ -523,6 +523,7 @@
       <span class="terminal-args">--coding --research --marketing --trading --life</span>
       <span class="terminal-cursor"></span>
     </div>
+    <button class="terminal-btn" style="background:#4338ca; border-color:#6366f1; color:#fff; font-weight:700; margin-right:8px; box-shadow:0 0 12px rgba(99,102,241,0.5);" onclick="openTomyVoiceModal()">🎙️ Open Tomy Voice (Fullscreen)</button>
     <button class="terminal-btn" id="triggerBtn" onclick="triggerAutonomousCycle()">⚡ Run Autonomous Cycle</button>
   </div>
 
@@ -533,7 +534,7 @@
     <div class="sidebar">
 
       <!-- Grok Bot Coordinator Widget -->
-      <div class="coordinator-box" id="coordBox">
+      <div class="coordinator-box" id="coordBox" onclick="openTomyVoiceModal()" style="cursor:pointer;" title="Click to talk with Tomy via Voice">
         <div class="avatar-ring">
           <div class="avatar-inner">
             <div class="avatar-eyes">
@@ -542,7 +543,7 @@
             </div>
           </div>
         </div>
-        <div class="grok-badge-btn" style="background:#7c3aed; box-shadow:0 0 12px rgba(124,58,237,0.5);">J.A.R.V.I.S.</div>
+        <div class="grok-badge-btn" style="background:#7c3aed; box-shadow:0 0 12px rgba(124,58,237,0.5);">TOMY</div>
         <div class="coord-sub" style="color:#7c3aed; font-weight:700;">CHIEF OPERATING OFFICER</div>
         <div class="coord-status" style="color:#059669; font-weight:800;">● SYSTEM OPERATIONAL</div>
       </div>
@@ -1270,6 +1271,10 @@
             spread: 70,
             origin: { y: 0.4 }
           });
+          // Auto open Tomy interactive voice experience upon successful login (like in the demo video)
+          setTimeout(() => {
+            openTomyVoiceModal();
+          }, 600);
         } else {
           if (errBox) {
             errBox.innerText = data.error || 'Authentication failed. Please check credentials.';
@@ -1362,5 +1367,214 @@
     });
   </script>
 
+
+  <!-- ======================================================== -->
+  <!-- TOMY FULLSCREEN INTERACTIVE VOICE EXPERIENCE MODAL      -->
+  <!-- ======================================================== -->
+  <div id="tomyVoiceModal" style="display:none; position:fixed; inset:0; z-index:99999; background:radial-gradient(circle at center, #1e1b4b 0%, #030712 100%); color:#fff; flex-direction:column; align-items:center; justify-content:space-between; padding:40px 20px; box-sizing:border-box;">
+    
+    <!-- Top Bar: Status & Close -->
+    <div style="width:100%; max-width:850px; display:flex; justify-content:space-between; align-items:center;">
+      <div style="display:flex; align-items:center; gap:10px;">
+        <div style="width:12px; height:12px; border-radius:50%; background:#10b981; box-shadow:0 0 12px #10b981;"></div>
+        <span style="font-weight:700; letter-spacing:0.5px; font-size:15px; color:#e0e7ff;">TOMY EXECUTIVE VOICE MODE (ALWAYS ON)</span>
+      </div>
+      <div style="display:flex; gap:10px;">
+        <button onclick="window.location.href='/admin'" style="background:rgba(99,102,241,0.2); border:1px solid rgba(99,102,241,0.4); color:#c7d2fe; padding:8px 16px; border-radius:20px; cursor:pointer; font-size:13px; font-weight:600;">
+          📊 Switch to Operations Admin
+        </button>
+        <button onclick="closeTomyVoiceModal()" style="background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); color:#fff; padding:8px 16px; border-radius:20px; cursor:pointer; font-size:13px; font-weight:600;">
+          ✕ Exit Voice Mode
+        </button>
+      </div>
+    </div>
+
+    <!-- Center: Glowing Audio Reactive Orb -->
+    <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; flex:1; width:100%; max-width:650px; text-align:center;">
+      <div id="tomyOrb" style="width:170px; height:170px; border-radius:50%; background:radial-gradient(circle, #818cf8 0%, #6366f1 40%, #4338ca 80%); box-shadow:0 0 60px rgba(99,102,241,0.6); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:transform 0.3s ease, box-shadow 0.3s ease; animation:tomyPulse 2.8s infinite ease-in-out;" onclick="toggleTomyModalVoice()">
+        <span id="tomyOrbIcon" style="font-size:48px;">🎙️</span>
+      </div>
+
+      <div id="tomyVoiceStatus" style="margin-top:30px; font-size:16px; font-weight:600; color:#a5b4fc; letter-spacing:0.4px;">
+        Click the Orb or speak: "Tomy, say hi" or "Tomy, blast free ads"
+      </div>
+
+      <!-- Live Subtitles / Transcription Stream -->
+      <div id="tomyLiveTranscriptBox" style="margin-top:20px; min-height:60px; max-width:580px; font-size:17px; line-height:1.5; color:#f8fafc; font-weight:500; text-shadow:0 2px 8px rgba(0,0,0,0.6);">
+        "Listening for your command..."
+      </div>
+    </div>
+
+    <!-- Bottom Bar: Model Switcher & Integrated Skills -->
+    <div style="width:100%; max-width:650px; display:flex; flex-direction:column; align-items:center; gap:12px;">
+      <div style="display:flex; align-items:center; gap:10px; font-size:12px; color:#94a3b8;">
+        <span>Active Model:</span>
+        <select id="tomyModelSelector" style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.2); color:#fff; padding:6px 12px; border-radius:8px; font-size:12px; cursor:pointer;">
+          <option value="gpt-5">GPT-5 / GPT-4o (Autonomous)</option>
+          <option value="claude-3-7">Claude 3.7 Sonnet (Advanced Reasoning)</option>
+          <option value="grok-3">Grok 3 (Real-time X Knowledge)</option>
+          <option value="deepseek-r1">DeepSeek R1 (Open Logic)</option>
+        </select>
+        <span style="color:#6366f1;">|</span>
+        <span style="color:#10b981;">202 Skills Active (LinkedIn, Easel, Postiz, Twiligent)</span>
+      </div>
+      <div style="font-size:11.5px; color:#64748b;">
+        💡 Click the Glowing Orb to speak. Tomy answers with vocal audio speech and executes directives across your agency.
+      </div>
+    </div>
+  </div>
+
+  <style>
+    @keyframes tomyPulse {
+      0% { transform: scale(0.96); box-shadow: 0 0 40px rgba(99,102,241,0.5); }
+      50% { transform: scale(1.08); box-shadow: 0 0 85px rgba(129,140,248,0.85); }
+      100% { transform: scale(0.96); box-shadow: 0 0 40px rgba(99,102,241,0.5); }
+    }
+    @keyframes tomySpeakingWave {
+      0% { transform: scale(1.0); box-shadow: 0 0 60px #10b981; }
+      50% { transform: scale(1.18); box-shadow: 0 0 110px #34d399; }
+      100% { transform: scale(1.0); box-shadow: 0 0 60px #10b981; }
+    }
+  </style>
+
+<script>
+  // ==========================================
+  // TOMY FULLSCREEN INTERACTIVE VOICE ENGINE
+  // ==========================================
+  let modalRecognition = null;
+  let isModalListening = false;
+
+  function openTomyVoiceModal() {
+    const modal = document.getElementById('tomyVoiceModal');
+    if (modal) {
+      modal.style.display = 'flex';
+      tomySpeakText("Hello everyone! I'm Tomy, your executive AI Chief Operating Officer. He does the talking and I try to keep it from becoming more work. How can I help you today?");
+    }
+  }
+
+  function closeTomyVoiceModal() {
+    const modal = document.getElementById('tomyVoiceModal');
+    if (modal) modal.style.display = 'none';
+    if (window.speechSynthesis) window.speechSynthesis.cancel();
+    if (modalRecognition && isModalListening) {
+      modalRecognition.stop();
+      isModalListening = false;
+    }
+  }
+
+  function toggleTomyModalVoice() {
+    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+      alert('Speech Recognition API is not supported in this browser. Please use Chrome or Edge.');
+      return;
+    }
+
+    const status = document.getElementById('tomyVoiceStatus');
+    const orb = document.getElementById('tomyOrb');
+    const transcriptBox = document.getElementById('tomyLiveTranscriptBox');
+
+    if (isModalListening && modalRecognition) {
+      modalRecognition.stop();
+      isModalListening = false;
+      if (status) status.innerText = 'Microphone paused. Click the Orb to speak again.';
+      if (orb) orb.style.animation = 'tomyPulse 2.8s infinite ease-in-out';
+      return;
+    }
+
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    modalRecognition = new SpeechRecognition();
+    modalRecognition.continuous = false;
+    modalRecognition.interimResults = true;
+    modalRecognition.lang = 'en-US';
+
+    modalRecognition.onstart = function() {
+      isModalListening = true;
+      if (status) status.innerText = 'Listening to you now...';
+      if (orb) {
+        orb.style.animation = 'none';
+        orb.style.boxShadow = '0 0 80px #38bdf8';
+      }
+    };
+
+    modalRecognition.onresult = function(event) {
+      let interim = '';
+      for (let i = event.resultIndex; i < event.results.length; ++i) {
+        if (event.results[i].isFinal) {
+          const finalTranscript = event.results[i][0].transcript;
+          if (transcriptBox) transcriptBox.innerText = '"' + finalTranscript + '"';
+          isModalListening = false;
+          sendVoiceQueryToTomy(finalTranscript);
+        } else {
+          interim += event.results[i][0].transcript;
+          if (transcriptBox) transcriptBox.innerText = '"' + interim + '"';
+        }
+      }
+    };
+
+    modalRecognition.onerror = function(event) {
+      console.error('Modal speech recognition error:', event.error);
+      isModalListening = false;
+      if (status) status.innerText = 'Could not detect audio. Click the Orb to retry.';
+      if (orb) orb.style.animation = 'tomyPulse 2.8s infinite ease-in-out';
+    };
+
+    modalRecognition.onend = function() {
+      isModalListening = false;
+      if (orb) orb.style.animation = 'tomyPulse 2.8s infinite ease-in-out';
+    };
+
+    modalRecognition.start();
+  }
+
+  async function sendVoiceQueryToTomy(query) {
+    const status = document.getElementById('tomyVoiceStatus');
+    const transcriptBox = document.getElementById('tomyLiveTranscriptBox');
+    if (status) status.innerText = 'Tomy thinking...';
+
+    try {
+      const res = await fetch('/api/zoey/ask', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt: query })
+      });
+      const data = await res.json();
+      const reply = data.response || "Understood, Sir. Executing now.";
+      if (transcriptBox) transcriptBox.innerText = 'Tomy: ' + reply;
+      tomySpeakText(reply);
+    } catch (err) {
+      if (transcriptBox) transcriptBox.innerText = 'Error connecting to Tomy backend.';
+    }
+  }
+
+  function tomySpeakText(text) {
+    if (!('speechSynthesis' in window)) return;
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.rate = 1.0;
+    utterance.pitch = 0.94; // Calm baritone executive voice
+
+    const voices = window.speechSynthesis.getVoices();
+    const preferredVoice = voices.find(v =>
+      (v.lang === 'en-GB' || v.name.includes('United Kingdom') || v.name.includes('George') || v.name.includes('David') || v.name.includes('Male')) &&
+      !v.name.includes('Female')
+    ) || voices.find(v => v.lang.startsWith('en') && v.name.includes('David')) || voices[0];
+
+    if (preferredVoice) utterance.voice = preferredVoice;
+
+    const orb = document.getElementById('tomyOrb');
+    const status = document.getElementById('tomyVoiceStatus');
+
+    utterance.onstart = function() {
+      if (orb) orb.style.animation = 'tomySpeakingWave 1.2s infinite ease-in-out';
+      if (status) status.innerText = 'Tomy speaking...';
+    };
+
+    utterance.onend = function() {
+      if (orb) orb.style.animation = 'tomyPulse 2.8s infinite ease-in-out';
+      if (status) status.innerText = 'Listening complete. Click Orb to speak again.';
+    };
+
+    window.speechSynthesis.speak(utterance);
+  }
+</script>
 </body>
 </html>
