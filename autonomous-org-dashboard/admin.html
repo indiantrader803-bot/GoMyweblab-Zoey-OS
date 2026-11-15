@@ -3653,30 +3653,25 @@ window.addEventListener('DOMContentLoaded', () => {
         </div>
       </div>
 
-      <!-- Center: Fullscreen Glowing Holographic Entity with Audio Reactivity -->
-      <div style="position:relative; width:100%; max-width:900px; flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer;" onclick="toggleTonyModalVoice()">
+      <!-- Center: Fullscreen Glowing 3D Cybernetic Human Entity with Real Video Animation -->
+      <div style="position:relative; width:100%; max-width:960px; flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer;" onclick="toggleTonyModalVoice()">
         
-        <!-- Background Ambient Bioluminescent Mountains / Circuit Glow -->
-        <div style="position:absolute; inset:0; background:radial-gradient(circle at center, rgba(14, 165, 233, 0.22) 0%, rgba(2, 6, 23, 0.8) 60%, #000000 100%); z-index:1;"></div>
-        
-        <!-- Cyber Holographic Figure Container -->
-        <div id="tonyHologramContainer" style="position:relative; z-index:3; width:100%; max-width:480px; height:520px; display:flex; align-items:center; justify-content:center;">
+        <!-- Cyber Holographic Figure Container with Native Seamless Video Loop -->
+        <div id="tonyHologramContainer" style="position:relative; z-index:3; width:100%; max-width:760px; height:540px; display:flex; align-items:center; justify-content:center; border-radius:24px; overflow:hidden; box-shadow:0 0 60px rgba(14,165,233,0.35), inset 0 0 30px rgba(0,0,0,0.8); background:#000;">
           
           <!-- Outer Pulsing Aura Rings -->
-          <div id="tonyPulseAura" style="position:absolute; width:340px; height:340px; border-radius:50%; background:radial-gradient(circle, rgba(56,189,248,0.3) 0%, rgba(245,158,11,0.2) 50%, transparent 70%); filter:blur(30px); animation:tonyAuraBreathe 3s infinite ease-in-out;"></div>
+          <div id="tonyPulseAura" style="position:absolute; width:450px; height:450px; border-radius:50%; background:radial-gradient(circle, rgba(56,189,248,0.25) 0%, rgba(245,158,11,0.15) 50%, transparent 70%); filter:blur(40px); animation:tonyAuraBreathe 3s infinite ease-in-out; pointer-events:none; z-index:1;"></div>
           
-          <!-- Holographic Entity Canvas / Image -->
-          <div style="position:relative; width:100%; height:100%; display:flex; align-items:center; justify-content:center;">
-            <img id="tonyHologramImg" src="/assets/tony_hologram_core.jpg" alt="Tony Cybernetic Hologram" style="max-height:480px; width:auto; object-fit:contain; border-radius:16px; filter:drop-shadow(0 0 45px rgba(56, 189, 248, 0.65)) drop-shadow(0 0 90px rgba(245, 158, 11, 0.45)); animation:tonyHoloGlitch 4s infinite ease-in-out; transition:transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);">
-            
-            <!-- Glowing Core Energy Heartbeat Overlay -->
-            <div id="tonyEnergyCore" style="position:absolute; top:28%; left:50%; transform:translate(-50%, -50%); width:110px; height:90px; border-radius:50%; background:radial-gradient(circle, rgba(254, 240, 138, 0.85) 0%, rgba(245, 158, 11, 0.6) 45%, rgba(56, 189, 248, 0) 75%); filter:blur(10px); mix-blend-mode:screen; pointer-events:none; animation:tonyCoreFlicker 1.6s infinite alternate;"></div>
-          </div>
+          <!-- Pure 3D Human Neural Entity Video Stream -->
+          <video id="tonyHologramVideo" src="/assets/tony_human_3d_loop.mp4" autoplay loop muted playsinline style="width:100%; height:100%; object-fit:cover; position:relative; z-index:2; filter:contrast(1.1) brightness(1.05) drop-shadow(0 0 35px rgba(56, 189, 248, 0.6)); transition:all 0.3s cubic-bezier(0.4, 0, 0.2, 1);"></video>
+          
+          <!-- Glowing Core Energy Heartbeat Overlay -->
+          <div id="tonyEnergyCore" style="position:absolute; top:32%; left:50%; transform:translate(-50%, -50%); width:140px; height:110px; border-radius:50%; background:radial-gradient(circle, rgba(254, 240, 138, 0.85) 0%, rgba(245, 158, 11, 0.5) 45%, rgba(56, 189, 248, 0) 75%); filter:blur(14px); mix-blend-mode:screen; pointer-events:none; z-index:3; animation:tonyCoreFlicker 1.6s infinite alternate;"></div>
         </div>
 
-        <!-- Real-Time Subtitle Bar (Exactly Like the Video: Centered, Bold, Translucent Shadow) -->
-        <div style="position:absolute; bottom:25px; left:50%; transform:translateX(-50%); z-index:10; width:90%; max-width:700px; text-align:center;">
-          <div id="tonyLiveTranscriptBox" style="font-family:'Montserrat', system-ui, -apple-system, sans-serif; font-size:32px; font-weight:800; color:#ffffff; text-shadow:0 3px 12px rgba(0,0,0,0.95), 0 0 20px rgba(56,189,248,0.7); letter-spacing:-0.5px; line-height:1.25; min-height:45px;">
+        <!-- Real-Time Subtitle Bar (Centered, Bold, Translucent Shadow) -->
+        <div style="position:absolute; bottom:20px; left:50%; transform:translateX(-50%); z-index:10; width:90%; max-width:700px; text-align:center;">
+          <div id="tonyLiveTranscriptBox" style="font-family:'Montserrat', system-ui, -apple-system, sans-serif; font-size:32px; font-weight:800; color:#ffffff; text-shadow:0 3px 14px rgba(0,0,0,0.98), 0 0 24px rgba(56,189,248,0.8); letter-spacing:-0.5px; line-height:1.25; min-height:45px;">
             Listening
           </div>
           <div id="tonyVoiceStatus" style="margin-top:8px; font-family:'Courier New', monospace; font-size:12px; color:#38bdf8; letter-spacing:1px; text-transform:uppercase;">
