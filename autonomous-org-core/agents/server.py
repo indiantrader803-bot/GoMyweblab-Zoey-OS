@@ -234,7 +234,8 @@ class GomyweblabHttpHandler(SimpleHTTPRequestHandler):
                 img_name = data.get("image_name", "photo.jpg")
                 mode = data.get("edit_mode", "studio_lighting")
                 prompt = data.get("prompt", "")
-                res = studio.process_image_edit(img_name, mode, prompt)
+                img_b64 = data.get("image_base64", None)
+                res = studio.process_image_edit(img_name, mode, prompt, img_b64)
                 self.send_json(res)
             except Exception as e:
                 self.send_json({"error": str(e)}, 500)
