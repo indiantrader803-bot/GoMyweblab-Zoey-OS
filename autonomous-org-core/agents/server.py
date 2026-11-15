@@ -396,6 +396,33 @@ class GomyweblabHttpHandler(SimpleHTTPRequestHandler):
                     order_ref = args.get("order_ref", "")
                     conn = sqlite3.connect(DB_PATH)
                     cur = conn.cursor()
+                    cur.execute('''
+                        CREATE TABLE IF NOT EXISTS store_orders (
+                            id INTEGER PRIMARY KEY AUTOINCREMENT,
+                            order_ref TEXT UNIQUE NOT NULL,
+                            product_name TEXT NOT NULL,
+                            customer_email TEXT NOT NULL,
+                            amount_usd REAL NOT NULL,
+                            payment_gateway TEXT DEFAULT 'STRIPE_LIVE',
+                            fulfillment_status TEXT DEFAULT 'PROCESSING',
+                            tracking_number TEXT,
+                            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                        )
+                    ''')
+                    cur.execute("SELECT count(*) FROM store_orders")
+                    if cur.fetchone()[0] == 0:
+                        seeds = [
+                            ("ORD-94821", "Apple MacBook Pro M4 Max (64GB, 1TB SSD, Space Black)", "enterprise.buyer@acmecorp.io", 3499.00, "STRIPE_VERIFIED", "SHIPPED", "FEDEX-9281729182"),
+                            ("ORD-94822", "NVIDIA GeForce RTX 4090 OC Edition 24GB GDDR6X", "deeplearning.lab@mit.edu", 1999.00, "STRIPE_VERIFIED", "OUT_FOR_DELIVERY", "DHL-8391740192"),
+                            ("ORD-94823", "ASUS ROG Zephyrus G16 OLED Gaming Laptop", "karthik.client@gomyweblab.com", 2399.00, "PAYPAL_SECURE", "PROCESSING", "PENDING_LABEL")
+                        ]
+                        for s in seeds:
+                            cur.execute('''
+                                INSERT OR IGNORE INTO store_orders (order_ref, product_name, customer_email, amount_usd, payment_gateway, fulfillment_status, tracking_number)
+                                VALUES (?, ?, ?, ?, ?, ?, ?)
+                            ''', s)
+                        conn.commit()
+
                     if order_ref:
                         cur.execute("SELECT order_ref, product_name, customer_email, amount_usd, payment_gateway, fulfillment_status, tracking_number, created_at FROM store_orders WHERE order_ref = ?", (order_ref,))
                     else:
