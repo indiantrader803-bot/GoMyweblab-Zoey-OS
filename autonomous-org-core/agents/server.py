@@ -226,6 +226,34 @@ class GomyweblabHttpHandler(SimpleHTTPRequestHandler):
                 self.send_json({"error": str(e)}, 500)
             return
 
+        # 8. Tony Media Studio: AI Image Editing
+        elif parsed.path == "/api/media/image-edit":
+            try:
+                from media_engine import TonyMediaStudioEngine
+                studio = TonyMediaStudioEngine()
+                img_name = data.get("image_name", "photo.jpg")
+                mode = data.get("edit_mode", "studio_lighting")
+                prompt = data.get("prompt", "")
+                res = studio.process_image_edit(img_name, mode, prompt)
+                self.send_json(res)
+            except Exception as e:
+                self.send_json({"error": str(e)}, 500)
+            return
+
+        # 9. Tony Media Studio: AI Video Social Analysis & Re-Creation
+        elif parsed.path == "/api/media/video-generate":
+            try:
+                from media_engine import TonyMediaStudioEngine
+                studio = TonyMediaStudioEngine()
+                title = data.get("video_title", "Viral Social Video")
+                directive = data.get("directive", "Fast-paced jumpcuts with bold kinetic subtitles")
+                platform = data.get("platform", "Instagram Reels")
+                res = studio.analyze_and_recreate_social_video(title, directive, platform)
+                self.send_json(res)
+            except Exception as e:
+                self.send_json({"error": str(e)}, 500)
+            return
+
         return super().do_POST()
 
     def do_GET(self):
@@ -597,6 +625,16 @@ class GomyweblabHttpHandler(SimpleHTTPRequestHandler):
                     self.wfile.write(audio_data)
             except Exception as e:
                 self.send_json({"error": f"TTS generation failed: {e}"}, 500)
+            return
+
+        # Media Studio Recent Assets
+        elif parsed.path == "/api/media/overview":
+            try:
+                from media_engine import TonyMediaStudioEngine
+                studio = TonyMediaStudioEngine()
+                self.send_json(studio.list_recent_media())
+            except Exception as e:
+                self.send_json({"error": str(e), "images": [], "videos": []}, 500)
             return
 
         return super().do_GET()
