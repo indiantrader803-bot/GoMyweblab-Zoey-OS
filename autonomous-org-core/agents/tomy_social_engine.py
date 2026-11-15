@@ -30,6 +30,54 @@ class TomySocialAndAdsEngine:
     def _ensure_seed_campaigns(self):
         conn = self._get_connection()
         cur = conn.cursor()
+
+        # Ensure tables exist inside the cloud container DB
+        cur.execute('''
+            CREATE TABLE IF NOT EXISTS social_campaigns (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                campaign_name TEXT NOT NULL,
+                platform TEXT NOT NULL,
+                target_audience TEXT,
+                post_content TEXT NOT NULL,
+                media_url TEXT,
+                utm_link TEXT,
+                status TEXT DEFAULT 'SCHEDULED',
+                scheduled_for TIMESTAMP,
+                published_at TIMESTAMP,
+                metrics_json TEXT,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        ''')
+        cur.execute('''
+            CREATE TABLE IF NOT EXISTS email_campaigns (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                subject TEXT NOT NULL,
+                sender_email TEXT NOT NULL,
+                audience_segment TEXT NOT NULL,
+                body_content TEXT NOT NULL,
+                recipients_count INTEGER DEFAULT 0,
+                opens_count INTEGER DEFAULT 0,
+                clicks_count INTEGER DEFAULT 0,
+                status TEXT DEFAULT 'DRAFT',
+                sent_at TIMESTAMP,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        ''')
+        cur.execute('''
+            CREATE TABLE IF NOT EXISTS free_ads_channels (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                platform_name TEXT NOT NULL,
+                category TEXT NOT NULL,
+                target_url TEXT NOT NULL,
+                headline TEXT NOT NULL,
+                ad_copy TEXT NOT NULL,
+                frequency TEXT DEFAULT 'DAILY',
+                last_posted TIMESTAMP,
+                status TEXT DEFAULT 'ACTIVE',
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        ''')
+        conn.commit()
         
         # Check if we have free ad channels
         cur.execute("SELECT COUNT(*) FROM free_ads_channels")
