@@ -541,6 +541,16 @@ class GomyweblabHttpHandler(SimpleHTTPRequestHandler):
                 self.send_json({"error": str(e)}, 500)
             return
 
+        # 10. Tomy Self-Improvement & Daily Evolution History
+        elif parsed.path == "/api/tomy/evolution-history":
+            try:
+                from tomy_evolution_engine import TomySelfEvolutionEngine
+                evo_engine = TomySelfEvolutionEngine()
+                self.send_json({"history": evo_engine.get_evolution_history()})
+            except Exception as e:
+                self.send_json({"error": str(e)}, 500)
+            return
+
         return super().do_GET()
 
     def send_json(self, data, status=200):
