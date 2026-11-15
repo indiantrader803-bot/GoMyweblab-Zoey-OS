@@ -7,6 +7,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   <!-- GSAP Animation Engine -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <!-- Three.js WebGL Real-Time 3D Rendering Engine -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <!-- Chart.js for Responsive Financial, Tokenization & Agent Workload Charts -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
   <!-- Canvas Confetti -->
@@ -2772,12 +2774,15 @@
     }
 
     utterance.onstart = function() {
+      if (typeof setThreeAvatarState === 'function') setThreeAvatarState('speaking');
       startRobotFaceAnimation();
     };
     utterance.onend = function() {
+      if (typeof setThreeAvatarState === 'function') setThreeAvatarState('idle');
       stopRobotFaceAnimation();
     };
     utterance.onerror = function() {
+      if (typeof setThreeAvatarState === 'function') setThreeAvatarState('idle');
       stopRobotFaceAnimation();
     };
 
@@ -3468,11 +3473,204 @@ window.addEventListener('DOMContentLoaded', () => {
   let isModalListening = false;
   let activeMediaContext = null; // 'image' or 'video'
 
+  // ========================================================
+  // THREE.JS REAL-TIME 3D PROCEDURAL NEURAL HUMAN AVATAR
+  // ========================================================
+  let threeScene, threeCamera, threeRenderer, threeParticles, threeAnimId;
+  let particleCount = 12000;
+  let particlePositions, particleBasePositions, particleVelocities;
+  let avatarState = 'idle'; // 'idle', 'listening', 'thinking', 'speaking'
+  let mouseX = 0, mouseY = 0, targetRotationX = 0, targetRotationY = 0;
+
+  function initTonyThreeAvatar() {
+    const canvas = document.getElementById('tonyThreeCanvas');
+    if (!canvas || threeRenderer) return;
+
+    const width = canvas.parentElement.clientWidth || 760;
+    const height = canvas.parentElement.clientHeight || 540;
+
+    threeScene = new THREE.Scene();
+    threeCamera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
+    threeCamera.position.z = 85;
+
+    threeRenderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+    threeRenderer.setSize(width, height);
+    threeRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    // Construct 3D Procedural Humanoid Head & Shoulders Point Cloud
+    const geometry = new THREE.BufferGeometry();
+    particlePositions = new Float32Array(particleCount * 3);
+    particleBasePositions = new Float32Array(particleCount * 3);
+    particleVelocities = new Float32Array(particleCount * 3);
+    const colors = new Float32Array(particleCount * 3);
+
+    for (let i = 0; i < particleCount; i++) {
+      let x, y, z;
+      const r = Math.random();
+      
+      if (r < 0.60) {
+        // Human Cranium, Face, Cheeks and Jaw
+        const u = Math.random();
+        const v = Math.random();
+        const theta = u * 2.0 * Math.PI;
+        const phi = Math.acos(2.0 * v - 1.0);
+        
+        let rx = 18.0 * Math.sin(phi) * Math.cos(theta);
+        let ry = 24.0 * Math.cos(phi);
+        let rz = 18.0 * Math.sin(phi) * Math.sin(theta);
+        
+        // Shape Jaw & Chin taper
+        if (ry < 0) {
+          rx *= (1.0 + ry / 45.0);
+          rz *= (1.0 + ry / 55.0);
+        }
+        // Shape Cranium brow curve
+        if (ry > 8 && rz > 0) {
+          rz += 3.0;
+        }
+
+        x = rx + (Math.random() - 0.5) * 1.5;
+        y = ry + 8.0 + (Math.random() - 0.5) * 1.5;
+        z = rz + (Math.random() - 0.5) * 1.5;
+      } else if (r < 0.85) {
+        // Neck, Trapezius and Upper Shoulders
+        const angle = Math.random() * Math.PI * 2;
+        const dist = 5.0 + Math.random() * 32.0;
+        const depth = (Math.random() - 0.5) * 18.0;
+        
+        x = Math.cos(angle) * dist * 1.4;
+        y = -14.0 - Math.pow(Math.abs(x) / 16.0, 1.8) * 4.5 + (Math.random() - 0.5) * 2.0;
+        z = depth;
+      } else {
+        // Ambient Neural Aura & Energy Horizon Mountains
+        const angle = Math.random() * Math.PI * 2;
+        const dist = 32.0 + Math.random() * 40.0;
+        x = Math.cos(angle) * dist;
+        y = -22.0 + Math.sin(dist * 0.4) * 5.0 + (Math.random() - 0.5) * 4.0;
+        z = Math.sin(angle) * dist * 0.8;
+      }
+
+      particlePositions[i * 3] = x;
+      particlePositions[i * 3 + 1] = y;
+      particlePositions[i * 3 + 2] = z;
+
+      particleBasePositions[i * 3] = x;
+      particleBasePositions[i * 3 + 1] = y;
+      particleBasePositions[i * 3 + 2] = z;
+
+      particleVelocities[i * 3] = (Math.random() - 0.5) * 0.05;
+      particleVelocities[i * 3 + 1] = (Math.random() - 0.5) * 0.05;
+      particleVelocities[i * 3 + 2] = (Math.random() - 0.5) * 0.05;
+
+      // Color Palette: Cyan Neon Core with Golden Neural Synapse Highlights
+      if (Math.abs(y) < 14 && Math.abs(x) < 12 && z > 5) {
+        // Glowing Gold Core Center
+        colors[i * 3] = 0.98;     // R
+        colors[i * 3 + 1] = 0.75; // G
+        colors[i * 3 + 2] = 0.15; // B
+      } else {
+        // Cyber Electric Cyan / Deep Blue
+        colors[i * 3] = 0.05 + Math.random() * 0.2;
+        colors[i * 3 + 1] = 0.65 + Math.random() * 0.35;
+        colors[i * 3 + 2] = 0.95 + Math.random() * 0.05;
+      }
+    }
+
+    geometry.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
+    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+    // Dynamic Point Shader Material
+    const material = new THREE.PointsMaterial({
+      size: 1.25,
+      vertexColors: true,
+      transparent: true,
+      opacity: 0.88,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false
+    });
+
+    threeParticles = new THREE.Points(geometry, material);
+    threeScene.add(threeParticles);
+
+    // Mouse interactive head tracking
+    window.addEventListener('mousemove', (e) => {
+      mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+      mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+    });
+
+    animateThreeAvatar();
+  }
+
+  function animateThreeAvatar() {
+    threeAnimId = requestAnimationFrame(animateThreeAvatar);
+    if (!threeParticles || !threeRenderer) return;
+
+    const time = performance.now() * 0.002;
+    const positions = threeParticles.geometry.attributes.position.array;
+
+    // Smooth head turning toward user cursor
+    targetRotationY = mouseX * 0.35;
+    targetRotationX = -mouseY * 0.25;
+    threeParticles.rotation.y += (targetRotationY - threeParticles.rotation.y) * 0.05;
+    threeParticles.rotation.x += (targetRotationX - threeParticles.rotation.x) * 0.05;
+
+    // Determine state audio intensity
+    let waveFreq = 1.8;
+    let waveAmp = 0.4;
+    if (avatarState === 'listening') {
+      waveFreq = 3.5;
+      waveAmp = 0.9;
+    } else if (avatarState === 'speaking') {
+      waveFreq = 5.2;
+      waveAmp = 1.4;
+    } else if (avatarState === 'thinking') {
+      waveFreq = 4.0;
+      waveAmp = 0.6;
+    }
+
+    // Organic neural contour displacement & speech mouth animation
+    for (let i = 0; i < particleCount; i++) {
+      const idx = i * 3;
+      const bx = particleBasePositions[idx];
+      const by = particleBasePositions[idx + 1];
+      const bz = particleBasePositions[idx + 2];
+
+      // Neural wave contour ripple along vertical axis
+      const ripple = Math.sin(by * 0.45 + time * waveFreq) * waveAmp;
+
+      // Realistic Human Speech Lip / Mouth movement
+      let speechDeform = 0;
+      if (avatarState === 'speaking' && by > -2 && by < 7 && bz > 10) {
+        speechDeform = Math.sin(time * 12.0) * 2.2;
+      }
+
+      positions[idx] = bx + ripple * 0.25;
+      positions[idx + 1] = by + speechDeform * 0.3;
+      positions[idx + 2] = bz + ripple + speechDeform;
+    }
+
+    threeParticles.geometry.attributes.position.needsUpdate = true;
+    threeRenderer.render(threeScene, threeCamera);
+  }
+
+  function setThreeAvatarState(state) {
+    avatarState = state;
+    const telem = document.getElementById('tonyTelemetryState');
+    if (telem) {
+      if (state === 'listening') telem.innerText = 'STATUS: LISTENING INTENSITY: HIGH';
+      else if (state === 'thinking') telem.innerText = 'STATUS: THINKING INTENSITY: HIGH';
+      else if (state === 'speaking') telem.innerText = 'STATUS: SPEAKING INTENSITY: HIGH';
+      else telem.innerText = 'STATUS: IDLE INTENSITY: HIGH';
+    }
+  }
+
   function openTonyVoiceModal() {
     activeMediaContext = null;
     const modal = document.getElementById('tonyVoiceModal');
     if (modal) {
       modal.style.display = 'flex';
+      setTimeout(initTonyThreeAvatar, 50);
+      setThreeAvatarState('speaking');
       tonySpeakText("Hello Arnab! I'm Tony, your executive AI COO. How can I direct our agency swarms for you today?");
     }
   }
@@ -3499,6 +3697,7 @@ window.addEventListener('DOMContentLoaded', () => {
       currentTonyAudio.pause();
       currentTonyAudio = null;
     }
+    setThreeAvatarState('idle');
     stopRobotFaceAnimation();
     if (modalRecognition && isModalListening) {
       modalRecognition.stop();
@@ -3513,14 +3712,13 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     const status = document.getElementById('tonyVoiceStatus');
-    const orb = document.getElementById('tonyOrb');
     const transcriptBox = document.getElementById('tonyLiveTranscriptBox');
 
     if (isModalListening && modalRecognition) {
       modalRecognition.stop();
       isModalListening = false;
-      if (status) status.innerText = 'Microphone paused. Click the Orb to speak again.';
-      if (orb) orb.style.animation = 'tonyBreathe 3s infinite ease-in-out';
+      if (status) status.innerText = '[ TAP ANYWHERE TO SPEAK TO TONY ]';
+      setThreeAvatarState('idle');
       return;
     }
 
@@ -3528,7 +3726,6 @@ window.addEventListener('DOMContentLoaded', () => {
     modalRecognition = new SpeechRecognition();
     modalRecognition.continuous = false;
     modalRecognition.interimResults = true;
-    // Set to auto-detect both English and Indian accents
     modalRecognition.lang = 'en-IN';
     if ('languages' in modalRecognition) {
       modalRecognition.languages = ['en-IN', 'en-US', 'bn-IN'];
@@ -3537,10 +3734,7 @@ window.addEventListener('DOMContentLoaded', () => {
     modalRecognition.onstart = function() {
       isModalListening = true;
       if (status) status.innerText = '[ AUDIO SIGNAL DETECTED — SPEAK NOW ]';
-      const telem = document.getElementById('tonyTelemetryState');
-      if (telem) telem.innerText = 'STATUS: LISTENING INTENSITY: HIGH';
-      const holoImg = document.getElementById('tonyHologramImg');
-      if (holoImg) holoImg.style.filter = 'drop-shadow(0 0 65px rgba(56, 189, 248, 0.9)) drop-shadow(0 0 110px rgba(245, 158, 11, 0.7))';
+      setThreeAvatarState('listening');
     };
 
     modalRecognition.onresult = function(event) {
@@ -3550,8 +3744,7 @@ window.addEventListener('DOMContentLoaded', () => {
           const finalTranscript = event.results[i][0].transcript;
           if (transcriptBox) transcriptBox.innerText = finalTranscript;
           isModalListening = false;
-          const telem = document.getElementById('tonyTelemetryState');
-          if (telem) telem.innerText = 'STATUS: THINKING INTENSITY: HIGH';
+          setThreeAvatarState('thinking');
           handleMediaVoiceDirective(finalTranscript);
         } else {
           interim += event.results[i][0].transcript;
@@ -3563,13 +3756,15 @@ window.addEventListener('DOMContentLoaded', () => {
     modalRecognition.onerror = function(event) {
       console.error('Modal speech recognition error:', event.error);
       isModalListening = false;
-      if (status) status.innerText = 'Could not detect audio. Click the Orb to retry.';
-      if (orb) orb.style.animation = 'tonyBreathe 3s infinite ease-in-out';
+      if (status) status.innerText = 'Could not detect audio. Tap anywhere to retry.';
+      setThreeAvatarState('idle');
     };
 
     modalRecognition.onend = function() {
       isModalListening = false;
-      if (orb) orb.style.animation = 'tonyBreathe 3s infinite ease-in-out';
+      if (avatarState === 'listening') {
+        setThreeAvatarState('idle');
+      }
     };
 
     modalRecognition.start();
@@ -3653,20 +3848,20 @@ window.addEventListener('DOMContentLoaded', () => {
         </div>
       </div>
 
-      <!-- Center: Fullscreen Glowing 3D Cybernetic Human Entity with Real Video Animation -->
+      <!-- Center: Fullscreen Real-Time 3D WebGL Neural Humanoid Avatar -->
       <div style="position:relative; width:100%; max-width:960px; flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer;" onclick="toggleTonyModalVoice()">
         
-        <!-- Cyber Holographic Figure Container with Native Seamless Video Loop -->
-        <div id="tonyHologramContainer" style="position:relative; z-index:3; width:100%; max-width:760px; height:540px; display:flex; align-items:center; justify-content:center; border-radius:24px; overflow:hidden; box-shadow:0 0 60px rgba(14,165,233,0.35), inset 0 0 30px rgba(0,0,0,0.8); background:#000;">
+        <!-- WebGL 3D Canvas Container -->
+        <div id="tonyHologramContainer" style="position:relative; z-index:3; width:100%; max-width:760px; height:540px; display:flex; align-items:center; justify-content:center; border-radius:24px; overflow:hidden; box-shadow:0 0 60px rgba(14,165,233,0.35), inset 0 0 40px rgba(0,0,0,0.9); background:radial-gradient(circle at center, rgba(14,165,233,0.12) 0%, rgba(2,6,23,0.9) 65%, #000000 100%);">
+          
+          <!-- Real-Time Interactive Three.js Canvas -->
+          <canvas id="tonyThreeCanvas" style="width:100%; height:100%; position:absolute; inset:0; z-index:2; outline:none;"></canvas>
           
           <!-- Outer Pulsing Aura Rings -->
           <div id="tonyPulseAura" style="position:absolute; width:450px; height:450px; border-radius:50%; background:radial-gradient(circle, rgba(56,189,248,0.25) 0%, rgba(245,158,11,0.15) 50%, transparent 70%); filter:blur(40px); animation:tonyAuraBreathe 3s infinite ease-in-out; pointer-events:none; z-index:1;"></div>
           
-          <!-- Pure 3D Human Neural Entity Video Stream -->
-          <video id="tonyHologramVideo" src="/assets/tony_human_3d_loop.mp4" autoplay loop muted playsinline style="width:100%; height:100%; object-fit:cover; position:relative; z-index:2; filter:contrast(1.1) brightness(1.05) drop-shadow(0 0 35px rgba(56, 189, 248, 0.6)); transition:all 0.3s cubic-bezier(0.4, 0, 0.2, 1);"></video>
-          
           <!-- Glowing Core Energy Heartbeat Overlay -->
-          <div id="tonyEnergyCore" style="position:absolute; top:32%; left:50%; transform:translate(-50%, -50%); width:140px; height:110px; border-radius:50%; background:radial-gradient(circle, rgba(254, 240, 138, 0.85) 0%, rgba(245, 158, 11, 0.5) 45%, rgba(56, 189, 248, 0) 75%); filter:blur(14px); mix-blend-mode:screen; pointer-events:none; z-index:3; animation:tonyCoreFlicker 1.6s infinite alternate;"></div>
+          <div id="tonyEnergyCore" style="position:absolute; top:36%; left:50%; transform:translate(-50%, -50%); width:140px; height:110px; border-radius:50%; background:radial-gradient(circle, rgba(254, 240, 138, 0.85) 0%, rgba(245, 158, 11, 0.5) 45%, rgba(56, 189, 248, 0) 75%); filter:blur(16px); mix-blend-mode:screen; pointer-events:none; z-index:3; animation:tonyCoreFlicker 1.6s infinite alternate;"></div>
         </div>
 
         <!-- Real-Time Subtitle Bar (Centered, Bold, Translucent Shadow) -->
