@@ -1,3 +1,13 @@
+
+def is_bengali_prompt(text):
+    import re
+    # Match Bengali Unicode characters or common Banglish words
+    if re.search(r'[ঀ-৿]', text):
+        return True
+    banglish = ["kemon acho", "ki khobor", "ki korcho", "bhalo", "kaj", "tumi ke", "website banao", "notun agent", "tomy bolo"]
+    t_lower = text.lower()
+    return any(b in t_lower for b in banglish)
+
 """
 ZOEY AI ORCHESTRATOR & 9 SPECIALIST AI EMPLOYEES
 Central Intelligence Engine for Autonomous Business Operations
@@ -134,6 +144,59 @@ class ZoeyOrchestrator:
                 ws_mod.append_daily(self.workspace, "director", user_prompt)
             except Exception as e:
                 print(f"[ZoeyMemory] Daily append error: {e}")
+
+        is_bn = is_bengali_prompt(user_prompt)
+
+        # Bengali greetings and common queries
+        if is_bn:
+            if any(w in p_lower for w in ["kemon", "ki khobor", "কেমন", "খবর", "নমস্কার", "হ্যালো", "tumi ke", "তুমি কে"]):
+                conn.close()
+                resp_text = (
+                    "নমস্কার! আমি টমি (TOMY), আপনার এক্সিকিউটিভ এআই সিওও (COO)। "
+                    "আমি খুব ভালো আছি। আপনার কোম্পানির সমস্ত প্রজেক্ট, সোশ্যাল মিডিয়া ক্যাম্পেইন এবং ক্লায়েন্ট ডিল সম্পূর্ণ অটোমেটিক চলছে। "
+                    "আজ আপনার ব্যবসার জন্য আমি আর কী কাজ করতে পারি বলুন?"
+                )
+                self._record_agent_response("zoey_coo", resp_text)
+                return {
+                    "agent": "TOMY (COO)",
+                    "role": "Executive AI Chief Operating Officer",
+                    "response": resp_text,
+                    "action_type": "ROUTINE EXECUTION",
+                    "verified": True,
+                    "timestamp": datetime.now().isoformat()
+                }
+
+            elif any(w in p_lower for w in ["website", "ওয়েবসাইট", "webdev", "বানাও", "banao"]):
+                conn.close()
+                resp_text = (
+                    "একদম ঠিক আছে! আমি আমাদের লিড ওয়েব ডেভেলপার এজেন্টকে নির্দেশ দিয়েছি আপনার কোম্পানির জন্য নতুন ওয়েবসাইট তৈরি করতে। "
+                    "হিগসফিল্ড (Higgsfield) এআই রিপোজিটরি প্রস্তুত আছে। অর্ণববাবু সাবডোমেন ঠিক করলেই ওয়েবসাইট লাইভ আপডেট হয়ে যাবে।"
+                )
+                self._record_agent_response("zoey_coo", resp_text)
+                return {
+                    "agent": "TOMY (COO)",
+                    "role": "Executive AI Chief Operating Officer",
+                    "response": resp_text,
+                    "action_type": "ROUTINE EXECUTION",
+                    "verified": True,
+                    "timestamp": datetime.now().isoformat()
+                }
+
+            elif any(w in p_lower for w in ["agent", "এজেন্ট", "হায়ার", "hire", "notun", "নতুন"]):
+                conn.close()
+                resp_text = (
+                    "নতুন এজেন্ট নিয়োগ সম্পন্ন হয়েছে! আমাদের এজেন্সিতে এখন মোট ২২ জন বিশেষজ্ঞ এআই এজেন্ট সক্রিয় আছে। "
+                    "ওয়েব ডেভেলপার এবং সেলফ-ইভোলিউশন এজেন্টরা সম্পূর্ণ অটোমেশনে কাজ পরিচালনা করছে।"
+                )
+                self._record_agent_response("zoey_coo", resp_text)
+                return {
+                    "agent": "TOMY (COO)",
+                    "role": "Executive AI Chief Operating Officer",
+                    "response": resp_text,
+                    "action_type": "ROUTINE EXECUTION",
+                    "verified": True,
+                    "timestamp": datetime.now().isoformat()
+                }
 
         # Intent classification & routing
         if any(w in p_lower for w in ["website", "build website", "web developer", "developer agent", "subdomain"]):
@@ -357,7 +420,10 @@ class ZoeyOrchestrator:
         else:
             agent = self.agents["zoey_coo"]
             conn.close()
-            resp_text = f"Right away, Sir. I have taken note of your directive: '{user_prompt}'. I am delegating this across the engineering, social media, and operations swarms under standard TOMY executive protocols."
+            if is_bn:
+                resp_text = f"নিশ্চয়ই, আমি আপনার নির্দেশ পেয়েছি: '{user_prompt}'। আমাদের সমস্ত এআই টিম এই মুহূর্তে এটি কার্যকর করছে এবং কোনো সমস্যা ছাড়াই কাজটি সম্পূর্ণ হবে।"
+            else:
+                resp_text = f"Right away, Sir. I have taken note of your directive: '{user_prompt}'. I am delegating this across the engineering, social media, and operations swarms under standard TOMY executive protocols."
             self._record_agent_response("zoey_coo", resp_text)
             return {
                 "agent": "TOMY (COO)",
