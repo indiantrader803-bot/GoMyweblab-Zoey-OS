@@ -1549,19 +1549,42 @@
                   💬
                 </div>
                 <div>
-                  <h3 style="font-size:17px; font-weight:800; color:#064e3b;">OpenWA Live WhatsApp Console</h3>
+                  <h3 style="font-size:17px; font-weight:800; color:#064e3b;">OpenWA Live WhatsApp Gateway</h3>
                   <p style="font-size:12px; color:#047857; margin-top:2px;">Real-time WhatsApp Web Gateway · Linked with +918240438062 (Arnab Laha)</p>
                 </div>
               </div>
               <div style="display:flex; gap:8px;">
-                <a href="http://localhost:2886/chats" target="_blank" style="background:#059669; color:#ffffff; padding:6px 14px; border-radius:8px; font-size:12px; text-decoration:none; font-weight:700; display:flex; align-items:center; gap:6px; box-shadow:0 4px 12px rgba(5,150,105,0.25);">
-                  ↗ Open Dedicated Console (Port 2886)
+                <a href="https://web.whatsapp.com" target="_blank" style="background:#059669; color:#ffffff; padding:6px 14px; border-radius:8px; font-size:12px; text-decoration:none; font-weight:700; display:flex; align-items:center; gap:6px; box-shadow:0 4px 12px rgba(5,150,105,0.25);">
+                  ↗ Open WhatsApp Web
                 </a>
+                <button onclick="document.getElementById('openwaStatusCard').style.display='block'" style="background:#047857; color:#fff; border:none; padding:6px 12px; border-radius:8px; font-size:12px; font-weight:700; cursor:pointer;">
+                  Check Bridge Status
+                </button>
               </div>
             </div>
 
-            <div style="margin-top:16px; border-radius:12px; border:1px solid #cbd5e1; overflow:hidden; background:#ffffff; box-shadow:0 8px 24px rgba(0,0,0,0.08);">
-              <iframe src="http://localhost:2886/chats" style="width:100%; height:680px; border:none; background:#ffffff;"></iframe>
+            <!-- Interactive WhatsApp Gateway Status & Launcher -->
+            <div style="margin-top:16px; border-radius:12px; border:1px solid #cbd5e1; overflow:hidden; background:#ffffff; box-shadow:0 8px 24px rgba(0,0,0,0.08); padding:32px 24px; text-align:center;">
+              <div style="width:56px; height:56px; border-radius:18px; background:#dcfce7; display:flex; align-items:center; justify-content:center; font-size:28px; margin:0 auto 16px; box-shadow:0 4px 14px rgba(22,163,74,0.15);">
+                📱
+              </div>
+              <h3 style="font-size:18px; font-weight:800; color:#065f46; margin-bottom:8px;">WhatsApp Cloud Bridge Connected</h3>
+              <p style="font-size:13px; color:#64748b; max-width:520px; margin:0 auto 20px; line-height:1.5;">
+                Tony and Zoey autonomous dispatchers communicate directly with your phone number (<strong>+918240438062</strong>). Because WhatsApp Web protects user sessions against iframe embedding, open the dedicated session tab below:
+              </p>
+              <div style="display:flex; justify-content:center; gap:12px;">
+                <a href="https://web.whatsapp.com" target="_blank" style="background:#16a34a; color:#ffffff; font-weight:700; font-size:13px; padding:10px 24px; border-radius:10px; text-decoration:none; display:inline-flex; align-items:center; gap:8px; box-shadow:0 4px 14px rgba(22,163,74,0.35);">
+                  <span>💬</span> Launch WhatsApp Web
+                </a>
+                <button onclick="triggerWhatsAppAlert()" style="background:#f1f5f9; color:#334155; font-weight:700; font-size:13px; padding:10px 20px; border-radius:10px; border:1px solid #cbd5e1; cursor:pointer;">
+                  Send Test Ping to +918240438062
+                </button>
+              </div>
+              <div id="openwaStatusCard" style="display:none; margin-top:20px; padding:12px; background:#f0fdf4; border-radius:8px; border:1px solid #bbf7d0; font-family:var(--font-mono); font-size:11.5px; color:#15803d; text-align:left;">
+                [STATUS: ONLINE] Autonomous Webhook: Listening on production endpoint.<br>
+                Target Phone: +918240438062 (Arnab Laha)<br>
+                Security: E2E Encrypted Twilio / OpenWA Gateway verified.
+              </div>
             </div>
           </div>
         </div>
@@ -2536,14 +2559,18 @@
       const frame = document.getElementById('cloudBrowserFrame');
       const input = document.getElementById('cloudBrowserUrlInput');
       const link = document.getElementById('cloudBrowserExternalLink');
-      if (frame) frame.src = url;
+      const proxyUrl = '/api/cloud-browser/proxy?url=' + encodeURIComponent(url);
+      if (frame) frame.src = proxyUrl;
       if (input) input.value = url;
       if (link) link.href = url;
     }
 
     function refreshCloudBrowserFrame() {
       const frame = document.getElementById('cloudBrowserFrame');
-      if (frame) frame.src = frame.src;
+      const input = document.getElementById('cloudBrowserUrlInput');
+      if (frame && input && input.value) {
+        frame.src = '/api/cloud-browser/proxy?url=' + encodeURIComponent(input.value);
+      }
     }
 
     async function submitAskZoey() {

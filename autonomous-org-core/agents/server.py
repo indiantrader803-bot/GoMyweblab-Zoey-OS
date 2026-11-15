@@ -871,6 +871,64 @@ class GomyweblabHttpHandler(SimpleHTTPRequestHandler):
                 self.send_json({"error": str(e), "images": [], "videos": []}, 500)
             return
 
+        # Cloud Browser Secure Reverse Proxy (Bypasses X-Frame-Options & CSP Frame Restrictions)
+        elif parsed.path == "/api/cloud-browser/proxy":
+            query_params = urllib.parse.parse_qs(parsed.query)
+            target_url = query_params.get("url", [""])[0].strip()
+            if not target_url:
+                self.send_json({"error": "No target URL provided"}, 400)
+                return
+            try:
+                headers = {
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+                    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+                    "Accept-Language": "en-US,en;q=0.5"
+                }
+                req = urllib.request.Request(target_url, headers=headers)
+                with urllib.request.urlopen(req, timeout=12) as resp:
+                    content_type = resp.headers.get("Content-Type", "text/html")
+                    body = resp.read()
+
+                    # Strip X-Frame-Options and Content-Security-Policy frame-ancestors
+                    self.send_response(resp.status)
+                    self.send_header("Content-Type", content_type)
+                    self.send_header("Access-Control-Allow-Origin", "*")
+                    self.send_header("X-Frame-Options", "ALLOWALL")
+                    self.send_header("Content-Length", str(len(body)))
+                    self.end_headers()
+                    self.wfile.write(body)
+            except Exception as e:
+                # Fallback readable HTML error card with direct external launcher
+                html_err = f"""<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+body {{ font-family:-apple-system,BlinkMacSystemFont,sans-serif; background:#0f172a; color:#f8fafc; display:flex; align-items:center; justify-content:center; height:100vh; margin:0; }}
+.card {{ background:#1e293b; padding:32px; border-radius:16px; border:1px solid #334155; max-width:480px; text-align:center; box-shadow:0 10px 30px rgba(0,0,0,0.4); }}
+h3 {{ color:#38bdf8; margin:0 0 10px; font-size:18px; }}
+p {{ color:#94a3b8; font-size:13px; line-height:1.5; margin:0 0 20px; }}
+a {{ display:inline-block; background:#0284c7; color:#fff; font-weight:700; font-size:13px; padding:10px 22px; border-radius:8px; text-decoration:none; box-shadow:0 4px 14px rgba(2,132,199,0.4); }}
+a:hover {{ background:#0369a1; }}
+</style>
+</head>
+<body>
+<div class="card">
+  <h3>External Security Gateway Detected</h3>
+  <p>This login portal restricts direct embedded sandboxes. Click below to launch in your browser workspace with active credentials:</p>
+  <a href="{target_url}" target="_blank">Launch {target_url.split('/')[2]} ➔</a>
+</div>
+</body>
+</html>"""
+                body = html_err.encode("utf-8")
+                self.send_response(200)
+                self.send_header("Content-Type", "text/html; charset=utf-8")
+                self.send_header("Access-Control-Allow-Origin", "*")
+                self.send_header("Content-Length", str(len(body)))
+                self.end_headers()
+                self.wfile.write(body)
+            return
+
         return super().do_GET()
 
     def send_json(self, data, status=200):
