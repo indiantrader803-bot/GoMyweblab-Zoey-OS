@@ -211,6 +211,21 @@ class GomyweblabHttpHandler(SimpleHTTPRequestHandler):
                 self.send_json({"error": str(e)}, 500)
             return
 
+        # 7. Tomy Skill Downloader from Internet
+        elif parsed.path == "/api/tomy/download-skill":
+            try:
+                repo_url = data.get("repo_url", "https://github.com/trending")
+                skill_name = data.get("skill_name", "custom-skill")
+                purpose = data.get("purpose", "Autonomous tool enhancement")
+                assigned = data.get("assigned_agent", "all")
+                from tomy_super_manager import TomySuperIntelligenceManager
+                mgr = TomySuperIntelligenceManager()
+                res = mgr.download_and_deploy_skill_from_internet(repo_url, skill_name, purpose, assigned)
+                self.send_json(res)
+            except Exception as e:
+                self.send_json({"error": str(e)}, 500)
+            return
+
         return super().do_POST()
 
     def do_GET(self):
@@ -547,6 +562,16 @@ class GomyweblabHttpHandler(SimpleHTTPRequestHandler):
                 from tomy_evolution_engine import TomySelfEvolutionEngine
                 evo_engine = TomySelfEvolutionEngine()
                 self.send_json({"history": evo_engine.get_evolution_history()})
+            except Exception as e:
+                self.send_json({"error": str(e)}, 500)
+            return
+
+        # 11. Tomy Super-Intelligence Interventions & Skill Downloads
+        elif parsed.path == "/api/tomy/super-status":
+            try:
+                from tomy_super_manager import TomySuperIntelligenceManager
+                mgr = TomySuperIntelligenceManager()
+                self.send_json(mgr.get_management_status())
             except Exception as e:
                 self.send_json({"error": str(e)}, 500)
             return

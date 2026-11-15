@@ -21,11 +21,11 @@ class TelephonyBridge:
     def trigger_p0_call(self, incident_id, title, department, business_impact, action):
         """Places or simulates an emergency automated voice call for verified P0 incidents."""
         script = (
-            f"Hello. This is Zoey, your AI business operations manager. "
-            f"An urgent business issue requires your attention. "
+            f"Hello Arnab, this is Tomy, your executive AI operations manager. "
+            f"An urgent business matter requires your attention. "
             f"Incident: {title}. Department: {department}. "
             f"Business impact: {business_impact}. Recommended action: {action}. "
-            f"Press 1 to acknowledge this incident. Press 2 to hear the details again."
+            f"Press 1 to approve automated resolution. Press 2 to review on the live dashboard."
         )
 
         log_status = "DISPATCHED_VERIFIED"
@@ -51,14 +51,14 @@ class TelephonyBridge:
     def send_whatsapp_alert(self, incident_id, severity, title, department, business_impact, action):
         """Dispatches an enterprise WhatsApp Business alert message."""
         message = (
-            f"🚨 *ZOEY AI – BUSINESS ALERT*\n\n"
+            f"🚨 *TOMY AI – EXECUTIVE INCIDENT ALERT*\n\n"
             f"*Severity:* {severity}\n"
             f"*Issue:* {title}\n"
             f"*Department:* {department}\n"
             f"*Impact:* {business_impact}\n"
             f"*Recommended action:* {action}\n"
             f"*Incident ID:* {incident_id}\n\n"
-            f"Open dashboard: http://127.0.0.1:8088/admin"
+            f"Open live dashboard: https://business.thesmartmag.com/admin"
         )
 
         conn = sqlite3.connect(DB_PATH)

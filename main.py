@@ -185,6 +185,16 @@ def run_autonomous_agent_worker():
                     print(f"[AutonomousWorker] Daily Self-Evolution executed: Log #{evo_res.get('log_id')} at {now_str}")
                 except Exception as evo_err:
                     print(f"[AutonomousWorker] Evolution Loop error: {evo_err}")
+
+            # 5. Tomy Super-Intelligence Agent Mentorship & Autonomous Problem Solver
+            try:
+                from tomy_super_manager import TomySuperIntelligenceManager
+                super_mgr = TomySuperIntelligenceManager()
+                resolutions = super_mgr.audit_and_resolve_agent_problems()
+                if resolutions:
+                    print(f"[AutonomousWorker] Tomy Super-Intelligence resolved/escalated {len(resolutions)} problems: {resolutions}")
+            except Exception as sm_err:
+                print(f"[AutonomousWorker] Super-Manager error: {sm_err}")
         except Exception as err:
             print(f"[AutonomousWorker] Unified Loop Error: {err}")
             record_live_background_task(

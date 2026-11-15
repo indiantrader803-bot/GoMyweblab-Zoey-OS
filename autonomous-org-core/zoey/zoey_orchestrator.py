@@ -149,7 +149,24 @@ class ZoeyOrchestrator:
 
         # Bengali greetings and common queries
         if is_bn:
-            if any(w in p_lower for w in ["kemon", "ki khobor", "কেমন", "খবর", "নমস্কার", "হ্যালো", "tumi ke", "তুমি কে"]):
+            if any(w in p_lower for w in ["problem", "সমস্যা", "সাহায্য", "help", "whatsapp", "call", "ফোন"]):
+                conn.close()
+                resp_text = (
+                    "আমি আমাদের সমস্ত এআই এজেন্টের কাজ এবং সমস্যা ২৪ ঘণ্টা সুপারভাইজ করছি। "
+                    "যেকোনো সাধারণ সমস্যা আমি নিজেই সমাধান করি। যদি এমন কোনো গুরুতর সমস্যা আসে যা নিজে সমাধান করা সম্ভব নয়, "
+                    "তাহলে আমি অবিলম্বে আপনাকে হোয়াটসঅ্যাপে অ্যালার্ট মেসেজ এবং জরুরি ভয়েস কল করে বিস্তারিত জানাব।"
+                )
+                self._record_agent_response("zoey_coo", resp_text)
+                return {
+                    "agent": "TOMY (COO)",
+                    "role": "Super-Intelligence Manager",
+                    "response": resp_text,
+                    "action_type": "ROUTINE EXECUTION",
+                    "verified": True,
+                    "timestamp": datetime.now().isoformat()
+                }
+
+            elif any(w in p_lower for w in ["kemon", "ki khobor", "কেমন", "খবর", "নমস্কার", "হ্যালো", "tumi ke", "তুমি কে"]):
                 conn.close()
                 resp_text = (
                     "নমস্কার! আমি টমি (TOMY), আপনার এক্সিকিউটিভ এআই সিওও (COO)। "
@@ -199,7 +216,24 @@ class ZoeyOrchestrator:
                 }
 
         # Intent classification & routing
-        if any(w in p_lower for w in ["website", "build website", "web developer", "developer agent", "subdomain"]):
+        if any(w in p_lower for w in ["super intelligence", "super manager", "solve problem", "help agent", "troubleshoot", "escalate", "whatsapp", "call me"]):
+            conn.close()
+            resp_text = (
+                "Super-Intelligence Protocol Active: I oversee all 22 agents across our 5 swarms 24/7. "
+                "I actively unblock agents, fix query latencies, and debug errors. If any critical blocker or financial risk cannot be resolved autonomously, "
+                "I immediately trigger an urgent WhatsApp alert and place a phone call to you with the full briefing."
+            )
+            self._record_agent_response("zoey_coo", resp_text)
+            return {
+                "agent": "TOMY (COO)",
+                "role": "Super-Intelligence Operations Lead",
+                "response": resp_text,
+                "action_type": "ROUTINE EXECUTION",
+                "verified": True,
+                "timestamp": datetime.now().isoformat()
+            }
+
+        elif any(w in p_lower for w in ["website", "build website", "web developer", "developer agent", "subdomain"]):
             conn.close()
             resp_text = (
                 "Right away, Sir! I have directed our Lead WebDev Architect agent to build your company website. "
