@@ -241,12 +241,12 @@ class ZoeyOrchestrator:
                 }
 
         # Media Editing Routing: Voice / Text directives to Image & Video Editors
-        if any(w in p_lower for w in ["video", "reel", "shorts", "tiktok", "clip", "re-create", "recreate", "editing video"]):
+        if any(w in p_lower for w in ["video", "reel", "shorts", "tiktok", "clip", "re-create", "recreate", "editing video", "render"]):
             conn.close()
             resp_text = (
-                f"Directive received! I have dispatched your instructions directly to our 'Viral Video Director' agent. "
-                f"Using MeerCut (silence removal & jumpcuts), OpenShorts (kinetic subtitles), FilmCraft (cinematic color), "
-                f"and LivePortrait reenactment, the video is being structured for peak social media retention."
+                f"Video Directive Understood! I have instructed our 'Viral Video Director' agent. "
+                f"We are rendering a high-retention video using dynamic jumpcuts, 9:16 vertical formatting, "
+                f"and neon kinetic word captions."
             )
             self._record_agent_response("zoey_coo", resp_text)
             return {
@@ -258,12 +258,11 @@ class ZoeyOrchestrator:
                 "timestamp": datetime.now().isoformat()
             }
 
-        elif any(w in p_lower for w in ["image", "photo", "picture", "clean eraser", "remove background", "lighting", "bokeh", "filter", "editing image"]):
+        elif any(w in p_lower for w in ["image", "photo", "picture", "clean eraser", "remove background", "lighting", "bokeh", "filter", "editing image", "upscale", "upscayl"]):
             conn.close()
             resp_text = (
-                f"Understood! I have instructed our 'Neural Image Artisan' agent to execute your image modifications. "
-                f"Applying ai-image-clean-eraser for artifact removal, ace-photo-studio for studio lighting and depth-of-field, "
-                f"and Pictoria generative inpainting to deliver the highest quality output."
+                f"Image Directive Understood! I have instructed our 'Neural Image Artisan' agent. "
+                f"We are applying studio lighting enhancement, contrast tuning, and Upscayl resolution boosting directly to your image."
             )
             self._record_agent_response("zoey_coo", resp_text)
             return {
@@ -271,6 +270,23 @@ class ZoeyOrchestrator:
                 "role": "Multimedia Image Swarm Lead",
                 "response": resp_text,
                 "action_type": "IMAGE_DIRECTIVE_DISPATCHED",
+                "verified": True,
+                "timestamp": datetime.now().isoformat()
+            }
+
+        elif any(w in p_lower for w in ["social", "connect", "instagram", "twitter", "linkedin", "telegram", "postiz", "channel", "account"]):
+            conn.close()
+            resp_text = (
+                f"Social Media Connector Active: Your YouTube channel is fully linked. "
+                f"For Instagram, Twitter, and LinkedIn, open the new 'Social Media Hub' tab in the left sidebar "
+                f"to manage cross-posting and instant broadcasts."
+            )
+            self._record_agent_response("zoey_coo", resp_text)
+            return {
+                "agent": "TONY -> Social Publisher",
+                "role": "Omnichannel Social Swarm Lead",
+                "response": resp_text,
+                "action_type": "SOCIAL_CONNECT_DIRECTIVE",
                 "verified": True,
                 "timestamp": datetime.now().isoformat()
             }

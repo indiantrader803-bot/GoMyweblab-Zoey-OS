@@ -3510,9 +3510,10 @@ window.addEventListener('DOMContentLoaded', () => {
     modalRecognition = new SpeechRecognition();
     modalRecognition.continuous = false;
     modalRecognition.interimResults = true;
-    modalRecognition.lang = 'bn-IN';
+    // Set to auto-detect both English and Indian accents
+    modalRecognition.lang = 'en-IN';
     if ('languages' in modalRecognition) {
-      modalRecognition.languages = ['bn-IN', 'en-US', 'en-IN'];
+      modalRecognition.languages = ['en-IN', 'en-US', 'bn-IN'];
     }
 
     modalRecognition.onstart = function() {
