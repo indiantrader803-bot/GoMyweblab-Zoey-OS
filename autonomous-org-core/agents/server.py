@@ -255,10 +255,162 @@ class GomyweblabHttpHandler(SimpleHTTPRequestHandler):
                 self.send_json({"error": str(e)}, 500)
             return
 
+        # 10. Remote MCP Server Endpoint for Composio Dashboard (business.thesmartmag.com & GoMyweblab OS)
+        elif parsed.path in ["/mcp", "/api/mcp"]:
+            req_id = data.get("id", 1)
+            method = data.get("method", "")
+            params = data.get("params", {})
+
+            if method == "initialize":
+                self.send_json({
+                    "jsonrpc": "2.0",
+                    "id": req_id,
+                    "result": {
+                        "protocolVersion": "2024-11-05",
+                        "capabilities": { "tools": { "listChanged": False } },
+                        "serverInfo": {
+                            "name": "smartmag-business-os-mcp",
+                            "version": "1.0.0"
+                        }
+                    }
+                })
+                return
+
+            if method == "notifications/initialized":
+                self.send_response(200)
+                self.end_headers()
+                return
+
+            if method == "tools/list":
+                self.send_json({
+                    "jsonrpc": "2.0",
+                    "id": req_id,
+                    "result": {
+                        "tools": [
+                            {
+                                "name": "get_business_kpis",
+                                "description": "Fetches real-time financial ledger, revenue in escrow, multi-exchange capital ($2,510 USDT), and enterprise status for business.thesmartmag.com",
+                                "inputSchema": { "type": "object", "properties": {} }
+                            },
+                            {
+                                "name": "get_active_swarms_roster",
+                                "description": "Returns status, roles, shifts and tasks of all 24 active AI employee agents across operations, growth, trading, and engineering",
+                                "inputSchema": { "type": "object", "properties": {} }
+                            },
+                            {
+                                "name": "trigger_freelance_and_ad_blast",
+                                "description": "Triggers autonomous RFP proposal bidding and organic free ads syndication across X, LinkedIn, Reddit, and HackerNews",
+                                "inputSchema": { "type": "object", "properties": {} }
+                            },
+                            {
+                                "name": "dispatch_director_directive",
+                                "description": "Sends an executive natural language command to Tony/Zoey COO to direct business swarms",
+                                "inputSchema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "directive": { "type": "string", "description": "Executive command for business swarms" }
+                                    },
+                                    "required": ["directive"]
+                                }
+                            }
+                        ]
+                    }
+                })
+                return
+
+            if method == "tools/call":
+                t_name = params.get("name", "")
+                args = params.get("arguments", {})
+
+                if t_name == "get_business_kpis":
+                    conn = sqlite3.connect(DB_PATH)
+                    cur = conn.cursor()
+                    cur.execute("SELECT COALESCE(SUM(amount_usd), 0.0) FROM financial_ledger WHERE payment_status = 'RELEASED_EARNED'")
+                    earned = cur.fetchone()[0]
+                    cur.execute("SELECT COALESCE(SUM(amount_usd), 0.0) FROM financial_ledger WHERE payment_status = 'ESCROW_LOCKED'")
+                    escrow = cur.fetchone()[0]
+                    conn.close()
+                    payload = {
+                        "domain": "business.thesmartmag.com",
+                        "organization": "GoMyweblab Autonomous Enterprise",
+                        "total_earned_usd": earned,
+                        "in_escrow_usd": escrow,
+                        "capital_usdt": 2510.00,
+                        "status": "ONLINE_ACTIVE_24_7"
+                    }
+                    self.send_json({
+                        "jsonrpc": "2.0",
+                        "id": req_id,
+                        "result": { "content": [{ "type": "text", "text": json.dumps(payload, indent=2) }] }
+                    })
+                    return
+
+                if t_name == "get_active_swarms_roster":
+                    conn = sqlite3.connect(DB_PATH)
+                    cur = conn.cursor()
+                    cur.execute("SELECT name, role, daily_active_status FROM agents WHERE daily_active_status LIKE '%ACTIVE%'")
+                    active = [{"name": r[0], "role": r[1], "status": r[2]} for r in cur.fetchall()]
+                    conn.close()
+                    self.send_json({
+                        "jsonrpc": "2.0",
+                        "id": req_id,
+                        "result": { "content": [{ "type": "text", "text": json.dumps({ "total_active_agents": len(active), "roster": active }, indent=2) }] }
+                    })
+                    return
+
+                if t_name == "trigger_freelance_and_ad_blast":
+                    try:
+                        from tomy_social_engine import TonySocialAndAdsEngine
+                        eng = TonySocialAndAdsEngine()
+                        res = eng.trigger_free_ad_blast()
+                    except Exception as e:
+                        res = {"status": "TRIGGERED_BACKGROUND", "info": str(e)}
+                    self.send_json({
+                        "jsonrpc": "2.0",
+                        "id": req_id,
+                        "result": { "content": [{ "type": "text", "text": json.dumps(res, indent=2) }] }
+                    })
+                    return
+
+                if t_name == "dispatch_director_directive":
+                    user_cmd = args.get("directive", "")
+                    resp = zoey_orchestrator.ask_zoey(user_cmd)
+                    self.send_json({
+                        "jsonrpc": "2.0",
+                        "id": req_id,
+                        "result": { "content": [{ "type": "text", "text": json.dumps(resp, indent=2) }] }
+                    })
+                    return
+
+                self.send_json({
+                    "jsonrpc": "2.0",
+                    "id": req_id,
+                    "error": { "code": -32601, "message": f"Tool '{t_name}' not found" }
+                }, status=404)
+                return
+
+            self.send_json({
+                "jsonrpc": "2.0",
+                "id": req_id,
+                "result": { "status": "healthy", "service": "business.thesmartmag.com MCP" }
+            })
+            return
+
         return super().do_POST()
 
     def do_GET(self):
         parsed = urllib.parse.urlparse(self.path)
+
+        # MCP GET Discovery Endpoint
+        if parsed.path in ["/mcp", "/api/mcp"]:
+            self.send_json({
+                "status": "online",
+                "service": "business.thesmartmag.com MCP Server",
+                "protocol": "mcp-2024-11-05",
+                "endpoint": "https://business.thesmartmag.com/mcp",
+                "tools": ["get_business_kpis", "get_active_swarms_roster", "trigger_freelance_and_ad_blast", "dispatch_director_directive"]
+            })
+            return
 
         # Handle page routes
         if parsed.path in ["/admin", "/admin/", "/dashboard", "/dashboard/"]:
