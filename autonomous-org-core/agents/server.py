@@ -313,6 +313,16 @@ class GomyweblabHttpHandler(SimpleHTTPRequestHandler):
                                 "inputSchema": { "type": "object", "properties": {} }
                             },
                             {
+                                "name": "track_thesmartmag_store_orders",
+                                "description": "Tracks every real-time customer purchase, checkout status, fulfillment progress, and tracking number for https://thesmartmag.com/store",
+                                "inputSchema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "order_ref": { "type": "string", "description": "Optional specific order ref (e.g. ORD-94821) or leave empty to list all recent orders" }
+                                    }
+                                }
+                            },
+                            {
                                 "name": "dispatch_director_directive",
                                 "description": "Sends an executive natural language command to Tony/Zoey COO to direct business swarms",
                                 "inputSchema": {
@@ -379,6 +389,27 @@ class GomyweblabHttpHandler(SimpleHTTPRequestHandler):
                         "jsonrpc": "2.0",
                         "id": req_id,
                         "result": { "content": [{ "type": "text", "text": json.dumps(res, indent=2) }] }
+                    })
+                    return
+
+                if t_name == "track_thesmartmag_store_orders":
+                    order_ref = args.get("order_ref", "")
+                    conn = sqlite3.connect(DB_PATH)
+                    cur = conn.cursor()
+                    if order_ref:
+                        cur.execute("SELECT order_ref, product_name, customer_email, amount_usd, payment_gateway, fulfillment_status, tracking_number, created_at FROM store_orders WHERE order_ref = ?", (order_ref,))
+                    else:
+                        cur.execute("SELECT order_ref, product_name, customer_email, amount_usd, payment_gateway, fulfillment_status, tracking_number, created_at FROM store_orders ORDER BY id DESC LIMIT 10")
+                    rows = cur.fetchall()
+                    conn.close()
+                    orders = [{
+                        "order_ref": r[0], "product": r[1], "customer": r[2], "amount_usd": r[3],
+                        "gateway": r[4], "status": r[5], "tracking": r[6], "date": r[7]
+                    } for r in rows]
+                    self.send_json({
+                        "jsonrpc": "2.0",
+                        "id": req_id,
+                        "result": { "content": [{ "type": "text", "text": json.dumps({ "store": "https://thesmartmag.com/store", "total_orders": len(orders), "orders": orders }, indent=2) }] }
                     })
                     return
 
