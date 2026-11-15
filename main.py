@@ -140,6 +140,24 @@ def run_autonomous_agent_worker():
                 100,
                 cycle_count
             )
+            # 3. Autonomous Social Media, Email & Free Ads Blast Loop (Every 5 cycles / 2.5 minutes)
+            if cycle_count % 5 == 1:
+                try:
+                    from tomy_social_engine import TomySocialAndAdsEngine
+                    tomy_social = TomySocialAndAdsEngine()
+                    ad_res = tomy_social.trigger_free_ad_blast()
+                    record_live_background_task(
+                        "Autonomous Free Ads & Viral Blast",
+                        "TOMY Social Growth Agent",
+                        "GROWTH_MARKETING",
+                        "COMPLETED_OK",
+                        f"Dispatched organic promotion blast across 6 channels: Reddit, IndieHackers, X, LinkedIn, HN at {now_str}",
+                        100,
+                        cycle_count
+                    )
+                    print(f"[AutonomousWorker] Tomy Free Ads Blast executed: {ad_res.get('message')}")
+                except Exception as ad_err:
+                    print(f"[AutonomousWorker] Tomy Social Blast error: {ad_err}")
         except Exception as err:
             print(f"[AutonomousWorker] Unified Loop Error: {err}")
             record_live_background_task(
