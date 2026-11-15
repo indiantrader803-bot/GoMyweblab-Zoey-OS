@@ -466,7 +466,7 @@
       </div>
       <div>
         <div class="brand-text">
-          <h1>TOMY Operating System</h1>
+          <h1>TONY Operating System</h1>
         </div>
         <div class="brand-sub">
           <span>Autonomous AI Org & Agent Swarms</span>
@@ -523,7 +523,7 @@
       <span class="terminal-args">--coding --research --marketing --trading --life</span>
       <span class="terminal-cursor"></span>
     </div>
-    <button class="terminal-btn" style="background:#4338ca; border-color:#6366f1; color:#fff; font-weight:700; margin-right:8px; box-shadow:0 0 12px rgba(99,102,241,0.5);" onclick="openTomyVoiceModal()">🎙️ Open Tomy Voice (Fullscreen)</button>
+    <button class="terminal-btn" style="background:#4338ca; border-color:#6366f1; color:#fff; font-weight:700; margin-right:8px; box-shadow:0 0 12px rgba(99,102,241,0.5);" onclick="openTonyVoiceModal()">🎙️ Open Tony Voice (Fullscreen)</button>
     <button class="terminal-btn" id="triggerBtn" onclick="triggerAutonomousCycle()">⚡ Run Autonomous Cycle</button>
   </div>
 
@@ -534,7 +534,7 @@
     <div class="sidebar">
 
       <!-- Grok Bot Coordinator Widget -->
-      <div class="coordinator-box" id="coordBox" onclick="openTomyVoiceModal()" style="cursor:pointer;" title="Click to talk with Tomy via Voice">
+      <div class="coordinator-box" id="coordBox" onclick="openTonyVoiceModal()" style="cursor:pointer;" title="Click to talk with Tony via Voice">
         <div class="avatar-ring">
           <div class="avatar-inner">
             <div class="avatar-eyes">
@@ -543,7 +543,7 @@
             </div>
           </div>
         </div>
-        <div class="grok-badge-btn" style="background:#7c3aed; box-shadow:0 0 12px rgba(124,58,237,0.5);">TOMY</div>
+        <div class="grok-badge-btn" style="background:#7c3aed; box-shadow:0 0 12px rgba(124,58,237,0.5);">TONY</div>
         <div class="coord-sub" style="color:#7c3aed; font-weight:700;">CHIEF OPERATING OFFICER</div>
         <div class="coord-status" style="color:#059669; font-weight:800;">● SYSTEM OPERATIONAL</div>
       </div>
@@ -1271,9 +1271,9 @@
             spread: 70,
             origin: { y: 0.4 }
           });
-          // Auto open Tomy interactive voice experience upon successful login (like in the demo video)
+          // Auto open Tony interactive voice experience upon successful login (like in the demo video)
           setTimeout(() => {
-            openTomyVoiceModal();
+            openTonyVoiceModal();
           }, 600);
         } else {
           if (errBox) {
@@ -1369,21 +1369,21 @@
 
 
   <!-- ======================================================== -->
-  <!-- TOMY FULLSCREEN INTERACTIVE VOICE EXPERIENCE MODAL      -->
+  <!-- TONY FULLSCREEN INTERACTIVE VOICE EXPERIENCE MODAL      -->
   <!-- ======================================================== -->
-  <div id="tomyVoiceModal" style="display:none; position:fixed; inset:0; z-index:99999; background:radial-gradient(circle at center, #1e1b4b 0%, #030712 100%); color:#fff; flex-direction:column; align-items:center; justify-content:space-between; padding:40px 20px; box-sizing:border-box;">
+  <div id="tonyVoiceModal" style="display:none; position:fixed; inset:0; z-index:99999; background:radial-gradient(circle at center, #1e1b4b 0%, #030712 100%); color:#fff; flex-direction:column; align-items:center; justify-content:space-between; padding:40px 20px; box-sizing:border-box;">
     
     <!-- Top Bar: Status & Close -->
     <div style="width:100%; max-width:850px; display:flex; justify-content:space-between; align-items:center;">
       <div style="display:flex; align-items:center; gap:10px;">
         <div style="width:12px; height:12px; border-radius:50%; background:#10b981; box-shadow:0 0 12px #10b981;"></div>
-        <span style="font-weight:700; letter-spacing:0.5px; font-size:15px; color:#e0e7ff;">TOMY EXECUTIVE VOICE MODE (ALWAYS ON)</span>
+        <span style="font-weight:700; letter-spacing:0.5px; font-size:15px; color:#e0e7ff;">TONY EXECUTIVE VOICE MODE (ALWAYS ON)</span>
       </div>
       <div style="display:flex; gap:10px;">
         <button onclick="window.location.href='/admin'" style="background:rgba(99,102,241,0.2); border:1px solid rgba(99,102,241,0.4); color:#c7d2fe; padding:8px 16px; border-radius:20px; cursor:pointer; font-size:13px; font-weight:600;">
           📊 Switch to Operations Admin
         </button>
-        <button onclick="closeTomyVoiceModal()" style="background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); color:#fff; padding:8px 16px; border-radius:20px; cursor:pointer; font-size:13px; font-weight:600;">
+        <button onclick="closeTonyVoiceModal()" style="background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); color:#fff; padding:8px 16px; border-radius:20px; cursor:pointer; font-size:13px; font-weight:600;">
           ✕ Exit Voice Mode
         </button>
       </div>
@@ -1391,86 +1391,62 @@
 
     <!-- Center: Glowing Audio Reactive Orb -->
     <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; flex:1; width:100%; max-width:650px; text-align:center;">
-      <div id="tomyOrbWrapper" style="position:relative; width:220px; height:220px; display:flex; align-items:center; justify-content:center;">
+      <div id="tonyOrbWrapper" style="position:relative; width:220px; height:220px; display:flex; align-items:center; justify-content:center;">
         <!-- Glowing Audio Pulse Rings -->
-        <div id="tomyWaveRing1" style="position:absolute; inset:-12px; border-radius:50%; border:2px solid rgba(244,114,182,0.3); animation:tomyRingPulse 2.4s infinite ease-out;"></div>
-        <div id="tomyWaveRing2" style="position:absolute; inset:-24px; border-radius:50%; border:2px solid rgba(168,85,247,0.25); animation:tomyRingPulse 2.4s infinite ease-out 0.8s;"></div>
+        <div id="tonyWaveRing1" style="position:absolute; inset:-12px; border-radius:50%; border:2px solid rgba(244,114,182,0.3); animation:tonyRingPulse 2.4s infinite ease-out;"></div>
+        <div id="tonyWaveRing2" style="position:absolute; inset:-24px; border-radius:50%; border:2px solid rgba(168,85,247,0.25); animation:tonyRingPulse 2.4s infinite ease-out 0.8s;"></div>
         
         <!-- Humanoid / Futuristic Holographic Orb with Glow -->
-        <div id="tomyOrb" style="position:relative; z-index:2; width:180px; height:180px; border-radius:50%; background:radial-gradient(circle at 35% 35%, #f472b6 0%, #c084fc 45%, #7c3aed 80%, #4c1d95 100%); box-shadow:0 0 70px rgba(192,132,252,0.7), inset 0 0 25px rgba(255,255,255,0.4); display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer; transition:all 0.3s cubic-bezier(0.4, 0, 0.2, 1); animation:tomyBreathe 3s infinite ease-in-out;" onclick="toggleTomyModalVoice()">
+        <div id="tonyOrb" style="position:relative; z-index:2; width:180px; height:180px; border-radius:50%; background:radial-gradient(circle at 35% 35%, #f472b6 0%, #c084fc 45%, #7c3aed 80%, #4c1d95 100%); box-shadow:0 0 70px rgba(192,132,252,0.7), inset 0 0 25px rgba(255,255,255,0.4); display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer; transition:all 0.3s cubic-bezier(0.4, 0, 0.2, 1); animation:tonyBreathe 3s infinite ease-in-out;" onclick="toggleTonyModalVoice()">
           
           <!-- Animated Face Silhouette (Eyes & Reactive Mouth) -->
-          <div id="tomyFace" style="display:flex; flex-direction:column; align-items:center; gap:16px;">
+          <div id="tonyFace" style="display:flex; flex-direction:column; align-items:center; gap:16px;">
             <div style="display:flex; gap:36px;">
-              <div id="tomyEyeL" style="width:14px; height:14px; border-radius:50%; background:#ffffff; box-shadow:0 0 14px #ffffff; transition:all 0.2s ease;"></div>
-              <div id="tomyEyeR" style="width:14px; height:14px; border-radius:50%; background:#ffffff; box-shadow:0 0 14px #ffffff; transition:all 0.2s ease;"></div>
+              <div id="tonyEyeL" style="width:14px; height:14px; border-radius:50%; background:#ffffff; box-shadow:0 0 14px #ffffff; transition:all 0.2s ease;"></div>
+              <div id="tonyEyeR" style="width:14px; height:14px; border-radius:50%; background:#ffffff; box-shadow:0 0 14px #ffffff; transition:all 0.2s ease;"></div>
             </div>
             <!-- Reactive Mouth that animates like human speech -->
-            <div id="tomyMouth" style="width:26px; height:6px; border-radius:10px; background:#ffffff; box-shadow:0 0 10px rgba(255,255,255,0.8); transition:all 0.15s ease;"></div>
+            <div id="tonyMouth" style="width:26px; height:6px; border-radius:10px; background:#ffffff; box-shadow:0 0 10px rgba(255,255,255,0.8); transition:all 0.15s ease;"></div>
           </div>
 
           <!-- Subtle Microphone status dot -->
-          <div id="tomyMicDot" style="position:absolute; bottom:18px; width:8px; height:8px; border-radius:50%; background:#34d399; box-shadow:0 0 8px #34d399;"></div>
+          <div id="tonyMicDot" style="position:absolute; bottom:18px; width:8px; height:8px; border-radius:50%; background:#34d399; box-shadow:0 0 8px #34d399;"></div>
         </div>
       </div>
 
-      <div id="tomyVoiceStatus" style="margin-top:30px; font-size:16px; font-weight:600; color:#a5b4fc; letter-spacing:0.4px;">
-        Click the Orb or speak: "Tomy, say hi" or "Tomy, blast free ads"
+      <div id="tonyVoiceStatus" style="margin-top:30px; font-size:16px; font-weight:600; color:#a5b4fc; letter-spacing:0.4px;">
+        Click the Orb or speak: "Tony, say hi" or "Tony, blast free ads"
       </div>
 
       <!-- Live Subtitles / Transcription Stream -->
-      <div id="tomyLiveTranscriptBox" style="margin-top:20px; min-height:60px; max-width:580px; font-size:17px; line-height:1.5; color:#f8fafc; font-weight:500; text-shadow:0 2px 8px rgba(0,0,0,0.6);">
+      <div id="tonyLiveTranscriptBox" style="margin-top:20px; min-height:60px; max-width:580px; font-size:17px; line-height:1.5; color:#f8fafc; font-weight:500; text-shadow:0 2px 8px rgba(0,0,0,0.6);">
         "Listening for your command..."
       </div>
     </div>
 
-    <!-- Bottom Bar: Model Switcher & Integrated Skills -->
-    <div style="width:100%; max-width:650px; display:flex; flex-direction:column; align-items:center; gap:12px;">
-      <div style="display:flex; align-items:center; gap:10px; font-size:12px; color:#94a3b8;">
-        <div style="display:flex; align-items:center; gap:8px;">
-          <span>Language:</span>
-          <select id="tomyLangSelector" onchange="switchTomyLanguage(this.value)" style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.2); color:#fff; padding:6px 12px; border-radius:8px; font-size:12px; cursor:pointer;">
-            <option value="auto">🌐 Auto (English + বাংলা Bengali)</option>
-            <option value="bn-IN">বাংলা Bengali (India)</option>
-            <option value="en-US">English (US/UK)</option>
-          </select>
-        </div>
-        <span style="color:#6366f1;">|</span>
-        <span>Active Model:</span>
-        <select id="tomyModelSelector" style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.2); color:#fff; padding:6px 12px; border-radius:8px; font-size:12px; cursor:pointer;">
-          <option value="gpt-5">GPT-5 / GPT-4o (Autonomous)</option>
-          <option value="claude-3-7">Claude 3.7 Sonnet (Advanced Reasoning)</option>
-          <option value="grok-3">Grok 3 (Real-time X Knowledge)</option>
-          <option value="deepseek-r1">DeepSeek R1 (Open Logic)</option>
-        </select>
-        <span style="color:#6366f1;">|</span>
-        <span style="color:#10b981;">202 Skills Active (LinkedIn, Easel, Postiz, Twiligent)</span>
-      </div>
-      <div style="font-size:11.5px; color:#64748b;">
-        💡 Click the Glowing Orb to speak. Tomy answers with vocal audio speech and executes directives across your agency.
-      </div>
+    <!-- Clean Minimalist UI (No dropdown bars) -->
     </div>
   </div>
 
   <style>
     
-    @keyframes tomyBreathe {
+    @keyframes tonyBreathe {
       0% { transform: scale(0.97) rotate(0deg); box-shadow: 0 0 55px rgba(192,132,252,0.6); }
       50% { transform: scale(1.04) rotate(1deg); box-shadow: 0 0 85px rgba(244,114,182,0.85); }
       100% { transform: scale(0.97) rotate(0deg); box-shadow: 0 0 55px rgba(192,132,252,0.6); }
     }
-    @keyframes tomyRingPulse {
+    @keyframes tonyRingPulse {
       0% { transform: scale(0.92); opacity: 0.8; }
       50% { transform: scale(1.15); opacity: 0.3; }
       100% { transform: scale(1.3); opacity: 0; }
     }
 
-    @keyframes tomyPulse {
+    @keyframes tonyPulse {
       0% { transform: scale(0.96); box-shadow: 0 0 40px rgba(99,102,241,0.5); }
       50% { transform: scale(1.08); box-shadow: 0 0 85px rgba(129,140,248,0.85); }
       100% { transform: scale(0.96); box-shadow: 0 0 40px rgba(99,102,241,0.5); }
     }
-    @keyframes tomySpeakingWave {
+    @keyframes tonySpeakingWave {
       0% { transform: scale(1.0); box-shadow: 0 0 60px #10b981; }
       50% { transform: scale(1.18); box-shadow: 0 0 110px #34d399; }
       100% { transform: scale(1.0); box-shadow: 0 0 60px #10b981; }
@@ -1479,21 +1455,21 @@
 
 <script>
   // ==========================================
-  // TOMY FULLSCREEN INTERACTIVE VOICE ENGINE
+  // TONY FULLSCREEN INTERACTIVE VOICE ENGINE
   // ==========================================
   let modalRecognition = null;
   let isModalListening = false;
 
-  function openTomyVoiceModal() {
-    const modal = document.getElementById('tomyVoiceModal');
+  function openTonyVoiceModal() {
+    const modal = document.getElementById('tonyVoiceModal');
     if (modal) {
       modal.style.display = 'flex';
-      tomySpeakText("Hello everyone! I'm Tomy, your executive AI Chief Operating Officer. He does the talking and I try to keep it from becoming more work. How can I help you today?");
+      tonySpeakText("Hello everyone! I'm Tony, your executive AI Chief Operating Officer. He does the talking and I try to keep it from becoming more work. How can I help you today?");
     }
   }
 
-  function closeTomyVoiceModal() {
-    const modal = document.getElementById('tomyVoiceModal');
+  function closeTonyVoiceModal() {
+    const modal = document.getElementById('tonyVoiceModal');
     if (modal) modal.style.display = 'none';
     if (window.speechSynthesis) window.speechSynthesis.cancel();
     if (modalRecognition && isModalListening) {
@@ -1502,21 +1478,21 @@
     }
   }
 
-  function toggleTomyModalVoice() {
+  function toggleTonyModalVoice() {
     if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
       alert('Speech Recognition API is not supported in this browser. Please use Chrome or Edge.');
       return;
     }
 
-    const status = document.getElementById('tomyVoiceStatus');
-    const orb = document.getElementById('tomyOrb');
-    const transcriptBox = document.getElementById('tomyLiveTranscriptBox');
+    const status = document.getElementById('tonyVoiceStatus');
+    const orb = document.getElementById('tonyOrb');
+    const transcriptBox = document.getElementById('tonyLiveTranscriptBox');
 
     if (isModalListening && modalRecognition) {
       modalRecognition.stop();
       isModalListening = false;
       if (status) status.innerText = 'Microphone paused. Click the Orb to speak again.';
-      if (orb) orb.style.animation = 'tomyPulse 2.8s infinite ease-in-out';
+      if (orb) orb.style.animation = 'tonyPulse 2.8s infinite ease-in-out';
       return;
     }
 
@@ -1547,7 +1523,7 @@
           const finalTranscript = event.results[i][0].transcript;
           if (transcriptBox) transcriptBox.innerText = '"' + finalTranscript + '"';
           isModalListening = false;
-          sendVoiceQueryToTomy(finalTranscript);
+          sendVoiceQueryToTony(finalTranscript);
         } else {
           interim += event.results[i][0].transcript;
           if (transcriptBox) transcriptBox.innerText = '"' + interim + '"';
@@ -1559,21 +1535,21 @@
       console.error('Modal speech recognition error:', event.error);
       isModalListening = false;
       if (status) status.innerText = 'Could not detect audio. Click the Orb to retry.';
-      if (orb) orb.style.animation = 'tomyPulse 2.8s infinite ease-in-out';
+      if (orb) orb.style.animation = 'tonyPulse 2.8s infinite ease-in-out';
     };
 
     modalRecognition.onend = function() {
       isModalListening = false;
-      if (orb) orb.style.animation = 'tomyPulse 2.8s infinite ease-in-out';
+      if (orb) orb.style.animation = 'tonyPulse 2.8s infinite ease-in-out';
     };
 
     modalRecognition.start();
   }
 
-  async function sendVoiceQueryToTomy(query) {
-    const status = document.getElementById('tomyVoiceStatus');
-    const transcriptBox = document.getElementById('tomyLiveTranscriptBox');
-    if (status) status.innerText = 'Tomy thinking...';
+  async function sendVoiceQueryToTony(query) {
+    const status = document.getElementById('tonyVoiceStatus');
+    const transcriptBox = document.getElementById('tonyLiveTranscriptBox');
+    if (status) status.innerText = 'Tony thinking...';
 
     try {
       const res = await fetch('/api/zoey/ask', {
@@ -1583,59 +1559,168 @@
       });
       const data = await res.json();
       const reply = data.response || "Understood, Sir. Executing now.";
-      if (transcriptBox) transcriptBox.innerText = 'Tomy: ' + reply;
-      tomySpeakText(reply);
+      if (transcriptBox) transcriptBox.innerText = 'Tony: ' + reply;
+      tonySpeakText(reply);
     } catch (err) {
-      if (transcriptBox) transcriptBox.innerText = 'Error connecting to Tomy backend.';
+      if (transcriptBox) transcriptBox.innerText = 'Error connecting to Tony backend.';
     }
   }
 
-  let currentTomyLang = 'auto';
-  function switchTomyLanguage(val) {
-    currentTomyLang = val;
-    if (modalRecognition) {
-      modalRecognition.lang = val === 'auto' ? 'bn-IN' : val;
-    }
-    const status = document.getElementById('tomyVoiceStatus');
-    if (status) {
-      status.innerText = val === 'bn-IN' ? 'বাংলা ভাষা সক্রিয়। কথা বলতে ট্যাপ করুন...' : 'Dual English & Bengali language active. Tap to speak...';
-    }
-  }
+  
+  // ========================================================
+  // TONY SUPERBRAIN NEURAL VOICE ENGINE (100% RELIABLE FEMALE)
+  // Dual-Channel: Server-side Neural Stream for Bengali + Native WebSpeech for English
+  // ========================================================
+  let currentTonyAudio = null;
+  let mouthAnimInterval = null;
 
   function isBengaliText(str) {
     return /[ঀ-৿]/.test(str);
   }
 
-  function tomySpeakText(text) {
+  function startRobotFaceAnimation() {
+    const orb = document.getElementById('tonyOrb');
+    const mouth = document.getElementById('tonyMouth');
+    const eyeL = document.getElementById('tonyEyeL');
+    const eyeR = document.getElementById('tonyEyeR');
+    const status = document.getElementById('tonyVoiceStatus');
+
+    if (status) status.innerText = 'Tony speaking...';
+    if (orb) {
+      orb.style.boxShadow = '0 0 100px rgba(244,114,182,0.95), inset 0 0 35px rgba(255,255,255,0.7)';
+      orb.style.transform = 'scale(1.08)';
+    }
+
+    if (mouthAnimInterval) clearInterval(mouthAnimInterval);
+    mouthAnimInterval = setInterval(() => {
+      if (mouth) {
+        const h = Math.floor(Math.random() * 18) + 6;
+        const w = Math.floor(Math.random() * 14) + 24;
+        const r = Math.floor(Math.random() * 10) + 8;
+        mouth.style.height = h + 'px';
+        mouth.style.width = w + 'px';
+        mouth.style.borderRadius = r + 'px';
+      }
+      // Occasional eye blink for realism
+      if (Math.random() > 0.85 && eyeL && eyeR) {
+        eyeL.style.height = '2px';
+        eyeR.style.height = '2px';
+        setTimeout(() => {
+          if (eyeL && eyeR) {
+            eyeL.style.height = '14px';
+            eyeR.style.height = '14px';
+          }
+        }, 120);
+      }
+    }, 100);
+  }
+
+  function stopRobotFaceAnimation() {
+    const orb = document.getElementById('tonyOrb');
+    const mouth = document.getElementById('tonyMouth');
+    const eyeL = document.getElementById('tonyEyeL');
+    const eyeR = document.getElementById('tonyEyeR');
+    const status = document.getElementById('tonyVoiceStatus');
+
+    if (mouthAnimInterval) clearInterval(mouthAnimInterval);
+    if (mouth) {
+      mouth.style.height = '6px';
+      mouth.style.width = '26px';
+      mouth.style.borderRadius = '10px';
+    }
+    if (eyeL && eyeR) {
+      eyeL.style.height = '14px';
+      eyeR.style.height = '14px';
+    }
+    if (orb) {
+      orb.style.boxShadow = '0 0 70px rgba(192,132,252,0.7), inset 0 0 25px rgba(255,255,255,0.4)';
+      orb.style.transform = 'scale(1.0)';
+    }
+    if (status) status.innerText = 'Listening complete. Tap to talk with Tony.';
+  }
+
+  function tonySpeakText(text) {
+    if (!text) return;
+    if (window.speechSynthesis) window.speechSynthesis.cancel();
+    if (currentTonyAudio) {
+      currentTonyAudio.pause();
+      currentTonyAudio = null;
+    }
+
+    const isBn = isBengaliText(text);
+
+    // 1. For Bengali, use 100% reliable Server Neural Female Voice stream
+    if (isBn) {
+      startRobotFaceAnimation();
+      const ttsUrl = '/api/tony/tts?lang=bn&text=' + encodeURIComponent(text);
+      const audio = new Audio(ttsUrl);
+      currentTonyAudio = audio;
+
+      audio.onplay = function() {
+        startRobotFaceAnimation();
+      };
+      audio.onended = function() {
+        stopRobotFaceAnimation();
+      };
+      audio.onerror = function() {
+        console.warn('Neural stream fallback to browser speech synthesis');
+        speakWithBrowserSpeechSynthesis(text, 'bn-IN');
+      };
+
+      audio.play().catch(e => {
+        console.warn('Audio play auto-blocked, falling back to speech synthesis:', e);
+        speakWithBrowserSpeechSynthesis(text, 'bn-IN');
+      });
+      return;
+    }
+
+    // 2. For English, use High-Def Female Browser Neural Synthesis
+    speakWithBrowserSpeechSynthesis(text, 'en-US');
+  }
+
+  function speakWithBrowserSpeechSynthesis(text, lang) {
     if (!('speechSynthesis' in window)) return;
     window.speechSynthesis.cancel();
+
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance.rate = 1.0;
-    utterance.pitch = 0.94; // Calm baritone executive voice
+    utterance.lang = lang;
+    utterance.rate = 1.02;
+    utterance.pitch = 1.15; // Natural warm feminine pitch
 
     const voices = window.speechSynthesis.getVoices();
-    const preferredVoice = voices.find(v =>
-      (v.lang === 'en-GB' || v.name.includes('United Kingdom') || v.name.includes('George') || v.name.includes('David') || v.name.includes('Male')) &&
-      !v.name.includes('Female')
-    ) || voices.find(v => v.lang.startsWith('en') && v.name.includes('David')) || voices[0];
+    const isBn = lang.startsWith('bn');
 
-    if (preferredVoice) utterance.voice = preferredVoice;
-
-    const orb = document.getElementById('tomyOrb');
-    const status = document.getElementById('tomyVoiceStatus');
+    if (isBn) {
+      const bnVoice = voices.find(v => (v.lang.startsWith('bn') || v.name.includes('Bengali') || v.name.includes('Bangla')) && (v.name.toLowerCase().includes('female') || v.name.toLowerCase().includes('nabanita') || v.name.toLowerCase().includes('tanisha')));
+      if (bnVoice) utterance.voice = bnVoice;
+    } else {
+      const femaleVoice = voices.find(v => 
+        (v.name.toLowerCase().includes('female') || 
+         v.name.toLowerCase().includes('samantha') || 
+         v.name.toLowerCase().includes('victoria') || 
+         v.name.toLowerCase().includes('karen') || 
+         v.name.toLowerCase().includes('zira') || 
+         v.name.toLowerCase().includes('jenny') || 
+         v.name.toLowerCase().includes('natural') || 
+         v.name.toLowerCase().includes('hazel')) &&
+        v.lang.startsWith('en')
+      ) || voices.find(v => v.lang.startsWith('en-US')) || voices[0];
+      if (femaleVoice) utterance.voice = femaleVoice;
+    }
 
     utterance.onstart = function() {
-      if (orb) orb.style.animation = 'tomySpeakingWave 1.2s infinite ease-in-out';
-      if (status) status.innerText = 'Tomy speaking...';
+      startRobotFaceAnimation();
     };
-
     utterance.onend = function() {
-      if (orb) orb.style.animation = 'tomyPulse 2.8s infinite ease-in-out';
-      if (status) status.innerText = 'Listening complete. Click Orb to speak again.';
+      stopRobotFaceAnimation();
+    };
+    utterance.onerror = function() {
+      stopRobotFaceAnimation();
     };
 
     window.speechSynthesis.speak(utterance);
   }
+
 </script>
 </body>
 </html>

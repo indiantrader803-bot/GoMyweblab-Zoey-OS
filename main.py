@@ -7,7 +7,7 @@ Runs 24/7 in the cloud:
   * Freelancer Winning Bids: discovers active contests & projects
   * Web3 & Superteam Earn: monitors crypto bounties
   * Fiverr Gig Optimizer: refines SEO tags & keyword ranking
-  * TOMY Operations Heartbeat: writes live task telemetry to DB for UI
+  * TONY Operations Heartbeat: writes live task telemetry to DB for UI
 """
 
 import os
@@ -133,7 +133,7 @@ def run_autonomous_agent_worker():
             # 2. Telemetry Completion
             record_live_background_task(
                 "Proposal Optimization & Market Pricing",
-                "TOMY Proposal Closer",
+                "TONY Proposal Closer",
                 "PROPOSALS",
                 "COMPLETED_OK",
                 f"Cycle #{cycle_count} synced: {upwork_cnt} Upwork deals, {freelancer_cnt} Freelancer bids, {bounties_cnt} Web3 bounties",
@@ -143,30 +143,30 @@ def run_autonomous_agent_worker():
             # 3. Autonomous Social Media, Email & Free Ads Blast Loop (Every 5 cycles / 2.5 minutes)
             if cycle_count % 5 == 1:
                 try:
-                    from tomy_social_engine import TomySocialAndAdsEngine
-                    tomy_social = TomySocialAndAdsEngine()
+                    from tomy_social_engine import TonySocialAndAdsEngine
+                    tomy_social = TonySocialAndAdsEngine()
                     ad_res = tomy_social.trigger_free_ad_blast()
                     record_live_background_task(
                         "Autonomous Free Ads & Viral Blast",
-                        "TOMY Social Growth Agent",
+                        "TONY Social Growth Agent",
                         "GROWTH_MARKETING",
                         "COMPLETED_OK",
                         f"Dispatched organic promotion blast across 6 channels: Reddit, IndieHackers, X, LinkedIn, HN at {now_str}",
                         100,
                         cycle_count
                     )
-                    print(f"[AutonomousWorker] Tomy Free Ads Blast executed: {ad_res.get('message')}")
+                    print(f"[AutonomousWorker] Tony Free Ads Blast executed: {ad_res.get('message')}")
                 except Exception as ad_err:
-                    print(f"[AutonomousWorker] Tomy Social Blast error: {ad_err}")
+                    print(f"[AutonomousWorker] Tony Social Blast error: {ad_err}")
             # 4. Self-Evolution, Internet Skill Adoption & WebDev Architect Loop (Every 10 cycles / 5 minutes)
             if cycle_count % 10 == 2:
                 try:
-                    from tomy_evolution_engine import TomySelfEvolutionEngine
-                    evo_engine = TomySelfEvolutionEngine()
+                    from tomy_evolution_engine import TonySelfEvolutionEngine
+                    evo_engine = TonySelfEvolutionEngine()
                     evo_res = evo_engine.run_daily_self_improvement()
                     record_live_background_task(
                         "Autonomous Daily Self-Improvement & Evolution",
-                        "TOMY Self-Evolution Core",
+                        "TONY Self-Evolution Core",
                         "EVOLUTION",
                         "COMPLETED_OK",
                         f"Daily optimization executed at {now_str}. 211 active skills audited & fine-tuned. Dual-language heuristics saved.",
@@ -186,20 +186,20 @@ def run_autonomous_agent_worker():
                 except Exception as evo_err:
                     print(f"[AutonomousWorker] Evolution Loop error: {evo_err}")
 
-            # 5. Tomy Super-Intelligence Agent Mentorship & Autonomous Problem Solver
+            # 5. Tony Super-Intelligence Agent Mentorship & Autonomous Problem Solver
             try:
-                from tomy_super_manager import TomySuperIntelligenceManager
-                super_mgr = TomySuperIntelligenceManager()
+                from tomy_super_manager import TonySuperIntelligenceManager
+                super_mgr = TonySuperIntelligenceManager()
                 resolutions = super_mgr.audit_and_resolve_agent_problems()
                 if resolutions:
-                    print(f"[AutonomousWorker] Tomy Super-Intelligence resolved/escalated {len(resolutions)} problems: {resolutions}")
+                    print(f"[AutonomousWorker] Tony Super-Intelligence resolved/escalated {len(resolutions)} problems: {resolutions}")
             except Exception as sm_err:
                 print(f"[AutonomousWorker] Super-Manager error: {sm_err}")
         except Exception as err:
             print(f"[AutonomousWorker] Unified Loop Error: {err}")
             record_live_background_task(
                 "Background Task Watchdog",
-                "TOMY COO",
+                "TONY COO",
                 "MONITORING",
                 "RECOVERING",
                 f"Heartbeat checked at {now_str}. Reconnecting pipeline...",

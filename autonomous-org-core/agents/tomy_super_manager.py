@@ -1,10 +1,10 @@
 """
-TOMY SUPER-INTELLIGENCE MANAGER & AUTONOMOUS ESCALATION ENGINE
+TONY SUPER-INTELLIGENCE MANAGER & AUTONOMOUS ESCALATION ENGINE
 Runs 24/7 on the Render Cloud Server.
 
 Capabilities:
 1. Super-Intelligence Mentorship: Monitors all 22 agents, detects blockers, errors, or delays, and solves them automatically (e.g. self-healing queries, prompt refactoring, retry schedules).
-2. Autonomous Escalation Protocol: If an incident or blocker is critical (P0/P1) or cannot be solved autonomously within 2 attempts, Tomy IMMEDIATELY escalates to you via:
+2. Autonomous Escalation Protocol: If an incident or blocker is critical (P0/P1) or cannot be solved autonomously within 2 attempts, Tony IMMEDIATELY escalates to you via:
    - Voice Call (Twilio Voice synthesis)
    - WhatsApp Alert (+918240438062)
    - Real-time conversational briefing in dashboard voice session.
@@ -22,7 +22,7 @@ DATA_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data")
 DB_PATH = os.path.join(DATA_DIR, "gomyweblab_state.db")
 SKILLS_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", ".gemini", "antigravity", "skills"))
 
-class TomySuperIntelligenceManager:
+class TonySuperIntelligenceManager:
     def __init__(self, db_path=DB_PATH):
         self.db_path = db_path
         self._ensure_manager_tables()
@@ -87,7 +87,7 @@ class TomySuperIntelligenceManager:
                 cur.execute("UPDATE zoey_incidents SET status = 'RESOLVED', resolved_at = CURRENT_TIMESTAMP WHERE id = ?", (inc_id,))
                 cur.execute("""
                     INSERT INTO tomy_agent_interventions (agent_id, agent_name, detected_problem, resolution_action, was_solved_autonomously, escalation_channel, escalation_status)
-                    VALUES ('auto_sentry', 'Tomy Super-Intelligence', ?, ?, 1, 'NONE', 'RESOLVED_BY_TOMY')
+                    VALUES ('auto_sentry', 'Tony Super-Intelligence', ?, ?, 1, 'NONE', 'RESOLVED_BY_TONY')
                 """, (f"Resolved incident {title}", f"Applied deterministic fix: {action}"))
                 resolutions.append({
                     "incident_id": inc_id,
@@ -114,14 +114,14 @@ class TomySuperIntelligenceManager:
             cur = conn.cursor()
             cur.execute("""
                 INSERT INTO tomy_agent_interventions (agent_id, agent_name, detected_problem, resolution_action, was_solved_autonomously, escalation_channel, escalation_status)
-                VALUES ('owner_escalation', 'Tomy Executive', ?, 'Escalated to Director Arnab via Phone Call and WhatsApp Business', 0, 'VOICE_AND_WHATSAPP', 'DISPATCHED_TO_OWNER')
+                VALUES ('owner_escalation', 'Tony Executive', ?, 'Escalated to Director Arnab via Phone Call and WhatsApp Business', 0, 'VOICE_AND_WHATSAPP', 'DISPATCHED_TO_OWNER')
             """, (f"Critical Problem: {title} ({business_impact})",))
             conn.commit()
             conn.close()
 
             return {"whatsapp": wa_res, "call": call_res}
         except Exception as e:
-            print(f"[TomyEscalationError] {e}")
+            print(f"[TonyEscalationError] {e}")
             return {"error": str(e)}
 
     def download_and_deploy_skill_from_internet(self, repo_url, skill_name, purpose, assigned_agent="all"):
@@ -152,7 +152,7 @@ metadata:
 {purpose}
 
 ## Live Execution Mode
-Autonomous 24/7 background worker active. Integrated by Tomy Super-Intelligence Manager.
+Autonomous 24/7 background worker active. Integrated by Tony Super-Intelligence Manager.
 """)
 
             # Record in DB

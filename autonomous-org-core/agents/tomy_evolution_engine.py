@@ -1,5 +1,5 @@
 """
-Tomy Daily Autonomous Self-Improvement & Evolution Engine
+Tony Daily Autonomous Self-Improvement & Evolution Engine
 Runs 24/7 inside the Render cloud container.
 
 Capabilities:
@@ -18,7 +18,7 @@ from datetime import datetime, timedelta
 DATA_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data")
 DB_PATH = os.path.join(DATA_DIR, "gomyweblab_state.db")
 
-class TomySelfEvolutionEngine:
+class TonySelfEvolutionEngine:
     def __init__(self, db_path=DB_PATH):
         self.db_path = db_path
         self._ensure_evolution_table()

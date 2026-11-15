@@ -21,7 +21,7 @@ class TelephonyBridge:
     def trigger_p0_call(self, incident_id, title, department, business_impact, action):
         """Places or simulates an emergency automated voice call for verified P0 incidents."""
         script = (
-            f"Hello Arnab, this is Tomy, your executive AI operations manager. "
+            f"Hello Arnab, this is Tony, your executive AI operations manager. "
             f"An urgent business matter requires your attention. "
             f"Incident: {title}. Department: {department}. "
             f"Business impact: {business_impact}. Recommended action: {action}. "
@@ -51,7 +51,7 @@ class TelephonyBridge:
     def send_whatsapp_alert(self, incident_id, severity, title, department, business_impact, action):
         """Dispatches an enterprise WhatsApp Business alert message."""
         message = (
-            f"🚨 *TOMY AI – EXECUTIVE INCIDENT ALERT*\n\n"
+            f"🚨 *TONY AI – EXECUTIVE INCIDENT ALERT*\n\n"
             f"*Severity:* {severity}\n"
             f"*Issue:* {title}\n"
             f"*Department:* {department}\n"

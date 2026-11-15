@@ -1,5 +1,5 @@
 """
-Tomy Multi-Platform Social Media, Email & Organic Free Ads Automation Engine
+Tony Multi-Platform Social Media, Email & Organic Free Ads Automation Engine
 Built for GoMyweblab Autonomous Agency.
 
 Integrated with:
@@ -19,7 +19,7 @@ from datetime import datetime, timedelta
 DATA_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data")
 DB_PATH = os.path.join(DATA_DIR, "gomyweblab_state.db")
 
-class TomySocialAndAdsEngine:
+class TonySocialAndAdsEngine:
     def __init__(self, db_path=DB_PATH):
         self.db_path = db_path
         self._ensure_seed_campaigns()
@@ -91,7 +91,7 @@ class TomySocialAndAdsEngine:
                  "Hire autonomous AI squads for Web Development, SmartMag SEO, and Cloud Systems at 1/10th traditional agency rates.", "WEEKLY"),
                 ("Twitter/X Tech Builders Community", "Social Thread", "https://gomyweblab.com",
                  "Building autonomous agents with live voice & multi-channel execution", 
-                 "Tomy AI runs our client proposals, organic reach, and freelance bids in real-time. Here is our live workflow breakdown #buildinpublic #AI", "DAILY"),
+                 "Tony AI runs our client proposals, organic reach, and freelance bids in real-time. Here is our live workflow breakdown #buildinpublic #AI", "DAILY"),
                 ("LinkedIn Founders Group", "B2B Organic", "https://gomyweblab.com",
                  "The Modern Agency: Zero Overheads, Full Autonomy", 
                  "How autonomous AI agents are revolutionizing web development and SEO operations in 2026. Explore our enterprise case studies.", "DAILY"),
@@ -113,7 +113,7 @@ class TomySocialAndAdsEngine:
         if cur.fetchone()[0] == 0:
             campaigns = [
                 ("LinkedIn B2B Authority Sequence", "LinkedIn", "Tech Founders & Product Leaders",
-                 "Stop micromanaging workflows. Meet Tomy: our autonomous COO that coordinates 20 AI specialists across dev, marketing, and client outreach.",
+                 "Stop micromanaging workflows. Meet Tony: our autonomous COO that coordinates 20 AI specialists across dev, marketing, and client outreach.",
                  "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe", "https://gomyweblab.com/?utm_source=linkedin&utm_medium=organic&utm_campaign=tomy_launch",
                  "PUBLISHED", datetime.now() - timedelta(hours=3), datetime.now() - timedelta(hours=3),
                  json.dumps({"impressions": 1420, "likes": 78, "shares": 19, "comments": 14})),
@@ -139,7 +139,7 @@ class TomySocialAndAdsEngine:
         if cur.fetchone()[0] == 0:
             emails = [
                 ("Transform your business with 24/7 Autonomous Agent Swarms", "tomy@gomyweblab.com", "Inbound High-Intent Leads",
-                 "Hi there,\n\nImagine an agency that never sleeps. While you rest, our AI specialists monitor client RFPs, draft tailored solutions, audit SEO health, and deploy updates.\n\nDiscover how Tomy orchestrates our entire pipeline with zero downtime.\n\nBest,\nTomy | Executive AI COO, GoMyweblab",
+                 "Hi there,\n\nImagine an agency that never sleeps. While you rest, our AI specialists monitor client RFPs, draft tailored solutions, audit SEO health, and deploy updates.\n\nDiscover how Tony orchestrates our entire pipeline with zero downtime.\n\nBest,\nTony | Executive AI COO, GoMyweblab",
                  1240, 680, 214, "SENT", datetime.now() - timedelta(days=1)),
                 ("Weekly Tech Digest: Open-Source AI Stack vs Enterprise SaaS", "editorial@gomyweblab.com", "Active Newsletter Subscribers",
                  "Welcome to this week's breakdown of open-source alternatives. Today we compare Supabase vs Firebase, Postiz vs Buffer, and self-hosted agents vs closed platforms.\n\nRead the full interactive analysis on our portal.\n\nCheers,\nGoMyweblab Editorial Team",
@@ -193,7 +193,7 @@ class TomySocialAndAdsEngine:
             "free_ads_channels": free_ads,
             "integrated_skills_count": 202,
             "status": "ONLINE",
-            "executive_lead": "Tomy (formerly Jarvis)"
+            "executive_lead": "Tony (formerly Jarvis)"
         }
 
     def trigger_free_ad_blast(self):

@@ -158,7 +158,7 @@ class ZoeyOrchestrator:
                 )
                 self._record_agent_response("zoey_coo", resp_text)
                 return {
-                    "agent": "TOMY (COO)",
+                    "agent": "TONY (COO)",
                     "role": "Super-Intelligence Manager",
                     "response": resp_text,
                     "action_type": "ROUTINE EXECUTION",
@@ -169,13 +169,13 @@ class ZoeyOrchestrator:
             elif any(w in p_lower for w in ["kemon", "ki khobor", "কেমন", "খবর", "নমস্কার", "হ্যালো", "tumi ke", "তুমি কে"]):
                 conn.close()
                 resp_text = (
-                    "নমস্কার! আমি টমি (TOMY), আপনার এক্সিকিউটিভ এআই সিওও (COO)। "
+                    "নমস্কার! আমি টনি (TONY), আপনার এক্সিকিউটিভ এআই সিওও (COO)। "
                     "আমি খুব ভালো আছি। আপনার কোম্পানির সমস্ত প্রজেক্ট, সোশ্যাল মিডিয়া ক্যাম্পেইন এবং ক্লায়েন্ট ডিল সম্পূর্ণ অটোমেটিক চলছে। "
                     "আজ আপনার ব্যবসার জন্য আমি আর কী কাজ করতে পারি বলুন?"
                 )
                 self._record_agent_response("zoey_coo", resp_text)
                 return {
-                    "agent": "TOMY (COO)",
+                    "agent": "TONY (COO)",
                     "role": "Executive AI Chief Operating Officer",
                     "response": resp_text,
                     "action_type": "ROUTINE EXECUTION",
@@ -191,7 +191,7 @@ class ZoeyOrchestrator:
                 )
                 self._record_agent_response("zoey_coo", resp_text)
                 return {
-                    "agent": "TOMY (COO)",
+                    "agent": "TONY (COO)",
                     "role": "Executive AI Chief Operating Officer",
                     "response": resp_text,
                     "action_type": "ROUTINE EXECUTION",
@@ -207,7 +207,7 @@ class ZoeyOrchestrator:
                 )
                 self._record_agent_response("zoey_coo", resp_text)
                 return {
-                    "agent": "TOMY (COO)",
+                    "agent": "TONY (COO)",
                     "role": "Executive AI Chief Operating Officer",
                     "response": resp_text,
                     "action_type": "ROUTINE EXECUTION",
@@ -225,7 +225,7 @@ class ZoeyOrchestrator:
             )
             self._record_agent_response("zoey_coo", resp_text)
             return {
-                "agent": "TOMY (COO)",
+                "agent": "TONY (COO)",
                 "role": "Super-Intelligence Operations Lead",
                 "response": resp_text,
                 "action_type": "ROUTINE EXECUTION",
@@ -242,7 +242,7 @@ class ZoeyOrchestrator:
             )
             self._record_agent_response("zoey_coo", resp_text)
             return {
-                "agent": "TOMY (COO)",
+                "agent": "TONY (COO)",
                 "role": "Executive AI Chief Operating Officer",
                 "response": resp_text,
                 "action_type": "ROUTINE EXECUTION",
@@ -260,7 +260,7 @@ class ZoeyOrchestrator:
             )
             self._record_agent_response("zoey_coo", resp_text)
             return {
-                "agent": "TOMY (COO)",
+                "agent": "TONY (COO)",
                 "role": "Executive AI Chief Operating Officer",
                 "response": resp_text,
                 "action_type": "ROUTINE EXECUTION",
@@ -277,7 +277,7 @@ class ZoeyOrchestrator:
             )
             self._record_agent_response("zoey_coo", resp_text)
             return {
-                "agent": "TOMY (COO)",
+                "agent": "TONY (COO)",
                 "role": "Executive AI Chief Operating Officer",
                 "response": resp_text,
                 "action_type": "ROUTINE EXECUTION",
@@ -289,13 +289,13 @@ class ZoeyOrchestrator:
             agent = self.agents["zoey_coo"]
             conn.close()
             resp_text = (
-                "Hello everyone! I'm Tomy, your executive AI Chief Operating Officer. "
+                "Hello everyone! I'm Tony, your executive AI Chief Operating Officer. "
                 "I run GoMyweblab's business operations, client acquisition, and multi-platform growth 24/7. "
                 "He does the talking, and I make sure it all gets done without extra work. How can I assist you today?"
             )
             self._record_agent_response("zoey_coo", resp_text)
             return {
-                "agent": "TOMY (COO)",
+                "agent": "TONY (COO)",
                 "role": "Executive AI Chief Operating Officer",
                 "response": resp_text,
                 "action_type": "ROUTINE EXECUTION",
@@ -313,10 +313,10 @@ class ZoeyOrchestrator:
             earned = cur.fetchone()[0]
             conn.close()
 
-            resp_text = f"Good day Sir. As your Chief Operating Officer, I can confirm all systems are fully operational under the TOMY executive protocol. All 5 swarms and 20 autonomous agents are on duty. Total tasks executed: {total_tasks}. Operational incidents requiring attention: {active_incidents}. Real verified revenue stands at ${earned:.2f} USD. What is your priority directive for the team today?"
+            resp_text = f"Good day Sir. As your Chief Operating Officer, I can confirm all systems are fully operational under the TONY executive protocol. All 5 swarms and 20 autonomous agents are on duty. Total tasks executed: {total_tasks}. Operational incidents requiring attention: {active_incidents}. Real verified revenue stands at ${earned:.2f} USD. What is your priority directive for the team today?"
             self._record_agent_response("zoey_coo", resp_text)
             return {
-                "agent": "TOMY (COO)",
+                "agent": "TONY (COO)",
                 "role": "Chief Operating Officer",
                 "response": resp_text,
                 "action_type": "READ",
@@ -438,12 +438,12 @@ class ZoeyOrchestrator:
         elif any(w in p_lower for w in ["social", "ads", "free ads", "email", "campaign", "blast"]):
             conn.close()
             resp_text = (
-                "Tomy Growth & Free Ads Protocol: Dispatched organic marketing across Reddit, HackerNews, IndieHackers, X/Twitter, and LinkedIn. "
+                "Tony Growth & Free Ads Protocol: Dispatched organic marketing across Reddit, HackerNews, IndieHackers, X/Twitter, and LinkedIn. "
                 "Integrated 202 marketing and content skills from Easel, Postiz, and Twiligent are armed and scheduling posts with automated comment-to-DM triggers."
             )
             self._record_agent_response("ai_marketing_manager", resp_text)
             return {
-                "agent": "TOMY (Growth Lead)",
+                "agent": "TONY (Growth Lead)",
                 "role": "Social, Email & Free Ads Commander",
                 "response": resp_text,
                 "action_type": "EXECUTE",
@@ -457,10 +457,10 @@ class ZoeyOrchestrator:
             if is_bn:
                 resp_text = f"নিশ্চয়ই, আমি আপনার নির্দেশ পেয়েছি: '{user_prompt}'। আমাদের সমস্ত এআই টিম এই মুহূর্তে এটি কার্যকর করছে এবং কোনো সমস্যা ছাড়াই কাজটি সম্পূর্ণ হবে।"
             else:
-                resp_text = f"Right away, Sir. I have taken note of your directive: '{user_prompt}'. I am delegating this across the engineering, social media, and operations swarms under standard TOMY executive protocols."
+                resp_text = f"Right away, Sir. I have taken note of your directive: '{user_prompt}'. I am delegating this across the engineering, social media, and operations swarms under standard TONY executive protocols."
             self._record_agent_response("zoey_coo", resp_text)
             return {
-                "agent": "TOMY (COO)",
+                "agent": "TONY (COO)",
                 "role": "Chief Operating Officer",
                 "response": resp_text,
                 "action_type": "ROUTINE EXECUTION",

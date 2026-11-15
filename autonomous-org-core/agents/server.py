@@ -169,18 +169,18 @@ class GomyweblabHttpHandler(SimpleHTTPRequestHandler):
             conn.close()
             return
 
-        # 4. Tomy Organic Ad Blast Trigger
+        # 4. Tony Organic Ad Blast Trigger
         elif parsed.path == "/api/tomy/trigger-free-ads":
             try:
-                from tomy_social_engine import TomySocialAndAdsEngine
-                engine = TomySocialAndAdsEngine()
+                from tomy_social_engine import TonySocialAndAdsEngine
+                engine = TonySocialAndAdsEngine()
                 res = engine.trigger_free_ad_blast()
                 self.send_json(res)
             except Exception as e:
                 self.send_json({"error": str(e)}, 500)
             return
 
-        # 5. Tomy Social Post Creator
+        # 5. Tony Social Post Creator
         elif parsed.path == "/api/tomy/create-post":
             try:
                 platform = data.get("platform", "Twitter/X")
@@ -188,38 +188,38 @@ class GomyweblabHttpHandler(SimpleHTTPRequestHandler):
                 content = data.get("content", "")
                 target = data.get("target", "All Audiences")
                 media_url = data.get("media_url", "")
-                from tomy_social_engine import TomySocialAndAdsEngine
-                engine = TomySocialAndAdsEngine()
+                from tomy_social_engine import TonySocialAndAdsEngine
+                engine = TonySocialAndAdsEngine()
                 res = engine.create_social_post(platform, name, content, target, media_url)
                 self.send_json(res)
             except Exception as e:
                 self.send_json({"error": str(e)}, 500)
             return
 
-        # 6. Tomy Email Campaign Dispatcher
+        # 6. Tony Email Campaign Dispatcher
         elif parsed.path == "/api/tomy/send-email":
             try:
                 subject = data.get("subject", "Automated Update")
                 sender = data.get("sender", "tomy@gomyweblab.com")
                 segment = data.get("segment", "All Leads")
                 body = data.get("body", "")
-                from tomy_social_engine import TomySocialAndAdsEngine
-                engine = TomySocialAndAdsEngine()
+                from tomy_social_engine import TonySocialAndAdsEngine
+                engine = TonySocialAndAdsEngine()
                 res = engine.send_email_campaign(subject, sender, segment, body)
                 self.send_json(res)
             except Exception as e:
                 self.send_json({"error": str(e)}, 500)
             return
 
-        # 7. Tomy Skill Downloader from Internet
+        # 7. Tony Skill Downloader from Internet
         elif parsed.path == "/api/tomy/download-skill":
             try:
                 repo_url = data.get("repo_url", "https://github.com/trending")
                 skill_name = data.get("skill_name", "custom-skill")
                 purpose = data.get("purpose", "Autonomous tool enhancement")
                 assigned = data.get("assigned_agent", "all")
-                from tomy_super_manager import TomySuperIntelligenceManager
-                mgr = TomySuperIntelligenceManager()
+                from tomy_super_manager import TonySuperIntelligenceManager
+                mgr = TonySuperIntelligenceManager()
                 res = mgr.download_and_deploy_skill_from_internet(repo_url, skill_name, purpose, assigned)
                 self.send_json(res)
             except Exception as e:
@@ -546,34 +546,57 @@ class GomyweblabHttpHandler(SimpleHTTPRequestHandler):
             self.send_json(actionsflow_bridge.get_actionsflow_status())
             return
 
-        # 9. Tomy Social, Email & Free Ads Engine Status
+        # 9. Tony Social, Email & Free Ads Engine Status
         elif parsed.path == "/api/tomy/social-overview":
             try:
-                from tomy_social_engine import TomySocialAndAdsEngine
-                engine = TomySocialAndAdsEngine()
+                from tomy_social_engine import TonySocialAndAdsEngine
+                engine = TonySocialAndAdsEngine()
                 self.send_json(engine.get_social_overview())
             except Exception as e:
                 self.send_json({"error": str(e)}, 500)
             return
 
-        # 10. Tomy Self-Improvement & Daily Evolution History
+        # 10. Tony Self-Improvement & Daily Evolution History
         elif parsed.path == "/api/tomy/evolution-history":
             try:
-                from tomy_evolution_engine import TomySelfEvolutionEngine
-                evo_engine = TomySelfEvolutionEngine()
+                from tomy_evolution_engine import TonySelfEvolutionEngine
+                evo_engine = TonySelfEvolutionEngine()
                 self.send_json({"history": evo_engine.get_evolution_history()})
             except Exception as e:
                 self.send_json({"error": str(e)}, 500)
             return
 
-        # 11. Tomy Super-Intelligence Interventions & Skill Downloads
+        # 11. Tony Super-Intelligence Interventions & Skill Downloads
         elif parsed.path == "/api/tomy/super-status":
             try:
-                from tomy_super_manager import TomySuperIntelligenceManager
-                mgr = TomySuperIntelligenceManager()
+                from tomy_super_manager import TonySuperIntelligenceManager
+                mgr = TonySuperIntelligenceManager()
                 self.send_json(mgr.get_management_status())
             except Exception as e:
                 self.send_json({"error": str(e)}, 500)
+            return
+
+        # 12. 100% Guaranteed High-Quality Female Bengali & English Neural TTS Audio Proxy
+        elif parsed.path == "/api/tony/tts":
+            query_params = urllib.parse.parse_qs(parsed.query)
+            text = query_params.get("text", [""])[0].strip()
+            lang = query_params.get("lang", ["bn"])[0]
+            if not text:
+                self.send_json({"error": "No text provided"}, 400)
+                return
+            try:
+                tts_url = f"https://translate.google.com/translate_tts?ie=UTF-8&q={urllib.parse.quote(text[:250])}&tl={lang}&client=tw-ob"
+                req = urllib.request.Request(tts_url, headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"})
+                with urllib.request.urlopen(req, timeout=8) as resp:
+                    audio_data = resp.read()
+                    self.send_response(200)
+                    self.send_header("Content-Type", "audio/mpeg")
+                    self.send_header("Content-Length", str(len(audio_data)))
+                    self.send_header("Access-Control-Allow-Origin", "*")
+                    self.end_headers()
+                    self.wfile.write(audio_data)
+            except Exception as e:
+                self.send_json({"error": f"TTS generation failed: {e}"}, 500)
             return
 
         return super().do_GET()
