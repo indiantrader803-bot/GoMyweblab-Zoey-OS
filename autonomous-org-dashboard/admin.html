@@ -808,6 +808,8 @@
     .stage-scouted { background: #e0f2fe; color: #0369a1; }
     .stage-proposal { background: #fef3c7; color: #b45309; }
     .stage-escrow { background: #ecfdf5; color: #047857; }
+    .stage-active-contract { background: #dcfce7; color: #15803d; font-weight: 700; border: 1px solid #86efac; }
+    .stage-building { background: #ede9fe; color: #6d28d9; font-weight: 700; border: 1px solid #c4b5fd; }
     .stage-completed { background: #f3e8ff; color: #6b21a8; }
 
     /* Live Stream Bar */
@@ -2678,7 +2680,18 @@
       const dealsBody = document.getElementById('dealsTableBody');
 
       const rowsHtml = deals.map(d => {
-        const stageClass = d.stage === 'ESCROW_LOCKED' ? 'stage-escrow' : (d.stage === 'SCOUTED' ? 'stage-scouted' : 'stage-proposal');
+        let stageClass = 'stage-proposal';
+        if (d.stage === 'ACCEPTED_CONTRACT') {
+          stageClass = 'stage-active-contract';
+        } else if (d.stage === 'BUILDING' || d.stage === 'IN_PROGRESS') {
+          stageClass = 'stage-building';
+        } else if (d.stage === 'ESCROW_LOCKED') {
+          stageClass = 'stage-escrow';
+        } else if (d.stage === 'SCOUTED') {
+          stageClass = 'stage-scouted';
+        } else if (d.stage === 'PAID' || d.stage === 'COMPLETED') {
+          stageClass = 'stage-completed';
+        }
         return `
           <tr>
             <td>

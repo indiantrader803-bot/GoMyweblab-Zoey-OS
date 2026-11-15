@@ -128,7 +128,8 @@ def run_autonomous_agent_worker():
             upwork_cnt = report.get('upwork_deals_staged', 0)
             freelancer_cnt = report.get('freelancer_bids_staged', 0)
             bounties_cnt = report.get('web3_bounties_staged', 0)
-            print(f"[AutonomousWorker] Unified Cycle #{cycle_count} Success -> Upwork: {upwork_cnt} | Freelancer: {freelancer_cnt} | Bounties: {bounties_cnt}")
+            contracts_started = report.get('contracts_started', 0)
+            print(f"[AutonomousWorker] Unified Cycle #{cycle_count} Success -> Upwork: {upwork_cnt} | Freelancer: {freelancer_cnt} | Bounties: {bounties_cnt} | Active Contracts Initiated: {contracts_started}")
 
             # 2. Telemetry Completion
             record_live_background_task(
@@ -140,6 +141,16 @@ def run_autonomous_agent_worker():
                 100,
                 cycle_count
             )
+            if contracts_started > 0:
+                record_live_background_task(
+                    "Client Project Agreement & Work Initiation",
+                    "TONY Executive Manager",
+                    "CONTRACT_EXECUTION",
+                    "RUNNING",
+                    f"{contracts_started} client contracts agreed on budget & timeline. Work started & deliverables assigned to specialist engineering swarms.",
+                    60,
+                    cycle_count
+                )
             # 3. Autonomous Social Media, Email & Free Ads Blast Loop (Every 5 cycles / 2.5 minutes)
             if cycle_count % 5 == 1:
                 try:

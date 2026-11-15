@@ -148,11 +148,22 @@ class UnifiedFreelanceEngine:
             return None
 
     def run_unified_cycle(self):
-        """Executes one clean unified cycle without overlap."""
+        """Executes one clean unified cycle with live project closing and work initiation."""
         upwork_count = self.run_upwork_pipeline()
         freelancer_count = self.run_freelancer_pipeline()
         bounties_count = self.run_superteam_bounties()
         fiverr_opt = self.run_fiverr_optimizer()
+
+        # Execute Autonomous Negotiation, Agreement & Work Initiation Engine
+        closer_result = {}
+        try:
+            from negotiation_execution_closer import AutonomousFreelanceProjectCloser
+            closer = AutonomousFreelanceProjectCloser()
+            closer_result = closer.run_cycle()
+        except Exception as e:
+            print(f"[UnifiedEngine] Closer execution error: {e}")
+
+        contracts_started = closer_result.get("contracts_agreed_and_started", 0)
 
         return {
             "status": "SUCCESS",
@@ -160,7 +171,10 @@ class UnifiedFreelanceEngine:
             "upwork_deals_staged": upwork_count,
             "freelancer_bids_staged": freelancer_count,
             "web3_bounties_staged": bounties_count,
-            "fiverr_optimized": bool(fiverr_opt)
+            "fiverr_optimized": bool(fiverr_opt),
+            "contracts_started": contracts_started,
+            "contracts_details": closer_result.get("contracts_details", []),
+            "advancement": closer_result.get("advancement")
         }
 
 if __name__ == '__main__':
