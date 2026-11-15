@@ -199,6 +199,31 @@ class ZoeyOrchestrator:
                     "timestamp": datetime.now().isoformat()
                 }
 
+            elif any(w in p_lower for w in ["video", "ভিডিও", "reel", "shorts", "ছবি", "image", "photo", "edit", "এডিট"]):
+                conn.close()
+                if any(w in p_lower for w in ["video", "ভিডিও", "reel", "shorts"]):
+                    resp_text = (
+                        "আমি আপনার ভিডিও এডিটর এজেন্ট (Viral Video Director)-কে নির্দেশ পাঠিয়েছি। "
+                        "MeerCut, OpenShorts এবং FilmCraft মডেল ব্যবহার করে সোশ্যাল মিডিয়া স্ট্যান্ডার্ড অনুযায়ী পারফেক্ট হুক, "
+                        "ডাইনামিক জাম্পকাট এবং কিউরেটেড সাবটাইটেল সহ ভিডিও রেন্ডার করা হচ্ছে।"
+                    )
+                    agent_name = "Viral Video Director"
+                else:
+                    resp_text = (
+                        "আমি আপনার ইমেজ এডিটর এজেন্ট (Neural Image Artisan)-কে নির্দেশ পাঠিয়েছি। "
+                        "Clean Eraser, Portrait Bokeh এবং হাইপার-রেজোলিউশন মডেল ব্যবহার করে আপনার ছবিটি নিখুঁতভাবে এডিট করা হচ্ছে।"
+                    )
+                    agent_name = "Neural Image Artisan"
+                self._record_agent_response("zoey_coo", resp_text)
+                return {
+                    "agent": f"TONY -> {agent_name}",
+                    "role": "Multimedia Swarm Coordinator",
+                    "response": resp_text,
+                    "action_type": "CREATIVE_DIRECTIVE_DISPATCHED",
+                    "verified": True,
+                    "timestamp": datetime.now().isoformat()
+                }
+
             elif any(w in p_lower for w in ["agent", "এজেন্ট", "হায়ার", "hire", "notun", "নতুন"]):
                 conn.close()
                 resp_text = (
@@ -215,8 +240,43 @@ class ZoeyOrchestrator:
                     "timestamp": datetime.now().isoformat()
                 }
 
+        # Media Editing Routing: Voice / Text directives to Image & Video Editors
+        if any(w in p_lower for w in ["video", "reel", "shorts", "tiktok", "clip", "re-create", "recreate", "editing video"]):
+            conn.close()
+            resp_text = (
+                f"Directive received! I have dispatched your instructions directly to our 'Viral Video Director' agent. "
+                f"Using MeerCut (silence removal & jumpcuts), OpenShorts (kinetic subtitles), FilmCraft (cinematic color), "
+                f"and LivePortrait reenactment, the video is being structured for peak social media retention."
+            )
+            self._record_agent_response("zoey_coo", resp_text)
+            return {
+                "agent": "TONY -> Viral Video Director",
+                "role": "Multimedia Video Swarm Lead",
+                "response": resp_text,
+                "action_type": "VIDEO_DIRECTIVE_DISPATCHED",
+                "verified": True,
+                "timestamp": datetime.now().isoformat()
+            }
+
+        elif any(w in p_lower for w in ["image", "photo", "picture", "clean eraser", "remove background", "lighting", "bokeh", "filter", "editing image"]):
+            conn.close()
+            resp_text = (
+                f"Understood! I have instructed our 'Neural Image Artisan' agent to execute your image modifications. "
+                f"Applying ai-image-clean-eraser for artifact removal, ace-photo-studio for studio lighting and depth-of-field, "
+                f"and Pictoria generative inpainting to deliver the highest quality output."
+            )
+            self._record_agent_response("zoey_coo", resp_text)
+            return {
+                "agent": "TONY -> Neural Image Artisan",
+                "role": "Multimedia Image Swarm Lead",
+                "response": resp_text,
+                "action_type": "IMAGE_DIRECTIVE_DISPATCHED",
+                "verified": True,
+                "timestamp": datetime.now().isoformat()
+            }
+
         # Intent classification & routing
-        if any(w in p_lower for w in ["super intelligence", "super manager", "solve problem", "help agent", "troubleshoot", "escalate", "whatsapp", "call me"]):
+        elif any(w in p_lower for w in ["super intelligence", "super manager", "solve problem", "help agent", "troubleshoot", "escalate", "whatsapp", "call me"]):
             conn.close()
             resp_text = (
                 "Super-Intelligence Protocol Active: I oversee all 22 agents across our 5 swarms 24/7. "

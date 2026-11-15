@@ -2172,7 +2172,12 @@
               <h3 class="panel-title-text">AI Image Studio & Clean Eraser</h3>
               <p class="panel-subtitle-text">Integrated Skills: ai-image-clean-eraser · Artistic-Photo-Editor · Pictoria-AI · hypit · ace-photo-studio · photocraft</p>
             </div>
-            <span class="online-indicator-pill"><span class="indicator-pulse-dot"></span> 5 NEURAL ENGINES ACTIVE</span>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <button class="btn-action-primary" onclick="openVoiceModalForMedia('image')" style="background:#8b5cf6; font-size:12px; padding:6px 12px; display:flex; align-items:center; gap:6px;">
+                🎙️ Tell Tony Changes (Voice)
+              </button>
+              <span class="online-indicator-pill"><span class="indicator-pulse-dot"></span> 5 NEURAL ENGINES ACTIVE</span>
+            </div>
           </div>
 
           <div style="margin-top:16px; display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
@@ -2223,7 +2228,12 @@
               <h3 class="panel-title-text">AI Video Studio & Viral Social Re-Creator</h3>
               <p class="panel-subtitle-text">Integrated Skills: Faceless-Reels-AI · MeerCut · OpenShorts · LivePortrait · FilmCraft · ai-video-editor · reel-quick</p>
             </div>
-            <span class="online-indicator-pill"><span class="indicator-pulse-dot"></span> 8 VIDEO PIPELINES ACTIVE</span>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <button class="btn-action-primary" onclick="openVoiceModalForMedia('video')" style="background:#ec4899; font-size:12px; padding:6px 12px; display:flex; align-items:center; gap:6px;">
+                🎙️ Tell Tony Changes (Voice)
+              </button>
+              <span class="online-indicator-pill"><span class="indicator-pulse-dot"></span> 8 VIDEO PIPELINES ACTIVE</span>
+            </div>
           </div>
 
           <div style="margin-top:16px; display:grid; grid-template-columns: 1.1fr 0.9fr; gap:20px;">
@@ -3228,8 +3238,169 @@ window.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    window.addEventListener('DOMContentLoaded', checkAuthStatus);
+
+  // ========================================================
+  // TONY FULLSCREEN INTERACTIVE VOICE MODAL LOGIC & DISPATCH
+  // ========================================================
+  let modalRecognition = null;
+  let isModalListening = false;
+  let activeMediaContext = null; // 'image' or 'video'
+
+  function openTonyVoiceModal() {
+    activeMediaContext = null;
+    const modal = document.getElementById('tonyVoiceModal');
+    if (modal) {
+      modal.style.display = 'flex';
+      tonySpeakText("Hello Arnab! I'm Tony, your executive AI COO. How can I direct our agency swarms for you today?");
+    }
+  }
+
+  function openVoiceModalForMedia(type) {
+    activeMediaContext = type;
+    const modal = document.getElementById('tonyVoiceModal');
+    if (modal) {
+      modal.style.display = 'flex';
+      if (type === 'image') {
+        tonySpeakText("Image Studio voice mode active. Tell me what changes you want to make, and I will dispatch your exact directives to our Neural Image Artisan agent.");
+      } else {
+        tonySpeakText("Video Studio voice mode active. Tell me how you want your video structured, and I will instruct our Viral Video Director agent to re-create it perfectly.");
+      }
+    }
+  }
+
+  function closeTonyVoiceModal() {
+    activeMediaContext = null;
+    const modal = document.getElementById('tonyVoiceModal');
+    if (modal) modal.style.display = 'none';
+    if (window.speechSynthesis) window.speechSynthesis.cancel();
+    if (currentTonyAudio) {
+      currentTonyAudio.pause();
+      currentTonyAudio = null;
+    }
+    stopRobotFaceAnimation();
+    if (modalRecognition && isModalListening) {
+      modalRecognition.stop();
+      isModalListening = false;
+    }
+  }
+
+  function toggleTonyModalVoice() {
+    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+      alert('Speech Recognition API is not supported in this browser. Please use Chrome or Edge.');
+      return;
+    }
+
+    const status = document.getElementById('tonyVoiceStatus');
+    const orb = document.getElementById('tonyOrb');
+    const transcriptBox = document.getElementById('tonyLiveTranscriptBox');
+
+    if (isModalListening && modalRecognition) {
+      modalRecognition.stop();
+      isModalListening = false;
+      if (status) status.innerText = 'Microphone paused. Click the Orb to speak again.';
+      if (orb) orb.style.animation = 'tonyBreathe 3s infinite ease-in-out';
+      return;
+    }
+
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    modalRecognition = new SpeechRecognition();
+    modalRecognition.continuous = false;
+    modalRecognition.interimResults = true;
+    modalRecognition.lang = 'bn-IN';
+    if ('languages' in modalRecognition) {
+      modalRecognition.languages = ['bn-IN', 'en-US', 'en-IN'];
+    }
+
+    modalRecognition.onstart = function() {
+      isModalListening = true;
+      if (status) status.innerText = 'Listening to you now...';
+      if (orb) {
+        orb.style.boxShadow = '0 0 90px #38bdf8';
+      }
+    };
+
+    modalRecognition.onresult = function(event) {
+      let interim = '';
+      for (let i = event.resultIndex; i < event.results.length; ++i) {
+        if (event.results[i].isFinal) {
+          const finalTranscript = event.results[i][0].transcript;
+          if (transcriptBox) transcriptBox.innerText = '"' + finalTranscript + '"';
+          isModalListening = false;
+          handleMediaVoiceDirective(finalTranscript);
+        } else {
+          interim += event.results[i][0].transcript;
+          if (transcriptBox) transcriptBox.innerText = '"' + interim + '"';
+        }
+      }
+    };
+
+    modalRecognition.onerror = function(event) {
+      console.error('Modal speech recognition error:', event.error);
+      isModalListening = false;
+      if (status) status.innerText = 'Could not detect audio. Click the Orb to retry.';
+      if (orb) orb.style.animation = 'tonyBreathe 3s infinite ease-in-out';
+    };
+
+    modalRecognition.onend = function() {
+      isModalListening = false;
+      if (orb) orb.style.animation = 'tonyBreathe 3s infinite ease-in-out';
+    };
+
+    modalRecognition.start();
+  }
+
+  async function handleMediaVoiceDirective(query) {
+    const status = document.getElementById('tonyVoiceStatus');
+    const transcriptBox = document.getElementById('tonyLiveTranscriptBox');
+    if (status) status.innerText = 'Tony analyzing & dispatching to media agent...';
+
+    // 1. If currently in Image Studio Context or query is image-focused
+    if (activeMediaContext === 'image' || (!activeMediaContext && (query.toLowerCase().includes('image') || query.toLowerCase().includes('photo') || query.toLowerCase().includes('ছবি')))) {
+      const promptInput = document.getElementById('imagePromptInput');
+      if (promptInput) promptInput.value = query;
+      
+      // Auto-trigger image edit
+      submitImageEdit();
+      
+      const reply = "I understood your image directive and have dispatched it to our Neural Image Artisan agent. The image is now being edited according to your criteria.";
+      if (transcriptBox) transcriptBox.innerText = 'Tony: ' + reply;
+      tonySpeakText(reply);
+      return;
+    }
+
+    // 2. If currently in Video Studio Context or query is video-focused
+    if (activeMediaContext === 'video' || (!activeMediaContext && (query.toLowerCase().includes('video') || query.toLowerCase().includes('reel') || query.toLowerCase().includes('shorts') || query.toLowerCase().includes('ভিডিও')))) {
+      const dirInput = document.getElementById('videoDirectiveInput');
+      if (dirInput) dirInput.value = query;
+      
+      // Auto-trigger video re-creation
+      submitVideoRecreation();
+
+      const reply = "Directive received! I have instructed our Viral Video Director agent to re-create the video with your exact pacing, subtitles, and visual hooks.";
+      if (transcriptBox) transcriptBox.innerText = 'Tony: ' + reply;
+      tonySpeakText(reply);
+      return;
+    }
+
+    // Default: Normal Tony Orchestrator query
+    try {
+      const res = await fetch('/api/zoey/ask', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt: query })
+      });
+      const data = await res.json();
+      const reply = data.response || "Understood, Sir. Executing across the swarms.";
+      if (transcriptBox) transcriptBox.innerText = 'Tony: ' + reply;
+      tonySpeakText(reply);
+    } catch (err) {
+      if (transcriptBox) transcriptBox.innerText = 'Error communicating with Tony backend.';
+    }
+  }
+
+  window.addEventListener('DOMContentLoaded', checkAuthStatus);
 </script>
+
 
 
     <!-- ======================================================== -->

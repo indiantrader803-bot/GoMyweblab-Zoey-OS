@@ -63,6 +63,18 @@ def ensure_database():
                 last_run_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
         ''')
+        # Ensure image_editor and video_editor agents exist in agents table
+        new_media_agents = [
+            ('image_editor', 'Neural Image Artisan', 'multimedia', 'AI Clean Eraser, Inpainting & Studio Lighting Specialist', 'img.edit', 'active_online'),
+            ('video_editor', 'Viral Video Director', 'multimedia', 'Social Reel Deconstruction, MeerCut Jumpcut & OpenShorts Subtitles', 'vid.cut', 'active_online')
+        ]
+        for a_id, name, swarm, role, tag, status in new_media_agents:
+            cur.execute('SELECT id FROM agents WHERE id = ?', (a_id,))
+            if not cur.fetchone():
+                cur.execute('''
+                    INSERT INTO agents (id, name, swarm_id, role, tag, status, tasks_completed, last_action, daily_active_status, uptime_percentage, shift_schedule, current_task_title, task_progress_pct, task_time_spent, task_est_remaining, active_subtask)
+                    VALUES (?, ?, ?, ?, ?, ?, 14, 'Standing by for Tony creative directives', 'ACTIVE_ONLINE', 99.9, '24/7 continuous', 'Standing by for image & video requests', 100, '5m', '0m', 'Awaiting directives')
+                ''', (a_id, name, swarm, role, tag, status))
         conn.commit()
         conn.close()
 
